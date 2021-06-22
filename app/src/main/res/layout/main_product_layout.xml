@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F3F3"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="@dimen/cardview_compat_inset_shadow"
+        >
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:orientation="horizontal">
+               <de.hdodenhof.circleimageview.CircleImageView
+                   android:layout_width="50dp"
+                   android:layout_height="30dp"
+                   android:id="@+id/profile"
+                   android:src="@drawable/person"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:layout_margin="5dp"
+                   android:fontFamily="@font/main_font"
+                   android:text="Username"
+                   android:id="@+id/username"/>
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+
+               android:layout_margin="10dp"
+               android:orientation="horizontal">
+               <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                   android:layout_width="200dp"
+                   android:id="@+id/carousel"
+
+                   android:layout_height="match_parent"/>
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_weight="1">
+                   <CheckBox
+                       android:layout_width="35dp"
+                       android:layout_height="38dp"
+                       android:id="@+id/like"
+                       android:background="@drawable/like"
+                       android:layout_gravity="end"
+                       android:button="@null"
+                       android:buttonTint="@android:color/transparent"
+                       android:stateListAnimator="@animator/animator"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintHorizontal_bias="1.0"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintVertical_bias="0.03" />
+                   <TextView
+                       android:id="@+id/name"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/main_font"
+                       android:maxWidth="150dp"
+                       android:text="Oppo f17 "
+                       android:textSize="20dp"
+                       android:layout_gravity="center"
+                       android:layout_margin="8dp"
+                       android:textStyle="bold"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintHorizontal_bias="0.25"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintVertical_bias="0.289" />
+
+                   <TextView
+                       android:id="@+id/price"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/main_font"
+                       android:maxWidth="150dp"
+                       android:text="Rs 500000 "
+                       android:layout_gravity="center"
+                       android:layout_margin="8dp"
+                       android:textSize="15dp"
+                       android:textStyle="bold"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintHorizontal_bias="0.25"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintVertical_bias="0.554" />
+
+                   <TextView
+                       android:id="@+id/condition"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/main_font"
+                       android:maxWidth="150dp"
+                       android:text="Brand New "
+                       android:layout_gravity="center"
+                       android:layout_margin="8dp"
+                       android:textSize="15dp"
+                       android:textStyle="bold"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintHorizontal_bias="0.489"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintVertical_bias="0.932" />
+                   <TextView
+                       android:id="@+id/type"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/main_font"
+                       android:maxWidth="150dp"
+                       android:text="Mobile \ Computer "
+                       android:layout_gravity="center"
+                       android:layout_margin="8dp"
+                       android:textSize="15dp"
+                       android:textStyle="bold"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintHorizontal_bias="0.489"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintVertical_bias="0.932" />
+
+
+               </LinearLayout>
+           </LinearLayout>
+       </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

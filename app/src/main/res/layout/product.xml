@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="7.5dp"
+    android:paddingBottom="8dp">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="7.7dp"
+            android:layout_marginBottom="7.7dp"
+            android:fontFamily="@font/main_font"
+            android:gravity="center"
+            android:text="$ 329"
+            android:textColor="#ffffff"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:layout_width="26dp"
+            android:layout_height="27dp"
+            android:layout_gravity="end"
+            android:checked="false"
+            android:buttonTint="@android:color/transparent"
+            android:button="@null"
+            android:shadowColor="@color/white"
+            android:id="@+id/like"
+            android:stateListAnimator="@animator/animator"
+            android:background="@drawable/heart" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="20dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg"
+        android:orientation="vertical"
+
+    >
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/main_font"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:text="INFO &amp; CARE"
+            android:textColor="#ffffff"
+            android:textSize="8sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
