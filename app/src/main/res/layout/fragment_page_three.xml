@@ -3,28 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1ADAD"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.PageThree">
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imageView3"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="150dp"
-        android:src="@drawable/ic_delivery"
+        app:lottie_rawRes="@raw/happy"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/title3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="You can easily navigate to your customer"
+        android:text="Be a Part of Us and Happily Buy And Sell"
         android:textSize="20sp"
-        android:fontFamily="@font/main_font"
+        android:fontFamily="@font/font_bold"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

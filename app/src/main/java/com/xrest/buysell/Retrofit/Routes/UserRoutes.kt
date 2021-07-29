@@ -21,7 +21,7 @@ interface UserRoutes {
     @PUT("/update/profile/{id}")
     suspend fun updateProfile(@Path("id") id:String, @Part body:MultipartBody.Part):Response<CommonResponse>
      @PUT("/update/user")
-    suspend fun update(@Body user: User):Response<CommonResponse>
+    suspend fun update(@Header("Authorization") token: String,@Body user: User):Response<CommonResponse>
     @GET("/all")
     suspend fun getAllUsers():Response<FriendResponse>
     @GET("/showFriends")

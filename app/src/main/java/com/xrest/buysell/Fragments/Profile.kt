@@ -13,21 +13,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.*
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.xrest.buysell.Adapters.MainProductAdapter
 import com.xrest.buysell.R
+import com.xrest.buysell.Retrofit.Product
+import com.xrest.buysell.Retrofit.Repo.ProductRepo
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.Retrofit.User
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -43,8 +50,11 @@ lateinit var number:TextView
 lateinit var username:TextView
 lateinit var profile: CircleImageView
 lateinit var update:FloatingActionButton
-lateinit var layout:LinearLayout
+
+lateinit var rv:RecyclerView
 val user =RetroftiService.users
+    var adapter = GroupAdapter<GroupieViewHolder>()
+    var lst:MutableList<Product> =mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +62,11 @@ val user =RetroftiService.users
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_profile, container, false)
+        rv = view.findViewById(R.id.rv)
+        rv.layoutManager = LinearLayoutManager(requireContext())
+        loadData(view)
         name = view.findViewById(R.id.name)
-        layout= view.findViewById(R.id.container)
+
         number =view.findViewById(R.id.number)
         profile=view.findViewById(R.id.profile)
         username = view.findViewById(R.id.username)
@@ -89,6 +102,14 @@ val user =RetroftiService.users
                 Glide.with(requireContext()).load(RetroftiService.loadImage(user.Profile!!))
                     .into(profile)
                 update.setOnClickListener() {
+                    var dialogs = Dialog(requireContext())
+                    dialogs.setContentView(R.layout.success_notification)
+                    dialogs.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                    var lottie = dialogs.findViewById<LottieAnimationView>(R.id.lottie)
+                    var success = dialogs.findViewById<TextView>(R.id.success)
+                    success.text="Uploading"
+                    dialogs.show()
+                    dialogs.setCancelable(false)
                     try {
                         CoroutineScope(Dispatchers.IO).launch {
                             var user = User(
@@ -99,7 +120,15 @@ val user =RetroftiService.users
                             var response = UserRepository().updateDetails(user)
                             if (response.success == true) {
                                 withContext(Main) {
-                                    Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
+                                    lottie.setAnimation(R.raw.success)
+                                    lottie.loop(true)
+                                    lottie.playAnimation()
+                                    success.text = "Profile Updated"
+                                    RetroftiService.users!!.Name = user.Name
+                                    RetroftiService.users!!.PhoneNumber =user.PhoneNumber
+                                    RetroftiService.users!!.Username =user.Username
+                                    dialogs.cancel()
+
                                 }
                             }
                         }
@@ -148,14 +177,14 @@ val user =RetroftiService.users
             if(requestCode==0 && data !=null)
             {
                 var image = RetroftiService.getDataFromGallery(requireContext(),data)
-                profile.setImageBitmap(BitmapFactory.decodeFile(image))
+
                    uploadImage(image)
 
         }
             else if(requestCode==1&&data!=null)
             {
                 var image = RetroftiService.getDataFromCamera(requireContext(),data)
-                profile.setImageBitmap(BitmapFactory.decodeFile(image))
+
                 uploadImage(image)
             }
     }
@@ -171,12 +200,32 @@ val user =RetroftiService.users
             var mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extention)
             var reqBody = RequestBody.create(MediaType.parse(mimeType),file)
             var body = MultipartBody.Part.createFormData("profile",file.name,reqBody)
+            var dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.success_notification)
+            dialog.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+            var lottie = dialog.findViewById<LottieAnimationView>(R.id.lottie)
+            var success = dialog.findViewById<TextView>(R.id.success)
+            success.text="Uploading"
+            dialog.show()
+            dialog.setCancelable(false)
             CoroutineScope(Dispatchers.IO).launch {
 
                 var response = UserRepository().updateProfile(RetroftiService.users!!._id!!,body)
                 if(response.success==true)
                 {
-                    Snackbar.make(layout,"Profile Updated",Snackbar.LENGTH_LONG)
+                    withContext(Main){
+                        lottie.setAnimation(R.raw.success)
+                        lottie.loop(true)
+                        lottie.playAnimation()
+                        success.text = "Profile Updated"
+                        RetroftiService.users!!.Profile = response.message!!
+                        dialog.setCancelable(true)
+
+                    }
+                    delay(2000)
+                    withContext(Main){
+                        dialog.cancel()
+                    }
                 }
 
             }
@@ -187,5 +236,43 @@ val user =RetroftiService.users
 
         }
     }
+    fun loadData(view:View){
+
+
+//        var dialog =Dialog(requireContext())
+//        dialog.setContentView(R.layout.success_notification)
+//        dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+//        dialog.window!!.attributes!!.windowAnimations = R.style.DialogAnimation
+//        dialog.show()
+//        dialog.setCancelable(false)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                var response = ProductRepo().personsPost(RetroftiService!!.users!!._id!!)
+                if(response.success==true)
+                {
+                    withContext(Main)
+                    {
+                        lst = response.data!!
+                        addToAdapter(lst)
+                        //dialog.cancel()
+                        rv.adapter =adapter
+                    }
+                }
+            }
+            catch (ex:Exception)
+            {
+
+            }
+        }
+    }
+    fun addToAdapter(lst:MutableList<Product>)
+    {
+        adapter.clear()
+        for(data in lst)
+        {
+            adapter.add(MainProductAdapter(requireContext(),data))
+        }
+    }
+
     }
 

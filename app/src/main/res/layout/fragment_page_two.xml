@@ -5,16 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF8F00"
     tools:context=".Fragments.PageTwo">
 
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imageView"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="150dp"
-        android:src="@drawable/ic_food"
+        app:lottie_rawRes="@raw/exchange"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,8 +25,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Best Deals On Buy/Sell"
+        android:text="Exchange Without Fear"
+        android:fontFamily="@font/font_bold"
         android:textSize="30sp"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +44,7 @@
         android:gravity="center"
         android:fontFamily="@font/main_font"
         android:textColor="@color/black"
-        android:text="We provide better platform"
+        android:text="Better and Safer Transactions"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

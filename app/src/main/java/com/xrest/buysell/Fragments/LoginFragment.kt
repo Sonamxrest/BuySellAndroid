@@ -140,8 +140,6 @@ return view
                 if (!requireContext().getSharedPreferences("Login", Activity.MODE_PRIVATE)
                         .getBoolean("biometric", false)
                 ) {
-
-
                     var alert = AlertDialog.Builder(requireContext())
                     alert.setTitle("Doy want to add fingerprint login featire?")
                         .setMessage("It might be very easy for next time").setPositiveButton(
@@ -183,8 +181,6 @@ return view
             startActivity(intent)
         }
         Toast.makeText(requireContext(), "Pass", Toast.LENGTH_SHORT).show()
-        var intent = Intent(requireContext(), Dashboard::class.java)
-        startActivity(intent)
 
     }
 

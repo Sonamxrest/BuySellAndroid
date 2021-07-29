@@ -29,7 +29,7 @@ class UserRepository: HandleApiReuest() {
     suspend fun updateDetails(user: User): CommonResponse
     {
         return handleApiRequest {
-            api.update(user)
+            api.update(RetroftiService.token!!,user)
         }
     }
     suspend fun updatePassword(op:String,id:String): CommonResponse {

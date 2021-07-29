@@ -9,12 +9,14 @@
     tools:context=".Fragments.PageOne">
 
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imageView"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="150dp"
-        android:src="@drawable/ic_food"
+     app:lottie_rawRes="@raw/bestdeals"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +28,7 @@
         android:layout_marginTop="50dp"
         android:fontFamily="@font/font_bold"
         android:textColor="@color/black"
-        android:text="Best Deals On Buy/Sell"
+        android:text="Best Deals And Management On Buy/Sell"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
