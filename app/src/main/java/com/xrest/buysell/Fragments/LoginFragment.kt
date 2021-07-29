@@ -132,6 +132,7 @@ return view
 
 
     fun  checkBioMetricFeature(){
+
         if(Build.VERSION.SDK_INT>Build.VERSION_CODES.M)
         {
             var keyGuard = requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
@@ -141,7 +142,7 @@ return view
                         .getBoolean("biometric", false)
                 ) {
                     var alert = AlertDialog.Builder(requireContext())
-                    alert.setTitle("Doy want to add fingerprint login featire?")
+                    alert.setTitle("Do you  want to add fingerprint login featire?")
                         .setMessage("It might be very easy for next time").setPositiveButton(
                             "Yes",
                             DialogInterface.OnClickListener() { _, _ ->
@@ -173,6 +174,14 @@ return view
                     dialog.show()
 
                 }
+                else{
+                    var intent = Intent(requireContext(), Dashboard::class.java)
+                    startActivity(intent)
+                }
+            }
+            else{
+                var intent = Intent(requireContext(), Dashboard::class.java)
+                startActivity(intent)
             }
 
         }
@@ -180,6 +189,7 @@ return view
             var intent = Intent(requireContext(), Dashboard::class.java)
             startActivity(intent)
         }
+
         Toast.makeText(requireContext(), "Pass", Toast.LENGTH_SHORT).show()
 
     }

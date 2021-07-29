@@ -456,6 +456,8 @@ edt.hint ="${data}"
                 var feature:MutableList<Features> = mutableListOf()
                 for (data in mc)
                 {
+                    Log.d("Data",data.key.text.toString())
+                    Log.d("valuie",data.value.text.toString())
                     feature.add(Features(name=data.key.text!!.toString(),feature = data.value.text.toString()))
                 }
                 var product = Product(Name= name.text.toString(),UsedFor = used.text.toString().toInt(),Price = price.text.toString(),Description = description.text.toString(),Negotiable = nogotiable,Category = acategory, Condition = acondition,SoldOut = false,Features = feature)
@@ -607,7 +609,7 @@ withContext(Main){
     lottie.loop(true)
     lottie.playAnimation()
     success.text = "Complete"
-    dialog.setCancelable(true)
+    dialog.cancel()
 }
         }
 
