@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.xrest.buysell"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -59,9 +59,19 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
+    implementation "com.xwray:groupie:2.8.0"
+    implementation "com.xwray:groupie-kotlin-android-extensions:2.8.0"
+    implementation ("io.coil-kt:coil:0.11.0")
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // Charts
+
+    //keyboard
+//    implementation 'com.github.edsilfer:emoji-keyboard:1.0.0'
+//    implementation 'hani.momanii.supernova_emoji_library:supernova-emoji-library:0.0.2'
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'

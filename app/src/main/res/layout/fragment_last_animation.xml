@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="#4789B1"
     android:layout_height="match_parent"
-    tools:context=".LastAnimation">
+    tools:context=".Fragments.LastAnimation">
 
     <TextView
         android:id="@+id/headertitle"

@@ -5,21 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
-    tools:context=".Dashboard">
+    tools:context=".Activity.Dashboard">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fl"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/navView"
+        android:background="@drawable/images"
         app:headerLayout="@layout/header_layout"
         app:menu="@menu/side_nav"
+      
         android:layout_gravity="start"/>
-    <fragment
-        android:id="@+id/fl"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/dashboard_graph" />
+
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

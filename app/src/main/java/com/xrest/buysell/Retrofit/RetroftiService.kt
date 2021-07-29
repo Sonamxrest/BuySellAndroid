@@ -9,6 +9,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
+import io.socket.client.IO
+import io.socket.client.Socket
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,7 +25,9 @@ import java.util.jar.Manifest
 
 object RetroftiService {
 
-    val BASE_URL ="http://192.168.0.109:5000/"
+    val BASE_URL ="http://192.168.0.105:5000/"
+   var socket:Socket?=null
+
     var token:String?=null
     var users: User?=null
     val okHttpClient = OkHttpClient.Builder().connectTimeout(5,TimeUnit.MINUTES).writeTimeout(5,TimeUnit.MINUTES).readTimeout(5,TimeUnit.MINUTES)
@@ -91,5 +95,18 @@ var file:File?=null
             }
         }
 
+    }
+    fun loadImage(image:String):String{
+        return "${BASE_URL}uploads/${image}"
+    }
+    fun connectSocket(){
+        try{
+             socket = IO.socket("http://192.168.0.105:5000")
+            socket!!.connect()
+        }
+        catch(Ex:Exception)
+        {
+
+        }
     }
 }

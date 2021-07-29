@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboard_graph"
-    app:startDestination="@id/addPost">
+    app:startDestination="@id/home2">
     <fragment
         android:id="@+id/home2"
-        android:name="com.xrest.buysell.Home"
+        android:name="com.xrest.buysell.Fragments.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -15,11 +15,19 @@
     </fragment>
     <fragment
         android:id="@+id/addPost"
-        android:name="com.xrest.buysell.AddPost"
+        android:name="com.xrest.buysell.Fragments.AddPost"
         android:label="fragment_add_post"
         tools:layout="@layout/fragment_add_post" >
         <action
             android:id="@+id/action_addPost_to_home2"
             app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_addPost_to_home22"
+            app:destination="@id/home2" />
     </fragment>
+    <fragment
+        android:id="@+id/profile2"
+        android:name="com.xrest.buysell.Fragments.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

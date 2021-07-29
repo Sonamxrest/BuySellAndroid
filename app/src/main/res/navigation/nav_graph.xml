@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splash"
-        android:name="com.xrest.buysell.Splash"
+        android:name="com.xrest.buysell.Fragments.Splash"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/startActions"
-        android:name="com.xrest.buysell.StartActions"
+        android:name="com.xrest.buysell.Fragments.StartActions"
         android:label="fragment_start_actions"
         tools:layout="@layout/fragment_start_actions" >
 
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginSignup"
-        android:name="com.xrest.buysell.LoginSignup"
+        android:name="com.xrest.buysell.Fragments.LoginSignup"
         android:label="fragment_login_signup"
         tools:layout="@layout/fragment_login_signup" />
 </navigation>

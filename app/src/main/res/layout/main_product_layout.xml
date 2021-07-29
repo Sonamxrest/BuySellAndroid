@@ -2,18 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F6F3F3"
+    android:layout_height="wrap_content"
+    android:background="#41AF045C"
+    android:layout_margin="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="20dp"
-        app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="20dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#5C1565C0"
+        app:cardCornerRadius="10dp"
+        android:id="@+id/card"
         app:cardElevation="@dimen/cardview_compat_inset_shadow"
         >
+
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
@@ -21,7 +23,6 @@
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_margin="10dp"
                android:orientation="horizontal">
                <de.hdodenhof.circleimageview.CircleImageView
                    android:layout_width="50dp"
@@ -33,16 +34,32 @@
                    android:layout_height="wrap_content"
                    android:layout_weight="1"
                    android:layout_margin="5dp"
-                   android:fontFamily="@font/main_font"
+                   android:fontFamily="@font/regular_font"
                    android:text="Username"
                    android:id="@+id/username"/>
+               <CheckBox
+                   android:id="@+id/like"
+                   android:layout_width="35dp"
+                   android:layout_height="38dp"
+                   android:layout_gravity="end"
+                   android:background="@drawable/heart"
+                   android:button="@null"
+                   android:buttonTint="@android:color/transparent"
+                   android:stateListAnimator="@animator/animator"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintHorizontal_bias="1.0"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_bias="0.03" />
+
            </LinearLayout>
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-
-               android:layout_margin="10dp"
+              android:layout_marginBottom="10dp"
                android:orientation="horizontal">
+
                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                    android:layout_width="200dp"
                    android:id="@+id/carousel"
@@ -53,21 +70,8 @@
                    android:layout_height="match_parent"
                    android:orientation="vertical"
                    android:layout_weight="1">
-                   <CheckBox
-                       android:layout_width="35dp"
-                       android:layout_height="38dp"
-                       android:id="@+id/like"
-                       android:background="@drawable/like"
-                       android:layout_gravity="end"
-                       android:button="@null"
-                       android:buttonTint="@android:color/transparent"
-                       android:stateListAnimator="@animator/animator"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="1.0"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintVertical_bias="0.03" />
+
+
                    <TextView
                        android:id="@+id/name"
                        android:layout_width="wrap_content"
@@ -76,7 +80,7 @@
                        android:maxWidth="150dp"
                        android:text="Oppo f17 "
                        android:textSize="20dp"
-                       android:layout_gravity="center"
+
                        android:layout_margin="8dp"
                        android:textStyle="bold"
                        app:layout_constraintBottom_toBottomOf="parent"
@@ -90,10 +94,10 @@
                        android:id="@+id/price"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:fontFamily="@font/main_font"
+                       android:fontFamily="@font/regular_font"
                        android:maxWidth="150dp"
                        android:text="Rs 500000 "
-                       android:layout_gravity="center"
+
                        android:layout_margin="8dp"
                        android:textSize="15dp"
                        android:textStyle="bold"
@@ -108,10 +112,10 @@
                        android:id="@+id/condition"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:fontFamily="@font/main_font"
+                       android:fontFamily="@font/regular_font"
                        android:maxWidth="150dp"
                        android:text="Brand New "
-                       android:layout_gravity="center"
+
                        android:layout_margin="8dp"
                        android:textSize="15dp"
                        android:textStyle="bold"
@@ -125,10 +129,10 @@
                        android:id="@+id/type"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:fontFamily="@font/main_font"
+                       android:fontFamily="@font/regular_font"
                        android:maxWidth="150dp"
                        android:text="Mobile \ Computer "
-                       android:layout_gravity="center"
+
                        android:layout_margin="8dp"
                        android:textSize="15dp"
                        android:textStyle="bold"

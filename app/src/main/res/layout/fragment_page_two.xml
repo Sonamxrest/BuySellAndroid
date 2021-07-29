@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FF8F00"
-    tools:context=".PageTwo">
+    tools:context=".Fragments.PageTwo">
 
 
     <ImageView

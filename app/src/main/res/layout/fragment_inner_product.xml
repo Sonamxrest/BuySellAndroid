@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragments.InnerProduct">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/carousel">
+
+            <CheckBox
+                android:id="@+id/like"
+                android:layout_width="46dp"
+                android:layout_height="47dp"
+                android:layout_gravity="end"
+                android:background="@drawable/heart"
+                android:button="@null"
+                android:buttonTint="@android:color/transparent"
+                android:checked="false"
+                android:shadowColor="@color/white"
+                android:stateListAnimator="@animator/animator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.991"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.994" />
+        </org.imaginativeworld.whynotimagecarousel.ImageCarousel>
+    </RelativeLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tb"
+        android:background="#283593"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginTop="20dp"
+        android:id="@+id/vp"/>
+</LinearLayout>

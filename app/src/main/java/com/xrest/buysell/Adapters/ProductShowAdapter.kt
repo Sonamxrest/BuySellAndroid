@@ -15,7 +15,7 @@ class ProductShowAdapter(val context: Context, val product:Product): Item<Groupi
         var image: ImageView = viewHolder.itemView.findViewById(R.id.image)
         var price:TextView = viewHolder.itemView.findViewById(R.id.price)
         var name:TextView = viewHolder.itemView.findViewById(R.id.name)
-price.text = "Rs "+product.Price
+        price.text = "Rs "+product.Price
         name.text =product.Name
         Glide.with(context).load("${product.Images!![0]}").into(image)
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context=".StartActions">
+    tools:context=".Fragments.StartActions">
 
 
  <androidx.viewpager2.widget.ViewPager2
