@@ -90,16 +90,16 @@ val user =RetroftiService.users
                     LinearLayout.LayoutParams.MATCH_PARENT
                 )
                 dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-                var name: TextInputEditText = dialog.findViewById(R.id.name)
-                var number: TextInputEditText = dialog.findViewById(R.id.number)
-                var profile: CircleImageView = dialog.findViewById(R.id.profile)
-                var username: TextInputEditText = dialog.findViewById(R.id.username)
+                var names: TextInputEditText = dialog.findViewById(R.id.name)
+                var numbers: TextInputEditText = dialog.findViewById(R.id.number)
+                var profiles: CircleImageView = dialog.findViewById(R.id.profile)
+                var usernames: TextInputEditText = dialog.findViewById(R.id.username)
                 var update: Button = dialog.findViewById(R.id.update)
-                name.setText(user!!.Name)
-                number.setText(user.PhoneNumber)
-                username.setText(user.Username)
+                names.setText(user!!.Name)
+                numbers.setText(user.PhoneNumber)
+                usernames.setText(user.Username)
                 Glide.with(requireContext()).load(RetroftiService.loadImage(user.Profile!!))
-                    .into(profile)
+                    .into(profiles)
                 update.setOnClickListener() {
                     var dialogs = Dialog(requireContext())
                     dialogs.setContentView(R.layout.success_notification)
@@ -112,9 +112,9 @@ val user =RetroftiService.users
                     try {
                         CoroutineScope(Dispatchers.IO).launch {
                             var user = User(
-                                Name = name.text.toString(),
-                                Username = username.text.toString(),
-                                PhoneNumber = number.text.toString()
+                                Name = names.text.toString(),
+                                Username = usernames.text.toString(),
+                                PhoneNumber = numbers.text.toString()
                             )
                             var response = UserRepository().updateDetails(user)
                             if (response.success == true) {
@@ -126,7 +126,11 @@ val user =RetroftiService.users
                                     RetroftiService.users!!.Name = user.Name
                                     RetroftiService.users!!.PhoneNumber =user.PhoneNumber
                                     RetroftiService.users!!.Username =user.Username
+                                    name.text =  RetroftiService.users!!.Name
+                                    number.text =  RetroftiService.users!!.PhoneNumber
+                                    username.text =  RetroftiService.users!!.Username
                                     dialogs.cancel()
+                                    dialog.cancel()
 
                                 }
                             }
@@ -218,6 +222,7 @@ val user =RetroftiService.users
                         lottie.playAnimation()
                         success.text = "Profile Updated"
                         RetroftiService.users!!.Profile = response.message!!
+                        Glide.with(requireContext()).load(RetroftiService.loadImage(response.message!!)).into(profile)
                         dialog.setCancelable(true)
 
                     }

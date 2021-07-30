@@ -21,6 +21,7 @@ class ProductDescription(val product:Product) : Fragment(), OnMapReadyCallback {
     private lateinit var category:TextView
     private lateinit var type:TextView
     private lateinit var usedFor:TextView
+    private lateinit var features:TextView
 
 
     override fun onCreateView(
@@ -37,6 +38,7 @@ class ProductDescription(val product:Product) : Fragment(), OnMapReadyCallback {
         type =view.findViewById(R.id.type)
         category = view.findViewById(R.id.category)
         usedFor = view.findViewById(R.id.used)
+        features =view.findViewById(R.id.feature)
 
 name.text = this.product.Name
         price.text = this.product.Price
@@ -51,6 +53,13 @@ name.text = this.product.Name
                                     negotiable.text ="YES"
 
                                 }
+        var feature =""
+        for(data in this.product.Features!!)
+        {
+            feature +="<br> ${data.name}: ${data.feature}"
+
+        }
+        features.text = feature
 
 
 

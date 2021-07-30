@@ -25,9 +25,8 @@ import java.util.jar.Manifest
 
 object RetroftiService {
 
-    val BASE_URL ="http://192.168.0.105:5000/"
-   var socket:Socket?=null
-
+    val BASE_URL ="http://192.168.137.32:5000/"
+    var socket:Socket?=null
     var token:String?=null
     var users: User?=null
     val okHttpClient = OkHttpClient.Builder().connectTimeout(5,TimeUnit.MINUTES).writeTimeout(5,TimeUnit.MINUTES).readTimeout(5,TimeUnit.MINUTES)

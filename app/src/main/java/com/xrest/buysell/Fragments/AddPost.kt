@@ -453,6 +453,14 @@ edt.hint ="${data}"
         when(v?.id)
         {
             R.id.register -> {
+                if(yes.isChecked==true)
+                {
+                    nogotiable= true
+                }
+                else if(no.isChecked)
+                {
+                    nogotiable= false
+                }
                 var feature:MutableList<Features> = mutableListOf()
                 for (data in mc)
                 {
@@ -460,7 +468,7 @@ edt.hint ="${data}"
                     Log.d("valuie",data.value.text.toString())
                     feature.add(Features(name=data.key.text!!.toString(),feature = data.value.text.toString()))
                 }
-                var product = Product(Name= name.text.toString(),UsedFor = used.text.toString().toInt(),Price = price.text.toString(),Description = description.text.toString(),Negotiable = nogotiable,Category = acategory, Condition = acondition,SoldOut = false,Features = feature)
+                var product = Product(Name= name.text.toString(),UsedFor = used.text.toString().toInt(),Price = price.text.toString(),Description = description.text.toString(),Negotiable = nogotiable,Category = acategory, Condition = acondition,SoldOut = false,Features = feature,SubCategory = asub)
                 post(product)
             }
             R.id.search -> {
@@ -610,9 +618,10 @@ withContext(Main){
     lottie.playAnimation()
     success.text = "Complete"
     dialog.cancel()
-    requireFragmentManager().beginTransaction().apply {
-        replace(R.id.fl,AddPost())
+    (requireActivity() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+        replace(R.id.fl,Home())
         commit()
+        addToBackStack(null)
     }
 }
         }
