@@ -66,7 +66,6 @@ val user =RetroftiService.users
         rv.layoutManager = LinearLayoutManager(requireContext())
         loadData(view)
         name = view.findViewById(R.id.name)
-
         number =view.findViewById(R.id.number)
         profile=view.findViewById(R.id.profile)
         username = view.findViewById(R.id.username)

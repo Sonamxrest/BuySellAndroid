@@ -610,6 +610,10 @@ withContext(Main){
     lottie.playAnimation()
     success.text = "Complete"
     dialog.cancel()
+    requireFragmentManager().beginTransaction().apply {
+        replace(R.id.fl,AddPost())
+        commit()
+    }
 }
         }
 
