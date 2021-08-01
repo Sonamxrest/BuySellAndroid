@@ -61,18 +61,20 @@
                         android:layout_margin="5dp"
                         android:id="@+id/confirm"
                         android:layout_height="wrap_content"
-                        android:background="#1565C0"
+                        android:backgroundTint="#1565C0"
                         android:textColor="@color/white"
-                        android:text="Confirm"/>
+                        android:text="Accept"/>
                     <Button
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_margin="5dp"
                         android:id="@+id/delete"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#880404"
                         android:textColor="@color/white"
-                        android:background="#880404"
                         android:text="Delete"/>
+
+
                 </LinearLayout>
 
         </LinearLayout>

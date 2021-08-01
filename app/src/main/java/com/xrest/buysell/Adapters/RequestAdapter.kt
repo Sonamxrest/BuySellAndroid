@@ -24,7 +24,7 @@ class RequestAdapter(val request: Request, val context: Context):Item<GroupieVie
         var name: TextView = viewHolder.itemView.findViewById(R.id.name)
         var username = viewHolder.itemView.findViewById(R.id.username) as TextView
 
-        Glide.with(context).load("${RetroftiService.BASE_URL}images/${request.From?.Profile!!}").into(image)
+        Glide.with(context).load(RetroftiService.loadImage(request.From?.Profile!!)).into(image)
         name.text = request.From?.Name
         username.text = request.From?.Username
 

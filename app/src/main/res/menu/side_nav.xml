@@ -10,31 +10,32 @@
         <item android:title="Home" android:id="@+id/home"
             android:icon="@drawable/ic_baseline_home_24"
             />
+
+        <item android:title="Add Post"
+            android:id="@+id/add"
+            android:icon="@drawable/ic_baseline_add_circle_24"/>
+        <item android:title="Friends"
+            android:icon="@drawable/ic_baseline_person_pin_circle_24"
+            android:id="@+id/order"/>
+
+        <item android:title="Friend Request"
+            android:icon="@drawable/ic_baseline_person_pin_circle_24"
+            android:id="@+id/request"/>
+
+        <item android:title="Products"
+            android:icon="@drawable/ic_baseline_shop_24"
+            android:id="@+id/admin">
+
+        </item>
+
+        <item android:title="Chat"
+            android:id="@+id/ccare"
+            android:icon="@drawable/ic_baseline_chat_24"
+            />
+        <item android:title="Logout"
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_baseline_exit_to_app_24"/>
     </group>
 
 
-    <item android:title="Add Post"
-          android:id="@+id/add"
-        android:icon="@drawable/ic_baseline_add_circle_24"/>
-    <item android:title="Friends"
-        android:icon="@drawable/ic_baseline_person_pin_circle_24"
-         android:id="@+id/order"/>
-
-    <item android:title="Friend Request"
-        android:icon="@drawable/ic_baseline_person_pin_circle_24"
-        android:id="@+id/request"/>
-
-    <item android:title="Products"
-        android:icon="@drawable/ic_baseline_shop_24"
-        android:id="@+id/admin">
-
-    </item>
-
-    <item android:title="Chat"
-        android:id="@+id/ccare"
-        android:icon="@drawable/ic_baseline_chat_24"
-        />
-    <item android:title="Logout"
-          android:id="@+id/logout"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"/>
 </menu>
