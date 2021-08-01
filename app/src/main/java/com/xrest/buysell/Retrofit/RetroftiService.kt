@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit
 import java.util.jar.Manifest
 
 object RetroftiService {
-
     val BASE_URL ="http://10.0.2.2:5000/"
     var socket:Socket?=null
     var token:String?=null
@@ -98,14 +97,5 @@ var file:File?=null
     fun loadImage(image:String):String{
         return "${BASE_URL}uploads/${image}"
     }
-    fun connectSocket(){
-        try{
-             socket = IO.socket("http://192.168.0.105:5000")
-            socket!!.connect()
-        }
-        catch(Ex:Exception)
-        {
 
-        }
-    }
 }

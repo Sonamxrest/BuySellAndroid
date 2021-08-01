@@ -75,6 +75,9 @@ class Dashboard : AppCompatActivity() {
                   //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
                     startActivity(intent)
                 }
+                R.id.request->{
+                    currentFrag(FriendRequest())
+                }
 
             }
             true

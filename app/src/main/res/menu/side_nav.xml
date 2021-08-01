@@ -19,6 +19,11 @@
     <item android:title="Friends"
         android:icon="@drawable/ic_baseline_person_pin_circle_24"
          android:id="@+id/order"/>
+
+    <item android:title="Friend Request"
+        android:icon="@drawable/ic_baseline_person_pin_circle_24"
+        android:id="@+id/request"/>
+
     <item android:title="Products"
         android:icon="@drawable/ic_baseline_shop_24"
         android:id="@+id/admin">
