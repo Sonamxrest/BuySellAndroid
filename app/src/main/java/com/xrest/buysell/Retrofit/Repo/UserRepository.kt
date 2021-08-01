@@ -60,7 +60,11 @@ class UserRepository: HandleApiReuest() {
         }
     }
 
-
+suspend fun getWish():LoginResponse{
+    return handleApiRequest {
+        api.getWish(RetroftiService.token!!)
+    }
+}
 
 
 

@@ -61,7 +61,7 @@ class Dashboard : AppCompatActivity() {
                     currentFrag(Profile())
                 }
                 R.id.home ->{
-                    currentFrag(MessageFragment())
+                    currentFrag(WishList())
                 }
                 R.id.admin ->{
                     currentFrag(AllPost())

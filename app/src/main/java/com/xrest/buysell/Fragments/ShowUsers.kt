@@ -13,11 +13,14 @@ import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Person
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
+import io.socket.client.IO
+import io.socket.client.Socket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 
 class ShowUsers : Fragment() {
@@ -30,6 +33,11 @@ var lst:MutableList<Person> = mutableListOf()
     ): View? {
 
         val view=  inflater.inflate(R.layout.fragment_show_users, container, false)
+        try {
+        }
+        catch (ex:Exception){
+
+        }
         rv= view.findViewById(R.id.rv)
         rv.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.IO).launch {

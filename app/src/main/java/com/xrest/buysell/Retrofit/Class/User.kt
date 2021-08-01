@@ -17,7 +17,7 @@ data class User(
 
 data class Productss(
     val _id:String?=null,
-    val product:String?=null
+    val product:Product?=null
 ):Serializable
 data class Question(
     val question:String?=null,

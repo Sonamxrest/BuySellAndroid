@@ -81,7 +81,7 @@ class ProductComment(var id:String,var lst:MutableList<Comment>) : Fragment() {
             dialog.setCancelable(true)
             dialog.show()
         }
-        rv.layoutManager = LinearLayoutManager(requireContext())
+        rv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         if(lst.size>0)
         {
 

@@ -49,7 +49,7 @@ class MainProductAdapter(var context:Context,var product: Product):Item<GroupieV
         for(data in product.Likes!!)
         {
               if(data == RetroftiService.users!!._id){
-                  like.isChecked
+                  like.isChecked =true
                   print("${product._id}")
             }
         }

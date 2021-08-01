@@ -33,4 +33,7 @@ interface UserRoutes {
     @FormUrlEncoded
     @PUT("/changePassword/{id}")
     suspend fun changePassword(@Field("np")password:String,@Path("id")id:String):Response<CommonResponse>
+    @GET("/wishList")
+    suspend fun getWish(@Header("Authorization") token:String):Response<LoginResponse>
+
 }

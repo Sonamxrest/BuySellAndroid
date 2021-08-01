@@ -3,6 +3,8 @@ package com.xrest.buysell.Fragments
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
@@ -11,9 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +22,9 @@ import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.InnerMessage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import io.socket.client.IO
 import io.socket.client.Socket
+import io.socket.client.SocketIOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -35,12 +37,9 @@ import java.util.*
 
 class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitListener {
     lateinit var message: EditText
-    lateinit var send: ImageButton
-    lateinit var image: ImageButton
-    lateinit var voice: ImageButton
-    var url = "ws://192.168.0.108:5000"
-    lateinit var ws: WebSocket
-
+    lateinit var send: Button
+//    lateinit var image: ImageButton
+//    lateinit var voice: ImageButton
     lateinit var textToSpeech: TextToSpeech
     var adapter = GroupAdapter<GroupieViewHolder>()
     lateinit var socket: Socket
@@ -51,49 +50,84 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_message, container, false)
-        var request = Request.Builder().url(url).build()
-        var okhttp = OkHttpClient()
-        ws = okhttp.newWebSocket(request, SocketListener())
+        try {
+            socket = IO.socket("http://10.0.2.2:5000")
+            socket.connect()
+        }
+        catch (ex:SocketIOException)
+        {
+            ex.printStackTrace()
+        }
+//        var request = Request.Builder().url(url).build()
+//        var okhttp = OkHttpClient()
+//        ws = okhttp.newWebSocket(request, SocketListener())
+
         message = view.findViewById(R.id.message)
-        voice = view.findViewById(R.id.voice)
-        image = view.findViewById(R.id.image)
+//        voice = view.findViewById(R.id.voice)
+//        image = view.findViewById(R.id.image)
         send = view.findViewById(R.id.send)
         rv = view.findViewById(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(requireContext())
+        rv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+          rv.adapter =adapter
         textToSpeech = TextToSpeech(requireContext(), this)
         send.setOnClickListener() {
-
             var jsonObject = JSONObject()
             jsonObject.put("_id", "5555555")
             jsonObject.put("message", message.text.toString())
-            ws.send(jsonObject.toString())
+            socket.emit("message",jsonObject)
             message.setText(null)
-
         }
         message.setOnLongClickListener() {
             textToSpeech.speak(message.text.toString(), TextToSpeech.QUEUE_FLUSH, null)
             true
         }
-//        socket.on("message", Emitter.Listener {
-//            var message = it.get(0) as JSONObject
-//
-//                }
-//            }
-//        })
+       socket.on("message"){
+           var message = JSONObject(it[0].toString())
+           CoroutineScope(Dispatchers.IO).launch {
+               withContext(Main)
+               {
+                   adapter.add(
+                       ChatItem(
+                           requireContext(),
+                           InnerMessage(message = message.getString("message"))
+                       )
+                   )
+                   adapter.notifyDataSetChanged()
+                   rv.smoothScrollToPosition(adapter.itemCount - 1)
+                   Toast.makeText(
+                       requireContext(),
+                       "${message.getString("message")}",
+                       Toast.LENGTH_SHORT
+                   ).show()
+               }
+           }
+       }
 
-        rv.adapter =adapter
-        voice.setOnClickListener(this)
+//        voice.setOnClickListener(this)
         return view
     }
 
     override fun onResume() {
         super.onResume()
         var actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-
-        actionBar!!.title = "Aaite in the house"
+        actionBar!!.title = "Message"
         actionBar.setCustomView(R.layout.toolbar)
 
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        socket.disconnect()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        socket.disconnect()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        socket.disconnect()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,30 +148,31 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
 
     }
 
+
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.voice -> {
-
-                var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-                intent.putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                )
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Please Speak Now")
-                try {
-
-                    startActivityForResult(intent, 1)
-                } catch (ex: ActivityNotFoundException) {
-                    ex.printStackTrace()
-                    Toast.makeText(
-                        requireContext(),
-                        "Your Device Does not support speechh to text",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-            }
+//            R.id.voice -> {
+//
+//                var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+//                intent.putExtra(
+//                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+//                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+//                )
+//                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+//                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Please Speak Now")
+//                try {
+//
+//                    startActivityForResult(intent, 1)
+//                } catch (ex: ActivityNotFoundException) {
+//                    ex.printStackTrace()
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Your Device Does not support speechh to text",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//
+//            }
         }
     }
 
@@ -148,40 +183,29 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
         }
     }
 
-    inner class SocketListener : WebSocketListener() {
-        override fun onOpen(webSocket: WebSocket, response: Response) {
-            super.onOpen(webSocket, response)
-        }
 
-        override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-            super.onClosed(webSocket, code, reason)
-        }
+//    inner class SocketListener : WebSocketListener() {
+//        override fun onOpen(webSocket: WebSocket, response: Response) {
+//            super.onOpen(webSocket, response)
+//        }
+//
+//        override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+//            super.onClosed(webSocket, code, reason)
+//        }
+//
+//        override fun onMessage(webSocket: WebSocket, text: String) {
+//            super.onMessage(webSocket, text)
+//
+//            var message = JSONObject(text)
+//            Log.d("alertTExt",text)
+//            CoroutineScope(Dispatchers.IO).launch {
+//                withContext(Main)
+//                {
 
-        override fun onMessage(webSocket: WebSocket, text: String) {
-            super.onMessage(webSocket, text)
-
-            var message = JSONObject(text)
-            Log.d("alertTExt",text)
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Main)
-                {
-                    adapter.add(
-                        ChatItem(
-                            requireContext(),
-                            InnerMessage(message = message.getString("message"))
-                        )
-                    )
-                    adapter.notifyDataSetChanged()
-                    rv.smoothScrollToPosition(adapter.itemCount - 1)
-                    Toast.makeText(
-                        requireContext(),
-                        "${message.getString("message")}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                }
-            }
-        }
-    }
+//
+//                }
+//            }
+//        }
+//    }
 }
 
