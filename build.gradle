@@ -5,6 +5,7 @@ buildscript {
         google()
         jcenter()
 
+
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
@@ -20,8 +21,9 @@ allprojects {
         google()
         jcenter()
         maven {
-            url "https://jitpack.io"
+            url "https://github.com/jitsi/jitsi-maven-repository/raw/master/releases"
         }
+
     }
 }
 

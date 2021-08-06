@@ -70,9 +70,13 @@ class Dashboard : AppCompatActivity() {
                     currentFrag(ShowUsers())
                 }
                 R.id.logout->{
-                    var intent = Intent(this@Dashboard,MainActivity::class.java);
+//                    var intent = Intent(this@Dashboard,MainActivity::class.java);
+//                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                  //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
+//                    startActivity(intent)
+                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
-                  //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
+                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
                     startActivity(intent)
                 }
                 R.id.request->{

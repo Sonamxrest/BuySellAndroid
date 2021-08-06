@@ -38,7 +38,8 @@ import java.util.*
 class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitListener {
     lateinit var message: EditText
     lateinit var send: Button
-//    lateinit var image: ImageButton
+
+    //    lateinit var image: ImageButton
 //    lateinit var voice: ImageButton
     lateinit var textToSpeech: TextToSpeech
     var adapter = GroupAdapter<GroupieViewHolder>()
@@ -51,11 +52,9 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_message, container, false)
         try {
-            socket = IO.socket("http://10.0.2.2:5000")
+            socket = IO.socket("http://192.168.0.110:5000")
             socket.connect()
-        }
-        catch (ex:SocketIOException)
-        {
+        } catch (ex: SocketIOException) {
             ex.printStackTrace()
         }
 //        var request = Request.Builder().url(url).build()
@@ -67,41 +66,42 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
 //        image = view.findViewById(R.id.image)
         send = view.findViewById(R.id.send)
         rv = view.findViewById(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-          rv.adapter =adapter
+        rv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rv.adapter = adapter
         textToSpeech = TextToSpeech(requireContext(), this)
         send.setOnClickListener() {
             var jsonObject = JSONObject()
             jsonObject.put("_id", "5555555")
             jsonObject.put("message", message.text.toString())
-            socket.emit("message",jsonObject)
+            socket.emit("message", jsonObject)
             message.setText(null)
         }
         message.setOnLongClickListener() {
             textToSpeech.speak(message.text.toString(), TextToSpeech.QUEUE_FLUSH, null)
             true
         }
-       socket.on("message"){
-           var message = JSONObject(it[0].toString())
-           CoroutineScope(Dispatchers.IO).launch {
-               withContext(Main)
-               {
-                   adapter.add(
-                       ChatItem(
-                           requireContext(),
-                           InnerMessage(message = message.getString("message"))
-                       )
-                   )
-                   adapter.notifyDataSetChanged()
-                   rv.smoothScrollToPosition(adapter.itemCount - 1)
-                   Toast.makeText(
-                       requireContext(),
-                       "${message.getString("message")}",
-                       Toast.LENGTH_SHORT
-                   ).show()
-               }
-           }
-       }
+        socket.on("message") {
+            var message = JSONObject(it[0].toString())
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Main)
+                {
+                    adapter.add(
+                        ChatItem(
+                            requireContext(),
+                            InnerMessage(message = message.getString("message"))
+                        )
+                    )
+                    adapter.notifyDataSetChanged()
+                    rv.smoothScrollToPosition(adapter.itemCount - 1)
+                    Toast.makeText(
+                        requireContext(),
+                        "${message.getString("message")}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
 
 //        voice.setOnClickListener(this)
         return view
@@ -183,29 +183,4 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
         }
     }
 
-
-//    inner class SocketListener : WebSocketListener() {
-//        override fun onOpen(webSocket: WebSocket, response: Response) {
-//            super.onOpen(webSocket, response)
-//        }
-//
-//        override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-//            super.onClosed(webSocket, code, reason)
-//        }
-//
-//        override fun onMessage(webSocket: WebSocket, text: String) {
-//            super.onMessage(webSocket, text)
-//
-//            var message = JSONObject(text)
-//            Log.d("alertTExt",text)
-//            CoroutineScope(Dispatchers.IO).launch {
-//                withContext(Main)
-//                {
-
-//
-//                }
-//            }
-//        }
-//    }
 }
-
