@@ -37,11 +37,15 @@
             android:layout_height="100dp"
             app:lottie_rawRes="@raw/cancel"
             android:layout_weight="1"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             android:id="@+id/cancel"/>
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             app:lottie_rawRes="@raw/recieve"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             android:layout_weight="1"
             android:id="@+id/recieve"/>
     </LinearLayout>

@@ -33,6 +33,8 @@
         android:layout_height="50dp"
         app:lottie_rawRes="@raw/calling"
         android:layout_weight="1"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         android:layout_gravity="center"
         android:id="@+id/r"/>
 
@@ -45,6 +47,8 @@
             android:layout_height="100dp"
             app:lottie_rawRes="@raw/cancel"
             android:layout_weight="1"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             android:layout_gravity="center"
             android:id="@+id/cancel"/>
     </LinearLayout>

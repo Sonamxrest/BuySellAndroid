@@ -52,7 +52,7 @@ class MessageFragment : Fragment(), View.OnClickListener,TextToSpeech.OnInitList
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_message, container, false)
         try {
-            socket = IO.socket("http://192.168.0.110:5000")
+            socket = IO.socket("http://192.168.0.105:5000")
             socket.connect()
         } catch (ex: SocketIOException) {
             ex.printStackTrace()

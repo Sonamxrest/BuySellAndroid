@@ -23,7 +23,7 @@ class ChatItem(val context: Context, val innerMessage: InnerMessage): Item<Group
 //    context.startActivity(intent)
 //}
         txt.text = innerMessage.message
-       //Glide.with(context).load(RetroftiService.loadImage(innerMessage.user!!.Profile!!)).into(image)
+       Glide.with(context).load(RetroftiService.loadImage(innerMessage.user!!.Profile!!)).into(image)
 
 
 

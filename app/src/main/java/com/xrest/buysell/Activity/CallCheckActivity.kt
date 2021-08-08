@@ -1,9 +1,15 @@
 package com.xrest.buysell.Activity
 
 import android.app.Dialog
+import android.app.Service
+import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.button.MaterialButton
@@ -25,17 +31,19 @@ import java.net.MalformedURLException
 import java.net.URL
 
 
-lateinit var socket: Socket
-lateinit var serverURL:URL
-var url = "http://192.168.0.110:5000"
+lateinit var mediaPlayer: MediaPlayer
+lateinit var vibrator: Vibrator
 class CallCheckActivity : AppCompatActivity() {
+    lateinit var socket: Socket
+
+    var url = "http://192.168.0.113:5000"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_call_check)
         var button :MaterialButton = findViewById(R.id.call)
-       socket = IO.socket(url)
+        socket = IO.socket(url)
         socket.connect()
-
         try {
             serverURL = URL("https://meet.jit.si")
             val defaultOptions = JitsiMeetConferenceOptions.Builder()
@@ -56,6 +64,7 @@ class CallCheckActivity : AppCompatActivity() {
                    dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
                    if(data[0].toString() !=RetroftiService.users!!._id){
 dialog.setContentView(R.layout.recieving)
+//                       vibratePlay()
                        var recieve:LottieAnimationView = dialog.findViewById(R.id.recieve)
                        recieve.setOnClickListener(){
                            socket.emit("recieved",data[0].toString())
@@ -85,6 +94,19 @@ dialog.setContentView(R.layout.recieving)
                         JitsiMeetActivity.launch(this@CallCheckActivity, options)
                     }
                 }}
+        }
+    }
+
+    @SuppressWarnings("MissingPermission")
+    fun vibratePlay(){
+        vibrator = this.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(200000, VibrationEffect.DEFAULT_AMPLITUDE))
+            mediaPlayer = MediaPlayer.create(this,R.raw.rintone )
+            mediaPlayer.start()
+            Toast.makeText(this,"media playing", Toast.LENGTH_SHORT).show()
+        } else {
+            vibrator.vibrate(200000)
         }
     }
 

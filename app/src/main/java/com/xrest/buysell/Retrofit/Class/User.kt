@@ -10,7 +10,7 @@ data class User(
     var Profile:String?=null,
     var Password:String?=null,
     var isOnline:Boolean?=null,
-    var Friends:MutableList<Users>?=null,
+    var Friends:MutableList<friend>?=null,
     var Questions:MutableList<Question>?=null,
     var Likes:MutableList<Productss>?=null
 ):Serializable
@@ -37,3 +37,7 @@ data class Person(
     var Profile:String?=null,
     var isOnline:Boolean?=null
 ):Serializable
+data class friend(
+    val _id:String?=null,
+    val user:Person
+)

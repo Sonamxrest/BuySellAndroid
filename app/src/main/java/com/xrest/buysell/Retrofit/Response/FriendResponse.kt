@@ -9,5 +9,5 @@ data class FriendResponse(
 )
 data class FriendResponses(
     var success:Boolean?=null,
-    var data:MutableList<User>?=null
+    var data:User?=null
 )

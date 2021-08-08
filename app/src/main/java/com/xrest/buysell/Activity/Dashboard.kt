@@ -22,6 +22,7 @@ import com.xrest.buysell.Retrofit.RetroftiService
 import de.hdodenhof.circleimageview.CircleImageView
 
 
+
 class Dashboard : AppCompatActivity() {
     lateinit var toggle:ActionBarDrawerToggle
     lateinit var drawer:DrawerLayout
@@ -30,6 +31,7 @@ class Dashboard : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
         drawer = findViewById(R.id.container)
         toggle = ActionBarDrawerToggle(this,drawer, R.string.open, R.string.close)
         toggle.syncState()
@@ -42,7 +44,7 @@ class Dashboard : AppCompatActivity() {
         var name:TextView = header.findViewById(R.id.name)
         name.text = RetroftiService.users!!.Name
         Glide.with(this).load("${RetroftiService.BASE_URL}uploads/${RetroftiService.users!!.Profile}").into(cp)
-        drawer.addDrawerListener(toggle!!)
+        drawer.addDrawerListener(toggle)
 //        //supportActionBar!!.setBackgroundDrawable( ColorDrawable(Color.parseColor("#0277BD")));
 //        supportActionBar!!.setDisplayShowTitleEnabled(false);
 //        supportActionBar!!.setDisplayShowTitleEnabled(true);
@@ -51,7 +53,7 @@ class Dashboard : AppCompatActivity() {
             when(it.itemId)
             {
                 R.id.add -> {
-                    currentFrag(AddPost())
+                    currentFrag(FriendFragment())
                      //Navigation.findNavController(this, R.id.fl).navigate(R.id.action_home2_to_addPost)
                     //navigationView.menu.getItem(1).isEnabled =false
 
