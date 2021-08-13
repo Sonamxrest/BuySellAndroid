@@ -30,7 +30,6 @@
         app:boxCornerRadiusBottomStart="@dimen/cardview_compat_inset_shadow"
         app:boxBackgroundMode="filled"
         app:boxBackgroundColor="@color/black"
-
         app:startIconDrawable="@drawable/person"
         >
         <com.google.android.material.textfield.TextInputEditText
