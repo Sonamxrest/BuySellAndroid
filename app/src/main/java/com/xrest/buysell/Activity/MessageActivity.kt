@@ -69,8 +69,8 @@ lateinit var socket:WebSocket
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var socketIo: Socket
-    var urls = "http://192.168.0.113:5000"
-    val url="ws://192.168.0.113:5000"
+    var urls = "http://192.168.0.106:5000"
+    val url="ws://192.168.0.106:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xrest.buysell.Adapters.FriendsAdapter
 import com.xrest.buysell.R
+import com.xrest.buysell.Retrofit.Product
 import com.xrest.buysell.Retrofit.Repo.UserRepository
+import com.xrest.buysell.Retrofit.friend
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.coroutines.CoroutineScope
@@ -23,7 +26,8 @@ import kotlinx.coroutines.withContext
 
 class FriendFragment : Fragment() {
 
-
+    var lst:MutableList<friend> =mutableListOf()
+    var slst:MutableList<friend> =mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +39,7 @@ class FriendFragment : Fragment() {
         val rv:RecyclerView = root.findViewById(R.id.rv)
         rv.layoutManager = LinearLayoutManager(requireContext())
         val adapter = GroupAdapter<GroupieViewHolder>()
+        (requireActivity() as AppCompatActivity).supportActionBar!!.title =""
         CoroutineScope(Dispatchers.IO).launch{
 
             val repo = UserRepository()
@@ -59,4 +64,5 @@ class FriendFragment : Fragment() {
 
         return root
     }
+
 }
