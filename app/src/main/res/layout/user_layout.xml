@@ -29,7 +29,6 @@
             android:id="@+id/online"
             android:layout_width="10dp"
             android:layout_height="10dp"
-
             android:layout_gravity="center"
             android:src="@drawable/online"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +44,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/regular_font"
             android:gravity="center"
-            android:text="Usenrame"
+            android:text="Username"
             android:textColor="#FFFFFF"
             android:textSize="12dp"
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#10489A"
+    android:background="#32AEBBCF"
     android:layout_height="match_parent"
     tools:context=".Activity.MessageActivity">
     <androidx.recyclerview.widget.RecyclerView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginBottom="30dp"
-        android:background="#10489A"
+
         android:id="@+id/rv"/>
     <ImageView
         android:layout_width="200dp"

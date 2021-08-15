@@ -14,7 +14,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="50dp"
             android:background="#1565C0"
             android:orientation="vertical">
 
@@ -31,7 +31,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Products"
-                    android:layout_margin="5dp"
+                    android:layout_margin="8dp"
                     android:fontFamily="@font/main_font"
                     android:textColor="#FFFFFF"
                     android:textSize="25.3sp"/>
