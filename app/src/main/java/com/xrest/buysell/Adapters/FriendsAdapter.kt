@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.xrest.buysell.Activity.MessageActivity
+import com.xrest.buysell.Activity.UserProfile
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Repo.MessageRepo
 import com.xrest.buysell.Retrofit.RetroftiService
@@ -34,7 +35,11 @@ class FriendsAdapter(val user: friend, val context: Context): Item<GroupieViewHo
             }
             name.text = user.user?.Name
             Glide.with(context).load(RetroftiService.loadImage(user.user?.Profile!!)).into(profile)
-
+            profile.setOnClickListener(){
+                var intent = Intent(context, UserProfile::class.java)
+                intent.putExtra("number",user.user.PhoneNumber)
+                context.startActivity(intent)
+            }
 
 
         ll.setOnClickListener(){

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.textfield.TextInputEditText
+import com.xrest.buysell.Activity.adapter
 import com.xrest.buysell.Adapters.MainProductAdapter
 import com.xrest.buysell.Adapters.UserAdapters
 import com.xrest.buysell.R
@@ -71,6 +72,7 @@ var lst:MutableList<Person> = mutableListOf()
             }
 
             override fun afterTextChanged(s: Editable?) {
+
                 if(search.text.toString().isNotEmpty())
                 {
                     slst.clear()
@@ -81,6 +83,7 @@ var lst:MutableList<Person> = mutableListOf()
                             slst.add(data)
                         }
                     }
+
                   rv.adapter = UserAdapters(slst,requireContext())
                 }
                 else{

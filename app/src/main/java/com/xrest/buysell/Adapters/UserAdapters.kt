@@ -1,6 +1,7 @@
 package com.xrest.buysell.Adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.xrest.buysell.Activity.UserProfile
 import com.xrest.buysell.Fragments.ShowUsers
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Person
@@ -39,6 +41,11 @@ class UserAdapters(var lst: MutableList<Person>, var context: Context) :
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         var user = lst[position]
+       holder.profile.setOnClickListener(){
+           var intent = Intent(context,UserProfile::class.java)
+           intent.putExtra("number",user.PhoneNumber)
+           context.startActivity(intent)
+       }
         Glide.with(context).load(RetroftiService.loadImage(user.Profile!!)).into(holder.profile)
         holder.name.text = user.Name
         holder.username.text = user.Username

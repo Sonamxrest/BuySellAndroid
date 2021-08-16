@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.xrest.buysell.Activity.UserProfile
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Class.Request
 import com.xrest.buysell.Retrofit.Repo.RequestRepo
@@ -29,9 +30,9 @@ class RequestAdapter(val request: Request, val context: Context):Item<GroupieVie
         username.text = request.From?.Username
 
         image.setOnClickListener(){
-//            val intent = Intent(context, UserProfile::class.java)
-//            intent.putExtra("user",request.From!!)
-//            context.startActivity(intent)
+            var intent = Intent(context, UserProfile::class.java)
+            intent.putExtra("number",request.From.PhoneNumber)
+            context.startActivity(intent)
         }
         confirm.setOnClickListener(){
             CoroutineScope(Dispatchers.IO).launch {

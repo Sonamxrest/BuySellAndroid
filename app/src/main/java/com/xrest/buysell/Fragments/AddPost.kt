@@ -83,6 +83,8 @@ class AddPost : Fragment(), View.OnClickListener {
     private lateinit var yes:RadioButton
     private lateinit var no:RadioButton
     private var images:MutableList<String> = mutableListOf()
+    var latitude =""
+    var longitude =""
     val cb:OnMapReadyCallback
     @SuppressWarnings("MissingPermission")
     get()= OnMapReadyCallback { p0 ->
@@ -111,6 +113,9 @@ class AddPost : Fragment(), View.OnClickListener {
                         ).draggable(true)
                         .position(LatLng(p0.position.latitude, p0.position.longitude))
                 )
+                latitude = p0.position.latitude.toString()
+                longitude =p0.position.longitude.toString()
+                Log.d("location","${p0}")
 
             }
         })
@@ -124,6 +129,9 @@ class AddPost : Fragment(), View.OnClickListener {
                         )
                     ).draggable(true).position(p0)
             )
+            latitude = p0.latitude.toString()
+            longitude =p0.longitude.toString()
+            Log.d("location","${p0}")
         }
     }
 
@@ -462,11 +470,21 @@ edt.hint ="${data}"
                     nogotiable= false
                 }
                 var feature:MutableList<Features> = mutableListOf()
-                for (data in mc)
+                if(acategory!="Furniture")
                 {
-                    Log.d("Data",data.key.text.toString())
-                    Log.d("valuie",data.value.text.toString())
-                    feature.add(Features(name=data.key.text!!.toString(),feature = data.value.text.toString()))
+                    for (data in mc)
+                    {
+                        Log.d("Data",data.key.text.toString())
+                        Log.d("valuie",data.value.text.toString())
+                        feature.add(Features(name=data.key.text!!.toString(),feature = data.value.text.toString()))
+                    }
+                }
+                if(acategory == "Real State")
+                {
+                    feature.add(Features(name="latitude",feature = latitude))
+                    feature.add(Features(name="longitude",feature = longitude))
+
+
                 }
                 var product = Product(Name= name.text.toString(),UsedFor = used.text.toString().toInt(),Price = price.text.toString(),Description = description.text.toString(),Negotiable = nogotiable,Category = acategory, Condition = acondition,SoldOut = false,Features = feature,SubCategory = asub)
                 post(product)
