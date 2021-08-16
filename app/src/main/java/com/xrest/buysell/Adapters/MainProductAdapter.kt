@@ -42,8 +42,6 @@ class MainProductAdapter(var context:Context,var product: Product):Item<GroupieV
         var like:CheckBox = view.findViewById(R.id.like)
         var name:TextView = view.findViewById(R.id.name)
         var price:TextView = view.findViewById(R.id.price)
-        var condition:TextView = view.findViewById(R.id.condition)
-        var type:TextView = view.findViewById(R.id.type)
         Glide.with(context).load(RetroftiService.loadImage(product.User!!.Profile!!)).into(profile)
         username.text = product.User!!.Username
         for(data in product.Likes!!)
@@ -96,8 +94,6 @@ var bundle =Bundle()
         carousel.addData(lst)
         name.text ="Name: "+ product.Name!!
         price.text = "Rs: "+product.Price!!
-        condition.text = "Cond:"+product.Condition!!
-        type.text = "Cat: "+product.Category!!
     }
 
     override fun getLayout(): Int {

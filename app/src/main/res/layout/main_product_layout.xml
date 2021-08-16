@@ -1,154 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#41AF045C"
-    android:layout_margin="10dp"
+    android:orientation="vertical"
+    android:layout_height="550dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#5C1565C0"
-        app:cardCornerRadius="10dp"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="#EFEFEF"
+        android:layout_margin="20dp"
         android:id="@+id/card"
-        app:cardElevation="@dimen/cardview_compat_inset_shadow"
-        >
+        android:padding="40dp">
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="vertical">
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="horizontal">
-               <de.hdodenhof.circleimageview.CircleImageView
-                   android:layout_width="50dp"
-                   android:layout_height="30dp"
-                   android:id="@+id/profile"
-                   android:src="@drawable/person"/>
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:layout_margin="5dp"
-                   android:fontFamily="@font/regular_font"
-                   android:text="Username"
-                   android:id="@+id/username"/>
-               <CheckBox
-                   android:id="@+id/like"
-                   android:layout_width="35dp"
-                   android:layout_height="38dp"
-                   android:layout_gravity="end"
-                   android:background="@drawable/heart"
-                   android:button="@null"
-                   android:buttonTint="@android:color/transparent"
-                   android:stateListAnimator="@animator/animator"
-                   app:layout_constraintBottom_toBottomOf="parent"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   app:layout_constraintHorizontal_bias="1.0"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toTopOf="parent"
-                   app:layout_constraintVertical_bias="0.03" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile"
+                    android:layout_width="25dp"
 
-           </LinearLayout>
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-              android:layout_marginBottom="10dp"
-               android:orientation="horizontal">
+                    android:layout_height="25dp"
+                    android:src="@drawable/hamro" />
 
-               <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                   android:layout_width="200dp"
-                   android:id="@+id/carousel"
-
-                   android:layout_height="match_parent"/>
-               <LinearLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:orientation="vertical"
-                   android:layout_weight="1">
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center"
+                    android:text="Product Name "
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
 
-                   <TextView
-                       android:id="@+id/name"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:fontFamily="@font/main_font"
-                       android:maxWidth="150dp"
-                       android:text="Oppo f17 "
-                       android:textSize="20dp"
+                <ImageButton
+                    android:id="@+id/menu"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="150dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/like" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                    android:layout_width="match_parent"
+                    android:id="@+id/carousel"
+                    android:layout_margin="10dp"
+                   android:layout_height="330dp"/>
+                <TextView
+                    android:id="@+id/sold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/regular_font"
+                    android:textSize="70dp"
+                    android:layout_alignLeft="@+id/carousel"
+                    android:layout_alignTop="@+id/carousel"
+                    android:layout_alignRight="@+id/carousel"
+                    android:layout_alignBottom="@+id/carousel"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
 
-                       android:layout_margin="8dp"
-                       android:textStyle="bold"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="0.25"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintVertical_bias="0.289" />
+                    android:text="Sold Out"
+                    android:textColor="#FF5252" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center"
+                    android:text="Product Name "
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                   <TextView
-                       android:id="@+id/price"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:fontFamily="@font/regular_font"
-                       android:maxWidth="150dp"
-                       android:text="Rs 500000 "
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />
 
-                       android:layout_margin="8dp"
-                       android:textSize="15dp"
-                       android:textStyle="bold"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="0.25"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintVertical_bias="0.554" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                   <TextView
-                       android:id="@+id/condition"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:fontFamily="@font/regular_font"
-                       android:maxWidth="150dp"
-                       android:text="Brand New "
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center"
+                    android:text="Liked By 100 People "
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/messagebox"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                       android:layout_margin="8dp"
-                       android:textSize="15dp"
-                       android:textStyle="bold"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="0.489"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintVertical_bias="0.932" />
-                   <TextView
-                       android:id="@+id/type"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:fontFamily="@font/regular_font"
-                       android:maxWidth="150dp"
-                       android:text="Mobile \ Computer "
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                       android:layout_margin="8dp"
-                       android:textSize="15dp"
-                       android:textStyle="bold"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="0.489"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintVertical_bias="0.932" />
+                    <CheckBox
+                        android:id="@+id/like"
+                        android:layout_width="35dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/heart"
+                        android:button="@null"
+                        android:buttonTint="@android:color/transparent"
+                        android:stateListAnimator="@animator/animator"
+                    />
 
+                </LinearLayout>
 
-               </LinearLayout>
-           </LinearLayout>
-       </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/message" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_baseline_send_24" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
