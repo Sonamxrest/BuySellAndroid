@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:textColorHint="#FFFFFF"
                     android:layout_marginLeft="10dp"
-                    app:helperText="Full Name"
+                    app:helperText="Phone number"
                     >
 
                     <TextView
