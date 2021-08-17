@@ -69,8 +69,8 @@ lateinit var socket:WebSocket
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var socketIo: Socket
-    var urls = "http://192.168.0.106:5000"
-    val url="ws://192.168.0.106:5000"
+    var urls = "http://192.168.0.104:5000"
+    val url="ws://192.168.0.104:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null
@@ -160,6 +160,8 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                 withContext(Main){
                     var dialog = Dialog(this@MessageActivity)
                     dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+                    //message activity 163
+                    var imageView = dialog.findViewById<ImageView>(R.id.ivBackImg)
                     var json = JSONObject(data[0].toString())
                     if(json.getString("room") == id)
                     {

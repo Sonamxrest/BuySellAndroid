@@ -18,9 +18,14 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.xrest.buysell.Fragments.*
 import com.xrest.buysell.R
+import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import de.hdodenhof.circleimageview.CircleImageView
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class Dashboard : AppCompatActivity() {
@@ -76,10 +81,25 @@ class Dashboard : AppCompatActivity() {
 //                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                  //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
 //                    startActivity(intent)
-                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
-                    startActivity(intent)
+//                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
+//                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
+//                    startActivity(intent)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            var response = UserRepository().logout()
+                            if(response.success == true)
+                            {
+                                withContext(Main){
+                                    currentFrag(LoginFragment())
+
+                                }
+                            }
+                        }
+                        catch (ex: Exception){
+                            ex.printStackTrace()
+                        }
+                    }
                 }
                 R.id.request->{
                     currentFrag(FriendRequest())
