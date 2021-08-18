@@ -35,5 +35,7 @@ interface UserRoutes {
     suspend fun changePassword(@Field("np")password:String,@Path("id")id:String):Response<CommonResponse>
     @GET("/wishList")
     suspend fun getWish(@Header("Authorization") token:String):Response<LoginResponse>
+    @GET("/user/{id}")
+    suspend fun getUsers(@Path("id")id:String):Response<LoginResponse>
 
 }
