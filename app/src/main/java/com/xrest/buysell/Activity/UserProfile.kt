@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.xrest.buysell.Adapters.MainProductAdapter
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Product
@@ -12,9 +13,12 @@ import com.xrest.buysell.Retrofit.Repo.ProductRepo
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.Retrofit.User
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -26,6 +30,7 @@ class UserProfile : AppCompatActivity() {
     lateinit var profile: CircleImageView
     lateinit var rv: RecyclerView
     lateinit var user: User
+    var adapter = GroupAdapter<GroupieViewHolder>()
     var lst:MutableList<Product> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,20 @@ class UserProfile : AppCompatActivity() {
                 if(response.success ==  true)
                 {
                     user = response.user!!
+                    withContext(Main){
+                        var profile :CircleImageView = findViewById(R.id.profile)
+                        Glide.with(applicationContext).load(RetroftiService.loadImage(user.Profile!!)).into(profile)
+                        var name: TextView = findViewById(R.id.name)
+                        name.text = user.Name
+                        var number: TextView = findViewById(R.id.number)
+                        number.text = user.PhoneNumber
+
+                        var username: TextView = findViewById(R.id.username)
+                        username.text = user.Username
+                        rv = findViewById(R.id.rv)
+                        rv.layoutManager = LinearLayoutManager(this@UserProfile)
+                        loadData()
+                    }
                 }
             }
             catch (ex: Exception){
@@ -44,9 +63,8 @@ class UserProfile : AppCompatActivity() {
             }
 
         }
-        rv = findViewById(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(this)
-        loadData()
+
+
     }
 
     private fun loadData() {

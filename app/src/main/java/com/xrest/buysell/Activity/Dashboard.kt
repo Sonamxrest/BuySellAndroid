@@ -18,9 +18,14 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.xrest.buysell.Fragments.*
 import com.xrest.buysell.R
+import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import de.hdodenhof.circleimageview.CircleImageView
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class Dashboard : AppCompatActivity() {
@@ -53,7 +58,7 @@ class Dashboard : AppCompatActivity() {
             when(it.itemId)
             {
                 R.id.add -> {
-                    currentFrag(FriendFragment())
+                    currentFrag(AddPost())
                      //Navigation.findNavController(this, R.id.fl).navigate(R.id.action_home2_to_addPost)
                     //navigationView.menu.getItem(1).isEnabled =false
 
@@ -63,10 +68,13 @@ class Dashboard : AppCompatActivity() {
                     currentFrag(Profile())
                 }
                 R.id.home ->{
-                    currentFrag(AddPost())
+                    currentFrag(Home())
                 }
                 R.id.admin ->{
                     currentFrag(AllPost())
+                }
+                R.id.wish->{
+                    currentFrag(WishList())
                 }
                 R.id.order->{
                     currentFrag(ShowUsers())
@@ -76,19 +84,41 @@ class Dashboard : AppCompatActivity() {
 //                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                  //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
 //                    startActivity(intent)
-                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
-                    startActivity(intent)
+//                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
+//                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
+//                    startActivity(intent)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            var response = UserRepository().logout()
+                            if(response.success == true)
+                            {
+                                withContext(Main){
+                                    currentFrag(LoginFragment())
+
+                                }
+                            }
+                        }
+                        catch (ex: Exception){
+                            ex.printStackTrace()
+                        }
+                    }
                 }
                 R.id.request->{
                     currentFrag(FriendRequest())
                 }
-
+R.id.chat->{
+    currentFrag(FriendFragment())
+}
             }
             true
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

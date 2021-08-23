@@ -3,11 +3,10 @@ package com.xrest.buysell.Adapters
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.widget.CheckBox
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -20,6 +19,7 @@ import com.xrest.buysell.Retrofit.Product
 import com.xrest.buysell.Retrofit.Productss
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
 import com.xrest.buysell.Retrofit.RetroftiService
+import com.xrest.buysell.Retrofit.Routes.Products
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import de.hdodenhof.circleimageview.CircleImageView
@@ -35,13 +35,63 @@ import java.lang.Exception
 class MainProductAdapter(var context:Context,var product: Product):Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         var view = viewHolder.itemView
-        var lst:MutableList<CarouselItem> = mutableListOf()
         var profile:CircleImageView =view.findViewById(R.id.profile)
         var username: TextView = view.findViewById(R.id.username)
-        var carousel:ImageCarousel = view.findViewById(R.id.carousel)
+        var carousel:ImageView = view.findViewById(R.id.carousel)
         var like:CheckBox = view.findViewById(R.id.like)
         var name:TextView = view.findViewById(R.id.name)
         var price:TextView = view.findViewById(R.id.price)
+        var sold:TextView = view.findViewById(R.id.sold)
+        var menu: ImageButton = viewHolder.itemView.findViewById(R.id.menu)
+        menu.isVisible = false
+        sold.isVisible = false
+
+        if(product.User?._id == RetroftiService.users?._id)
+        {
+            menu.isVisible = true
+        }
+        menu.setOnClickListener(){
+            val popupMenu =PopupMenu(context,menu)
+            popupMenu.menuInflater.inflate(R.menu.menutop,popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {
+                when(it.itemId)
+                {
+                    R.id.navUpdate->{
+
+//                        popUpForm()
+                    }
+                    R.id.navDelete -> {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val response = ProductRepo().delete(product._id!!)
+                            if (response.success == true) {
+                                withContext(Main)
+                                {
+                                    Toast.makeText(context, "One Item Deleted", Toast.LENGTH_SHORT).show()
+                                    notifyChanged()
+                                }
+
+                            }
+                        }
+                    }
+                    R.id.navSold->{
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val response = ProductRepo().sold(product._id!!)
+                            if (response.success == true) {
+                                withContext(Main)
+                                {
+                                    Toast.makeText(context, "Item Sold", Toast.LENGTH_SHORT).show()
+                                    notifyChanged()
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+                true
+            }
+            popupMenu.show()
+        }
         Glide.with(context).load(RetroftiService.loadImage(product.User!!.Profile!!)).into(profile)
         username.text = product.User!!.Username
         for(data in product.Likes!!)
@@ -51,10 +101,7 @@ class MainProductAdapter(var context:Context,var product: Product):Item<GroupieV
                   print("${product._id}")
             }
         }
-        for(data in product.Images!!)
-        {
-            lst.add(CarouselItem(imageUrl = RetroftiService.loadImage(data)))
-        }
+
 
         view.findViewById<CardView>(R.id.card).setOnClickListener(){
 
@@ -89,9 +136,11 @@ var bundle =Bundle()
 
             }
         }
-
-        carousel.autoPlay=true
-        carousel.addData(lst)
+        if(product.SoldOut === true)
+        {
+            sold.isVisible = true;
+        }
+       Glide.with(context).load(RetroftiService.loadImage(product.Images?.get(0)!!)).into(carousel)
         name.text ="Name: "+ product.Name!!
         price.text = "Rs: "+product.Price!!
     }

@@ -2,6 +2,7 @@ package com.xrest.buysell.Adapters
 
 import android.R.attr.data
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,9 +37,18 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
 
     override fun onBindViewHolder(holder: WVH, position: Int) {
         var product =lst[position]
-        Glide.with(context).load(RetroftiService.loadImage(product!!.product!!.Images?.get(0)!!)).into(
-            holder.image
-        )
+        if(product!!.product!!.Images!!.size > 0)
+        {
+            Glide.with(context).load(RetroftiService.loadImage(product!!.product!!.Images?.get(0)!!)).into(
+                holder.image
+            )
+        }
+        else{
+            Glide.with(context).load(RetroftiService.loadImage("no-image.jpg")).into(
+                holder.image
+            )
+        }
+
         holder.name.text = product.product?.Name
         holder.price.text = product.product?.Price
         holder.cat.text = product.product?.Category
@@ -51,15 +61,14 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
     }
 
     fun removeItem(position: Int) {
-        lst.removeAt(position)
-     // like(position)
+        like(position)
         notifyItemRemoved(position)
 
     }
 
     fun restoreItem(item: Productss, position: Int) {
         lst.add(position, item)
-     //   like(position)
+        like(position)
 
         notifyItemInserted(position)
     }
@@ -69,27 +78,30 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
     }
     fun like(position: Int)
     {
-//        try {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                var response = ProductRepo().Like(lst[position].product!!._id!!)
-//                if(response.success==true)
-//                {
-//                    withContext(Dispatchers.Main)
-//                    {
-//                        Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
-//
-//                    }
-//
-//                }
-//                else{
-//                    withContext(Dispatchers.Main)
-//                    {
-//                        Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }catch (ex: Exception){
-//
-//        }
+   Log.d("position", lst.toString())
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                var response = ProductRepo().Like(lst[position].product!!._id!!)
+                if(response.success==true)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        lst.removeAt(position)
+                        Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                }
+                else{
+                    withContext(Dispatchers.Main)
+                    {
+                        lst.removeAt(position)
+                        Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }catch (ex: Exception){
+
+        }
     }
 }

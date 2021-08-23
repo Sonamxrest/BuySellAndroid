@@ -21,6 +21,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
 import com.xrest.buysell.Adapters.ChatItem
 import com.xrest.buysell.Adapters.ChatItem2
 import com.xrest.buysell.Adapters.ImageAdapter
@@ -31,8 +32,10 @@ import com.xrest.buysell.Retrofit.Person
 import com.xrest.buysell.Retrofit.Repo.MessageRepo
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
+import com.xrest.buysell.Retrofit.User
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import de.hdodenhof.circleimageview.CircleImageView
 import io.socket.client.IO
 import io.socket.client.Socket
 import kotlinx.coroutines.*
@@ -69,13 +72,14 @@ lateinit var socket:WebSocket
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var socketIo: Socket
-    var urls = "http://192.168.0.106:5000"
-    val url="ws://192.168.0.106:5000"
+    var urls = "http://192.168.0.108:5000"
+    val url="ws://192.168.0.108:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null
     lateinit var mediaPlayer: MediaPlayer
     lateinit var vibrator: Vibrator
+    lateinit var toUser:User
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +106,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
     if(response.success == true)
     {
         withContext(Main){
+            toUser = response.user!!
             supportActionBar!!.setTitle(response.user!!.Name!!)
         }
     }
@@ -160,13 +165,33 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                 withContext(Main){
                     var dialog = Dialog(this@MessageActivity)
                     dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+                    //message activity 163
                     var json = JSONObject(data[0].toString())
                     if(json.getString("room") == id)
                     {
                         if(json.getString("from") !=RetroftiService.users!!._id){
                             dialog.setContentView(R.layout.recieving)
-                            vibratePlay()
+                            var background:ImageView = dialog.findViewById(R.id.background)
+                            var username:TextView = dialog.findViewById(R.id.username)
+                            var profile:CircleImageView = dialog.findViewById(R.id.profile)
+
+                            var calling:TextView = dialog.findViewById(R.id.calling)
                             var recieve: LottieAnimationView = dialog.findViewById(R.id.recieve)
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                var response = UserRepository().getUsers(json.getString("from"))
+                                if(response.success == true)
+                                {
+                                    withContext(Main){
+                                        Glide.with(this@MessageActivity).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(profile)
+                                        Glide.with(this@MessageActivity).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(background)
+                                        username.text = response.user!!.Username
+                                        calling.text = response.user!!.Username+ " wants you to join call"
+
+                                    }
+                                }
+                            }
+                            vibratePlay()
                             recieve.setOnClickListener(){
                              vibrator.cancel()
                                 mediaPlayer.pause()
@@ -180,6 +205,12 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                         }
                         else{
                             dialog.setContentView(R.layout.calling)
+                            var background:ImageView = dialog.findViewById(R.id.background)
+                            var username:TextView = dialog.findViewById(R.id.username)
+                            var profile:CircleImageView = dialog.findViewById(R.id.profile)
+                            Glide.with(this@MessageActivity).load(RetroftiService.loadImage(toUser.Profile!!)).into(profile)
+                            Glide.with(this@MessageActivity).load(RetroftiService.loadImage(toUser.Profile!!)).into(background)
+                            username.text = toUser.Username
                         }
                         dialog.show()
                     }
@@ -371,13 +402,6 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                 type="Image"
             }
         }
-
-
-
-
-
-
-
     }
 
     private fun bitmapToFile(bitmap: Bitmap, timeStamp: String): File? {

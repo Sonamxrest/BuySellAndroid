@@ -66,6 +66,12 @@ suspend fun getWish():LoginResponse{
     }
 }
 
+    suspend fun getUsers(id:String):LoginResponse{
+        return handleApiRequest {
+            api.getUsers(id)
+        }
+    }
+
 
 
 }

@@ -142,13 +142,7 @@
 
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:src="@drawable/person"
-            android:id="@+id/update"
-            android:layout_gravity="end" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

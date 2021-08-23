@@ -48,8 +48,7 @@ var lst:MutableList<Productss> = mutableListOf()
                             lst = response.user!!.Likes!!
                             adapter=WishListAdapter(lst, requireContext())
                             rv.adapter = adapter
-
-
+                            enableSwipeToDeleteAndUndo()
                         }
                     }
                 }
@@ -59,7 +58,7 @@ var lst:MutableList<Productss> = mutableListOf()
         {
             ex.printStackTrace()
         }
-        enableSwipeToDeleteAndUndo()
+
         return view
     }
     private fun enableSwipeToDeleteAndUndo() {

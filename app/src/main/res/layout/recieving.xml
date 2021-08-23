@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/ivBackImg"
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
@@ -57,6 +57,7 @@
             android:layout_height="161dp"
             android:layout_gravity="center"
             android:src="@drawable/images"
+            android:id="@+id/profile"
             app:civ_border_color="#06497E"
             app:civ_border_width="7dp" />
 
@@ -66,13 +67,15 @@
             android:layout_gravity="center"
             android:fontFamily="@font/regular_font"
             android:gravity="center"
+            android:id="@+id/username"
             android:text="Username Shrestha"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
-<!--   caller ko name lai text ma string interpolation garera rakha  Example etCaller.text = '{username} wants you to join a call'      -->
+<!--   caller ko name lai text ma string interpolation garera rakha
+  Example etCaller.text = '{username} wants you to join a call'      -->
         <TextView
-            android:id="@+id/etCaller"
+            android:id="@+id/calling"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -110,7 +113,7 @@
             android:layout_weight="1"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/recieve" />
+            app:lottie_rawRes="@raw/calling" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
