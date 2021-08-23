@@ -64,7 +64,7 @@
                    android:layout_height="330dp"/>
                 <TextView
                     android:id="@+id/sold"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:fontFamily="@font/regular_font"

@@ -14,7 +14,7 @@
         <item android:title="Add Post"
             android:id="@+id/add"
             android:icon="@drawable/ic_baseline_add_circle_24"/>
-        <item android:title="Friends"
+        <item android:title="People"
             android:icon="@drawable/ic_baseline_person_pin_circle_24"
             android:id="@+id/order"/>
 
@@ -27,9 +27,14 @@
             android:id="@+id/admin">
 
         </item>
+        <item android:title="WishList"
+            android:icon="@drawable/ic_baseline_shop_24"
+            android:id="@+id/wish">
+
+        </item>
 
         <item android:title="Chat"
-            android:id="@+id/ccare"
+            android:id="@+id/chat"
             android:icon="@drawable/ic_baseline_chat_24"
             />
         <item android:title="Logout"

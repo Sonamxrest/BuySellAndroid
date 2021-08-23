@@ -109,8 +109,8 @@ for(data in lst)
     override fun onResume() {
         super.onResume()
         var actionBar =(requireActivity() as AppCompatActivity).supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(true)
-        actionBar.setTitle("")
+
+        actionBar!!.setTitle("")
         actionBar.hide()
 
     }

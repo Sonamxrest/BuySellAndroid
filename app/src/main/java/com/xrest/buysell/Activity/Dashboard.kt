@@ -58,7 +58,7 @@ class Dashboard : AppCompatActivity() {
             when(it.itemId)
             {
                 R.id.add -> {
-                    currentFrag(FriendFragment())
+                    currentFrag(AddPost())
                      //Navigation.findNavController(this, R.id.fl).navigate(R.id.action_home2_to_addPost)
                     //navigationView.menu.getItem(1).isEnabled =false
 
@@ -68,10 +68,13 @@ class Dashboard : AppCompatActivity() {
                     currentFrag(Profile())
                 }
                 R.id.home ->{
-                    currentFrag(AddPost())
+                    currentFrag(Home())
                 }
                 R.id.admin ->{
                     currentFrag(AllPost())
+                }
+                R.id.wish->{
+                    currentFrag(WishList())
                 }
                 R.id.order->{
                     currentFrag(ShowUsers())
@@ -104,11 +107,18 @@ class Dashboard : AppCompatActivity() {
                 R.id.request->{
                     currentFrag(FriendRequest())
                 }
-
+R.id.chat->{
+    currentFrag(FriendFragment())
+}
             }
             true
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
