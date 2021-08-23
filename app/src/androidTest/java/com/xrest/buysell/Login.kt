@@ -15,17 +15,17 @@ class Login {
     @Test
     fun checkArithmeticUI() {
         Espresso.onView(ViewMatchers.withId(R.id.username))
-            .perform(ViewActions.typeText("sonam"))
+            .perform(ViewActions.typeText("asd"))
         Thread.sleep(1000)
         Espresso.onView(ViewMatchers.withId(R.id.password))
-            .perform(ViewActions.typeText("sonam"))
+            .perform(ViewActions.typeText("asd"))
         Thread.sleep(1000)
         Espresso.closeSoftKeyboard()
         Espresso.onView(ViewMatchers.withId(R.id.sign))
             .perform(ViewActions.click())
         Thread.sleep(4000)
         Espresso.
-        onView(ViewMatchers.withId(R.id.navView))
+        onView(ViewMatchers.withId(R.id.fl))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
