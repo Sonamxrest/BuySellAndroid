@@ -47,8 +47,8 @@ class Dashboard : AppCompatActivity() {
         currentFrag(Home())
         var cp:CircleImageView = header.findViewById(R.id.profile)
         var name:TextView = header.findViewById(R.id.name)
-        name.text = RetroftiService.users!!.Name
-        Glide.with(this).load("${RetroftiService.BASE_URL}uploads/${RetroftiService.users!!.Profile}").into(cp)
+//        name.text = RetroftiService.users!!.Name
+//        Glide.with(this).load("${RetroftiService.BASE_URL}uploads/${RetroftiService.users!!.Profile}").into(cp)
         drawer.addDrawerListener(toggle)
 //        //supportActionBar!!.setBackgroundDrawable( ColorDrawable(Color.parseColor("#0277BD")));
 //        supportActionBar!!.setDisplayShowTitleEnabled(false);
