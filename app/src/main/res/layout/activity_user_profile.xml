@@ -15,18 +15,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColorHint="#808080"
-            >
+            android:textColorHint="#808080">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                app:civ_border_width="2dp"
+                android:src="@drawable/background_image_one_signup"
                 app:civ_border_color="#FF000000"
-                android:src="@drawable/background_image_one_signup" />
+                app:civ_border_width="2dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <RatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"
+
+
+                />
+        </LinearLayout>
 
 
         <LinearLayout
@@ -34,23 +48,23 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:orientation="vertical">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#ECB762"
                 android:layout_marginTop="10dp"
-                app:cardElevation="@dimen/cardview_compat_inset_shadow"
-                app:cardMaxElevation="@dimen/cardview_compat_inset_shadow"
+                app:cardBackgroundColor="#6A20594D"
                 app:cardCornerRadius="10dp"
-                >
+                app:cardElevation="@dimen/cardview_compat_inset_shadow"
+                app:cardMaxElevation="@dimen/cardview_compat_inset_shadow">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#FFFFFF"
                     android:layout_marginLeft="10dp"
-                    app:helperText="Full Name"
-                    >
+                    android:textColorHint="#FFFFFF"
+                    app:helperText="Full Name">
 
                     <TextView
                         android:id="@+id/name"
@@ -70,21 +84,20 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#ECB762"
                 android:layout_marginTop="10dp"
+                app:cardBackgroundColor="#6A20594D"
 
-                app:cardElevation="@dimen/cardview_compat_inset_shadow"
-                app:cardMaxElevation="@dimen/cardview_compat_inset_shadow"
                 app:cardCornerRadius="10dp"
-                >
+                app:cardElevation="@dimen/cardview_compat_inset_shadow"
+                app:cardMaxElevation="@dimen/cardview_compat_inset_shadow">
+
                 <com.google.android.material.textfield.TextInputLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#FFFFFF"
                     android:layout_marginLeft="10dp"
-                    app:helperText="Full Name"
-                    >
+                    android:textColorHint="#FFFFFF"
+                    app:helperText="Full Name">
 
                     <TextView
                         android:id="@+id/number"
@@ -103,21 +116,20 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#ECB762"
                 android:layout_marginTop="10dp"
+                app:cardBackgroundColor="#6A20594D"
 
-                app:cardElevation="@dimen/cardview_compat_inset_shadow"
-                app:cardMaxElevation="@dimen/cardview_compat_inset_shadow"
                 app:cardCornerRadius="10dp"
-                >
+                app:cardElevation="@dimen/cardview_compat_inset_shadow"
+                app:cardMaxElevation="@dimen/cardview_compat_inset_shadow">
+
                 <com.google.android.material.textfield.TextInputLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#FFFFFF"
                     android:layout_marginLeft="10dp"
-                    app:helperText="Username"
-                    >
+                    android:textColorHint="#FFFFFF"
+                    app:helperText="Username">
 
                     <TextView
                         android:id="@+id/username"
@@ -134,21 +146,13 @@
             </androidx.cardview.widget.CardView>
 
 
-
-
-
         </LinearLayout>
 
 
-
-
-
-
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="700dp"
-            android:layout_margin="10dp"
-            android:id="@+id/rv"/>
+            android:layout_margin="10dp" />
     </LinearLayout>
-
 </ScrollView>

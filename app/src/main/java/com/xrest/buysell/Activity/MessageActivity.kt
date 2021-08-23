@@ -375,7 +375,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                 var json = JSONObject()
                 json.put("from",RetroftiService.users!!._id)
                 json.put("id",id)
-                json.put("type","calling")
+                json.put("format","calling")
                 socket.send(json.toString())
             }
         }

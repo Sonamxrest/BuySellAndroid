@@ -48,7 +48,8 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginLeft="150dp"
+
+                    android:layout_marginLeft="160dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_baseline_menu_24" />
