@@ -10,7 +10,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        app:cardBackgroundColor="#0F83CA"
+        app:cardBackgroundColor="#BFBCBC"
         android:layout_height="wrap_content">
 
         <LinearLayout android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                         android:layout_height="match_parent"
                         android:text="Denim Shirt"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_xmedium"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:layout_weight="9"/>
@@ -74,23 +74,27 @@
                     android:layout_height="wrap_content"
                     android:text="Rs. 8,999"
                     android:textStyle="bold"
-                    android:textSize="@dimen/text_size_xmedium"
+                    android:textSize="15sp"
                     android:textColor="#FF3C00"
+
                     android:layout_marginTop="@dimen/margin_small"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delivery charge: FREE"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"/>
+                    android:textSize="12sp"/>
 
                 <TextView
+
                     android:id="@+id/category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Qty: 1"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -72,8 +72,7 @@
             android:textColor="@color/black"
             android:textSize="20dp" />
 
-<!--   caller ko name lai text ma string interpolation garera rakha
-  Example etCaller.text = '{username} wants you to join a call'      -->
+
         <TextView
             android:id="@+id/calling"
             android:layout_width="match_parent"
@@ -99,7 +98,7 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/cancel"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_weight="1"
             app:lottie_autoPlay="true"
@@ -108,7 +107,7 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/recieve"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_weight="1"
             app:lottie_autoPlay="true"

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:layout_weight="1"
-        android:background="#DFD8D8"
+        android:background="@drawable/messagebox"
         android:fontFamily="@font/main_font"
         android:maxWidth="200dp"
         android:layout_marginLeft="20dp"
