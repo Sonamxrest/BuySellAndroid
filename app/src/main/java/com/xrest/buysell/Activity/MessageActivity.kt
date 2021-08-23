@@ -67,11 +67,11 @@ lateinit var type:String
 var cameraCode=1
 var galleryCode=0
 lateinit var socket:WebSocket
-
+lateinit var toUser:User
 
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var socketIo: Socket
+
     var urls = "http://192.168.137.173:5000"
     val url="ws://192.168.137.173:5000"
     var okHttpClient = OkHttpClient()
@@ -89,8 +89,6 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
         type="Message"
         id = intent.getStringExtra("id")!!
         user = intent.getStringExtra("user")!!
-        socketIo = IO.socket(urls)
-        socketIo.connect()
         try {
             serverURL = URL("https://meet.jit.si")
             val defaultOptions = JitsiMeetConferenceOptions.Builder()
@@ -158,81 +156,16 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
         ib.setOnClickListener(this)
 
         rv.adapter =adapter
-        socketIo.on("calling"){ data->
-            Log.d("call",data[0].toString())
-
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Main){
-                    var dialog = Dialog(this@MessageActivity)
-                    dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
-                    //message activity 163
-                    var json = JSONObject(data[0].toString())
-                    if(json.getString("room") == id)
-                    {
-                        if(json.getString("from") !=RetroftiService.users!!._id){
-                            dialog.setContentView(R.layout.recieving)
-                            var background:ImageView = dialog.findViewById(R.id.background)
-                            var username:TextView = dialog.findViewById(R.id.username)
-                            var profile:CircleImageView = dialog.findViewById(R.id.profile)
-
-                            var calling:TextView = dialog.findViewById(R.id.calling)
-                            var recieve: LottieAnimationView = dialog.findViewById(R.id.recieve)
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                var response = UserRepository().getUsers(json.getString("from"))
-                                if(response.success == true)
-                                {
-                                    withContext(Main){
-                                        Glide.with(this@MessageActivity).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(profile)
-                                        Glide.with(this@MessageActivity).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(background)
-                                        username.text = response.user!!.Username
-                                        calling.text = response.user!!.Username+ " wants you to join call"
-
-                                    }
-                                }
-                            }
-                            vibratePlay()
-                            recieve.setOnClickListener(){
-                             vibrator.cancel()
-                                mediaPlayer.pause()
-                                socketIo.emit("recieved",json.toString())
-                                val options = JitsiMeetConferenceOptions.Builder()
-                                    .setRoom(id)
-                                    .setWelcomePageEnabled(false)
-                                    .build()
-                                JitsiMeetActivity.launch(this@MessageActivity, options)
-                            }
-                        }
-                        else{
-                            dialog.setContentView(R.layout.calling)
-                            var background:ImageView = dialog.findViewById(R.id.background)
-                            var username:TextView = dialog.findViewById(R.id.username)
-                            var profile:CircleImageView = dialog.findViewById(R.id.profile)
-                            Glide.with(this@MessageActivity).load(RetroftiService.loadImage(toUser.Profile!!)).into(profile)
-                            Glide.with(this@MessageActivity).load(RetroftiService.loadImage(toUser.Profile!!)).into(background)
-                            username.text = toUser.Username
-                        }
-                        dialog.show()
-                    }
-
-                }
-            }
-        }
-
-        socketIo.on("recieved"){data->
-            Log.d("call",data[0].toString())
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Main){
-                    var json = JSONObject(data[0].toString())
-                    if(json.getString("room") ==id && json.getString("from")== RetroftiService.users!!._id){
-                        val options = JitsiMeetConferenceOptions.Builder()
-                            .setRoom(id)
-                            .setWelcomePageEnabled(false)
-                            .build()
-                        JitsiMeetActivity.launch(this@MessageActivity, options)
-                    }
-                }}
-        }
+//        socketIo.on("calling"){ data->
+//            Log.d("call",data[0].toString())
+//
+//
+//        }
+//
+//        socketIo.on("recieved"){data->
+//            Log.d("call",data[0].toString())
+//
+//        }
 
 
     }
@@ -441,25 +374,13 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
             R.id.call -> {
                 var json = JSONObject()
                 json.put("from",RetroftiService.users!!._id)
-                json.put("room",id)
-                socketIo.emit("calling",json.toString())
+                json.put("id",id)
+                json.put("type","calling")
+                socket.send(json.toString())
             }
         }
         return super.onOptionsItemSelected(item)
 
-    }
-    @SuppressWarnings("MissingPermission")
-    fun vibratePlay(){
-        vibrator = this.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
-        if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createOneShot(200000, VibrationEffect.DEFAULT_AMPLITUDE))
-            mediaPlayer = MediaPlayer.create(this,R.raw.rintone )
-            mediaPlayer.isLooping = true
-            mediaPlayer.start()
-            Toast.makeText(this,"media playing", Toast.LENGTH_SHORT).show()
-        } else {
-            vibrator.vibrate(200000)
-        }
     }
 }
 class SocketListener(val context: Context) : WebSocketListener() {
@@ -479,83 +400,165 @@ class SocketListener(val context: Context) : WebSocketListener() {
                     var message= json.getString("message")
                     var userId= json.getString("user")
                     var type = json.getString("format")
-                    if(idz==id)
+                    if(type != "calling" || type!="recieving")
                     {
-
-                        if(userId==RetroftiService.users?._id)
+                        if(idz==id)
                         {
-                            if(type=="Image")
-                            {
 
-                                adapter.add(
-                                    ImageAdapter2(
-                                        context, InnerMessage(
-                                            message = message, user = Person(
-                                                _id = RetroftiService.users!!._id,
-                                                Profile = RetroftiService.users!!.Profile
+                            if(userId==RetroftiService.users?._id)
+                            {
+                                if(type=="Image")
+                                {
+
+                                    adapter.add(
+                                        ImageAdapter2(
+                                            context, InnerMessage(
+                                                message = message, user = Person(
+                                                    _id = RetroftiService.users!!._id,
+                                                    Profile = RetroftiService.users!!.Profile
+                                                )
                                             )
                                         )
                                     )
-                                )
-                                ChatItem2(context, InnerMessage()).notifyChanged()
-                                rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+                                    ChatItem2(context, InnerMessage()).notifyChanged()
+                                    rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+
+                                }
+                                else{
+                                    adapter.add(
+                                        ChatItem2(
+                                            context, InnerMessage(
+                                                message = message, user = Person(
+                                                    _id = RetroftiService.users!!._id,
+                                                    Profile = RetroftiService.users!!.Profile
+                                                )
+                                            )
+                                        )
+                                    )
+                                    ChatItem2(context, InnerMessage()).notifyChanged()
+                                    rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+                                }
 
                             }
                             else{
-                                adapter.add(
-                                    ChatItem2(
-                                        context, InnerMessage(
-                                            message = message, user = Person(
-                                                _id = RetroftiService.users!!._id,
-                                                Profile = RetroftiService.users!!.Profile
+                                if(type=="Image")
+                                {
+
+
+                                    adapter.add(
+                                        ImageAdapter(
+                                            context, InnerMessage(
+                                                message = message, user = Person(
+                                                    _id = RetroftiService.users!!._id,
+                                                    Profile = RetroftiService.users!!.Profile
+                                                )
                                             )
                                         )
                                     )
-                                )
-                                ChatItem2(context, InnerMessage()).notifyChanged()
-                                rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+                                    ChatItem2(context, InnerMessage()).notifyChanged()
+                                    rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+                                    ChatItem(context, InnerMessage()).notifyChanged()
+                                }
+                                else{
+                                    adapter.add(
+                                        ChatItem(
+                                            context, InnerMessage(
+                                                message = message, user = Person(
+                                                    _id = RetroftiService.users!!._id,
+                                                    Profile = RetroftiService.users!!.Profile
+                                                )
+                                            )
+                                        )
+                                    )
+                                    ChatItem2(context, InnerMessage()).notifyChanged()
+                                    rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+                                    ChatItem(context, InnerMessage()).notifyChanged()
+                                }
+
+
                             }
 
                         }
-                        else{
-                            if(type=="Image")
-                            {
-
-
-                                adapter.add(
-                                    ImageAdapter(
-                                        context, InnerMessage(
-                                            message = message, user = Person(
-                                                _id = RetroftiService.users!!._id,
-                                                Profile = RetroftiService.users!!.Profile
-                                            )
-                                        )
-                                    )
-                                )
-                                ChatItem2(context, InnerMessage()).notifyChanged()
-                                rv.smoothScrollToPosition(adapter.getItemCount() - 1);
-                                ChatItem(context, InnerMessage()).notifyChanged()
-                            }
-                            else{
-                                adapter.add(
-                                    ChatItem(
-                                        context, InnerMessage(
-                                            message = message, user = Person(
-                                                _id = RetroftiService.users!!._id,
-                                                Profile = RetroftiService.users!!.Profile
-                                            )
-                                        )
-                                    )
-                                )
-                                ChatItem2(context, InnerMessage()).notifyChanged()
-                                rv.smoothScrollToPosition(adapter.getItemCount() - 1);
-                                ChatItem(context, InnerMessage()).notifyChanged()
-                            }
-
-
-                        }
-
                     }
+                    else{
+                        when(type)
+                        {
+                            "calling"->{
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    withContext(Main){
+                                        var dialog = Dialog(context)
+                                        dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+                                        //message activity 163
+
+                                        if(json.getString("id") == id)
+                                        {
+                                            if(json.getString("from") !=RetroftiService.users!!._id){
+                                                dialog.setContentView(R.layout.recieving)
+                                                var background:ImageView = dialog.findViewById(R.id.background)
+                                                var username:TextView = dialog.findViewById(R.id.username)
+                                                var profile:CircleImageView = dialog.findViewById(R.id.profile)
+
+                                                var calling:TextView = dialog.findViewById(R.id.calling)
+                                                var recieve: LottieAnimationView = dialog.findViewById(R.id.recieve)
+
+                                                CoroutineScope(Dispatchers.IO).launch {
+                                                    var response = UserRepository().getUsers(json.getString("from"))
+                                                    if(response.success == true)
+                                                    {
+                                                        withContext(Main){
+                                                            Glide.with(context).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(profile)
+                                                            Glide.with(context).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(background)
+                                                            username.text = response.user!!.Username
+                                                            calling.text = response.user!!.Username+ " wants you to join call"
+
+                                                        }
+                                                    }
+                                                }
+                                                vibratePlay()
+                                                recieve.setOnClickListener(){
+                                                    vibrator.cancel()
+                                                    mediaPlayer.pause()
+                                                    var json : JSONObject = JSONObject(text)
+                                                  json.put("format","recieving")
+                                                    socket.send(json.toString())
+                                                    val options = JitsiMeetConferenceOptions.Builder()
+                                                        .setRoom(id)
+                                                        .setWelcomePageEnabled(false)
+                                                        .build()
+                                                    JitsiMeetActivity.launch(context, options)
+                                                }
+                                            }
+                                            else{
+                                                dialog.setContentView(R.layout.calling)
+                                                var background:ImageView = dialog.findViewById(R.id.background)
+                                                var username:TextView = dialog.findViewById(R.id.username)
+                                                var profile:CircleImageView = dialog.findViewById(R.id.profile)
+                                                Glide.with(context).load(RetroftiService.loadImage(toUser.Profile!!)).into(profile)
+                                                Glide.with(context).load(RetroftiService.loadImage(toUser.Profile!!)).into(background)
+                                                username.text = toUser.Username
+                                            }
+                                            dialog.show()
+                                        }
+
+                                    }
+                                }
+                            }
+                            "recieving" ->{
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    withContext(Main){
+                                        if(json.getString("id") ==id){
+                                            val options = JitsiMeetConferenceOptions.Builder()
+                                                .setRoom(id)
+                                                .setWelcomePageEnabled(false)
+                                                .build()
+                                            JitsiMeetActivity.launch(context, options)
+                                        }
+                                    }}
+
+                            }
+                        }
+                    }
+
 
 
 
@@ -578,6 +581,18 @@ class SocketListener(val context: Context) : WebSocketListener() {
         socket.cancel()
     }
 
-
+    @SuppressWarnings("MissingPermission")
+    fun vibratePlay(){
+        vibrator = context.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(200000, VibrationEffect.DEFAULT_AMPLITUDE))
+            mediaPlayer = MediaPlayer.create(context,R.raw.rintone )
+            mediaPlayer.isLooping = true
+            mediaPlayer.start()
+            Toast.makeText(context,"media playing", Toast.LENGTH_SHORT).show()
+        } else {
+            vibrator.vibrate(200000)
+        }
+    }
 
 }
