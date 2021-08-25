@@ -57,6 +57,21 @@ class MapsFragment(val location:LatLng, val image:String) : Fragment(), RoutingL
            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),0)
         }
         googleMap.isMyLocationEnabled = true
+        googleMap.setOnMyLocationChangeListener(){
+            googleMap.animateCamera(
+                CameraUpdateFactory.newCameraPosition(
+                    CameraPosition.Builder().target(
+                        LatLng(
+                            location.latitude,
+                            location.longitude
+                        )
+                    ).zoom(14f).build()
+                )
+            )
+            origin = LatLng(it.latitude,it.longitude)
+            findRoutes(origin,location)
+        }
+
         val sydney =location
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.Builder().zoom(14f).target(location).build()))
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Location").snippet(getAdderess(location)))
@@ -70,7 +85,7 @@ class MapsFragment(val location:LatLng, val image:String) : Fragment(), RoutingL
         savedInstanceState: Bundle?
     ): View? {
         var view= inflater.inflate(R.layout.fragment_maps, container, false)
-        findRoutes(origin,location)
+
         var dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(R.layout.bottomsheet)
         dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
