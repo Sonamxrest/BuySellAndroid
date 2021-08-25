@@ -101,7 +101,7 @@ name.text = this.product.Name
             view.findViewById<FloatingActionButton>(R.id.m).setOnClickListener(){
 
                 var location = LatLng(product.Features?.get(3)?.feature!!.toDouble(),product.Features?.get(4)?.feature!!.toDouble())
-                var fragment = MapsFragment(location)
+                var fragment = MapsFragment(location, product.Images?.get(0)!!)
                 var activity = requireContext() as AppCompatActivity
                 activity.supportFragmentManager.beginTransaction().replace(R.id.fl,fragment).addToBackStack(null).commit()
             }

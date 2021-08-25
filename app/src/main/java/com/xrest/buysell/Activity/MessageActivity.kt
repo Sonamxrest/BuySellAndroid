@@ -68,10 +68,7 @@ lateinit var socket:WebSocket
 lateinit var toUser:User
 
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
-
-
-    var urls = "http://192.168.137.173:5000"
-    val url="ws://172.25.0.147:5000"
+    val url="ws://192.168.0.110:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null
@@ -353,10 +350,6 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
         {
 
         }
-
-
-
-
         return file
     }
 

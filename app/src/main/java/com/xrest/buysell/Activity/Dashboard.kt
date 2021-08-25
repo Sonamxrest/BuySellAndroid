@@ -37,7 +37,7 @@ class Dashboard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        drawer = findViewById(R.id.container)
+        drawer = findViewById(R.id.dl)
         toggle = ActionBarDrawerToggle(this,drawer, R.string.open, R.string.close)
         toggle.syncState()
        // setSupportActionBar(findViewById(R.id.my_toolbar))
