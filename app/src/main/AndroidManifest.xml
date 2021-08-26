@@ -30,8 +30,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuySell"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.UserProfile"></activity>
-        <activity android:name=".Activity.MessageActivity" />
+        <activity android:name=".Activity.UserProfile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.Dashboard" />
+        </activity>
+        <activity android:name=".Activity.MessageActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.Dashboard" />
+        </activity>
         <activity android:name=".Activity.CallCheckActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
