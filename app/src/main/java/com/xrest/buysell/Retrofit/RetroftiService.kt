@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import java.util.jar.Manifest
 
 object RetroftiService {
-    val BASE_URL ="http://172.25.0.147:5000/"
+    val BASE_URL ="http://10.0.2.2:5000/"
     var token:String?=null
     var users: User?=null
     val okHttpClient = OkHttpClient.Builder().connectTimeout(5,TimeUnit.MINUTES).writeTimeout(5,TimeUnit.MINUTES).readTimeout(5,TimeUnit.MINUTES)
