@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.RetroftiService
 import java.util.*
@@ -85,7 +86,13 @@ class MapsFragment(val location:LatLng, val image:String) : Fragment(), RoutingL
         savedInstanceState: Bundle?
     ): View? {
         var view= inflater.inflate(R.layout.fragment_maps, container, false)
-
+view.findViewById<FloatingActionButton>(R.id.fl).setOnClickListener(){
+    openDialog()
+}
+openDialog()
+        return view
+    }
+    private fun openDialog(){
         var dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(R.layout.bottomsheet)
         dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -110,9 +117,8 @@ class MapsFragment(val location:LatLng, val image:String) : Fragment(), RoutingL
         var km=(array[0]/1000)
         distance.text =km.toString() +
                 "Meters From Your Location"
-            dialog.show()
-        dialog.setCancelable(false)
-        return view
+        dialog.show()
+        dialog.setCancelable(true)
     }
     private fun getAdderess(latLng: LatLng): String {
         val geo = Geocoder(requireContext(), Locale.getDefault())
