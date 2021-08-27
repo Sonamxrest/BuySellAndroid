@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ED287B8E"
+    android:background="#C12CA6AA"
     tools:context=".Fragments.LoginFragment">
 
 
@@ -40,15 +40,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/bio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:backgroundTint="#4E525B"
-
-                android:src="@drawable/ic_baseline_fingerprint_24" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fb"
@@ -90,8 +81,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:fontFamily="@font/design_font"
-                        android:textSize="20dp"
+                        android:fontFamily="@font/wor"
+                        android:textSize="16dp"
                         android:textStyle="bold" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,65 +91,80 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:background="@color/white"
-
                     android:hint="Password"
                     app:passwordToggleEnabled="true"
-                    app:startIconDrawable="@drawable/ic_chevron_left"
-
-
-                    >
+                    app:startIconDrawable="@drawable/password">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:fontFamily="@font/design_font"
+                        android:fontFamily="@font/wor"
                         android:inputType="textPassword"
-                        android:textSize="20dp"
+                        android:textSize="16dp"
                         android:textStyle="bold"
                         app:passwordToggleEnabled="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <CheckBox
+                    android:id="@+id/remember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/dancing"
+                    android:text="Remember me"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/forgot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="215dp"
+
+                    android:text="Forgot Password?"
+                    android:textColor="#C3005AF1"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/sign"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="#C3FF0000"
+                    android:fontFamily="@font/wor"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="Sign in"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="50dp"
+                    android:orientation="horizontal">
 
-
-                    <TextView
-                        android:id="@+id/sign"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:layout_gravity="center"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/buttons"
-                        android:gravity="center"
-                        android:padding="15dp"
-                        android:text="Sign in"
-                        android:textColor="#FFFFFF"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/forgot"
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/bio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="30dp"
-                        android:padding="15dp"
-                        android:text="Forgot Password?"
-                        android:textColor="@color/purple_700"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:backgroundTint="#FFFFFF"
+                        android:src="@drawable/ic_baseline_fingerprint_24" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Tap to login with Fingerprint"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

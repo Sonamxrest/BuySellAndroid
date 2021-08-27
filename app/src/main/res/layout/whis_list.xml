@@ -64,7 +64,7 @@
                         android:id="@+id/delete"
                         android:stateListAnimator="@animator/animator"
                         android:background="@drawable/heart" />
-                    >
+
 
                 </LinearLayout>
 
