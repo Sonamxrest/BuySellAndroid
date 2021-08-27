@@ -65,6 +65,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="#1565C0"
                         android:text="Accept"
+                        android:textSize="10dp"
                         android:textColor="@color/white" />
 
                     <Button
@@ -73,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+                        android:textSize="10dp"
                         android:backgroundTint="#880404"
                         android:text="Delete"
                         android:textColor="@color/white" />

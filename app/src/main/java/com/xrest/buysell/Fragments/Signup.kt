@@ -322,12 +322,14 @@ dialog(qa)
             if(requestCode==0 && data !=null)
             {
                 image = RetroftiService.getDataFromGallery(requireContext(),data)
+                print(image!!)
                 profile.setImageBitmap(BitmapFactory.decodeFile(image))
                 Log.d("noImage", image!!)
             }
             else if(requestCode == 1 && data !=null)
             {
                 image = RetroftiService.getDataFromCamera(requireContext(),data)
+                print(image!!)
                 profile.setImageBitmap(BitmapFactory.decodeFile(image))
                 Log.d("noImage", image!!)
 

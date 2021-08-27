@@ -3,8 +3,10 @@ package com.xrest.buysell.Adapters
 import android.content.Context
 import android.content.Intent
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.xrest.buysell.Activity.UserProfile
+import com.xrest.buysell.Fragments.FriendFragment
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Class.Request
 import com.xrest.buysell.Retrofit.Repo.RequestRepo
@@ -42,6 +44,10 @@ class RequestAdapter(val request: Request, val context: Context):Item<GroupieVie
                     withContext(Dispatchers.Main){
                         Toast.makeText(context, "You are now friends", Toast.LENGTH_SHORT).show()
                         notifyChanged()
+                        (context as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+                            replace(R.id.fl, FriendFragment())
+                            commit()
+                        }
                     }
                 }
 

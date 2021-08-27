@@ -550,6 +550,7 @@ edt.hint ="${data}"
             {
 
                 var data = Autocomplete.getPlaceFromIntent(data)
+                var latlng = data.latLng
                 googleMap.clear()
                 googleMap.addMarker(
                     MarkerOptions().position(data.latLng).title("Your Searched Destination")
@@ -564,7 +565,8 @@ edt.hint ="${data}"
                         ).zoom(14f).build()
                     )
                 )
-
+                latitude = latlng!!.latitude.toString()!!
+                longitude = latlng.longitude.toString()
             }
             else if(requestCode == 0 && data!= null)
             {

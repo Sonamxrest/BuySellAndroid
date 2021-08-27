@@ -109,18 +109,13 @@ var lst:MutableList<Person> = mutableListOf()
 
                         for (data in reponse.data!!) {
                             if (data._id != RetroftiService.users!!._id) {
-                                for (ddata in RetroftiService!!.users!!.Friends!!) {
-                                    if (ddata.user._id != data._id) {
                                         lst.add(data)
-                                    }
-                                }
-
                             }
-                            view.findViewById<ShimmerFrameLayout>(R.id.shimmer).isVisible = false
-                            var adapters = UserAdapters(lst, requireContext())
-                            rv.adapter = adapters
-
                         }
+                        view.findViewById<ShimmerFrameLayout>(R.id.shimmer).isVisible = false
+                        var adapters = UserAdapters(lst, requireContext())
+                        rv.adapter = adapters
+
                     }
                 }
             }
@@ -135,7 +130,7 @@ var lst:MutableList<Person> = mutableListOf()
     override fun onResume() {
 
         var actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        actionBar!!.show()
+        actionBar!!.hide()
         actionBar.setTitle("")
         super.onResume()
     }
@@ -172,5 +167,6 @@ var lst:MutableList<Person> = mutableListOf()
             }
         }
     }
+
 
 }

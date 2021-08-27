@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xrest.buysell.Adapters.ProductShowAdapter
@@ -73,5 +74,10 @@ class Home : Fragment() {
 
         return view
     }
+    override fun onResume() {
 
+        var actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar!!.show()
+        super.onResume()
+    }
 }
