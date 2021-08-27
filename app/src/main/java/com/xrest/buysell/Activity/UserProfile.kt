@@ -2,10 +2,14 @@ package com.xrest.buysell.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.RatingBar
+import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.xrest.buysell.Adapters.MainProductAdapter
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Product
@@ -30,11 +34,14 @@ class UserProfile : AppCompatActivity() {
     lateinit var profile: CircleImageView
     lateinit var rv: RecyclerView
     lateinit var user: User
+    lateinit var rate: RatingBar
     var adapter = GroupAdapter<GroupieViewHolder>()
     var lst:MutableList<Product> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
+        var cl:ScrollView = findViewById(R.id.container)
+        rate = findViewById(R.id.rb)
         var userNumber = intent.getStringExtra("number")
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -43,6 +50,43 @@ class UserProfile : AppCompatActivity() {
                 {
                     user = response.user!!
                     withContext(Main){
+
+            findViewById<TextView>(R.id.un).text = user.Name!!
+                        if(user!!.Rating!!.size>0)
+                        {
+                            var total =0
+                            for (data in user.Rating!!)
+                            {
+                                total += data.rating!!
+                            }
+                            rate.rating = (total/user!!.Rating!!.size).toFloat()
+
+                        }
+                        else{
+                            rate.rating = 0f
+
+                        }
+                        rate.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                val response = UserRepository().rate(user._id!!,rating.toString())
+                                if(response.success==true)
+                                {
+                                    withContext(Main)
+                                    {
+                                        val snackbar = Snackbar
+                                            .make(
+                                                cl,
+                                                "User Rated Successfully",
+                                                Snackbar.LENGTH_LONG
+                                            )
+                                        snackbar.show()
+                                        Toast.makeText(this@UserProfile, "Rated Successfullt", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
                         var profile :CircleImageView = findViewById(R.id.profile)
                         Glide.with(applicationContext).load(RetroftiService.loadImage(user.Profile!!)).into(profile)
                         var name: TextView = findViewById(R.id.name)
@@ -95,5 +139,10 @@ class UserProfile : AppCompatActivity() {
         {
             adapter.add(MainProductAdapter(this,data))
         }
+    }
+
+    override fun onResume() {
+        supportActionBar!!.hide()
+        super.onResume()
     }
 }

@@ -37,5 +37,7 @@ interface UserRoutes {
     suspend fun getWish(@Header("Authorization") token:String):Response<LoginResponse>
     @GET("/users/{id}")
     suspend fun getUsers(@Path("id")id:String):Response<LoginResponse>
-
+    @FormUrlEncoded
+    @PUT("/rate/{id}")
+    suspend fun rate(@Header("Authorization") token:String,@Path("id") id:String,@Field("Rating") rate:String):Response<CommonResponse>
 }

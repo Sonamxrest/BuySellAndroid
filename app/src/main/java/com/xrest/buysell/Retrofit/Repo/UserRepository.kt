@@ -71,7 +71,11 @@ suspend fun getWish():LoginResponse{
             api.getUsers(id)
         }
     }
-
+suspend fun rate(id:String, rating:String):CommonResponse{
+    return handleApiRequest {
+        api.rate(RetroftiService.token!!,id,rating)
+    }
+}
 
 
 }

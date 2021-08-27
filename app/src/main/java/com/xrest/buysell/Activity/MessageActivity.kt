@@ -68,7 +68,7 @@ lateinit var socket:WebSocket
 lateinit var toUser:User
 
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
-    val url="ws://192.168.137.128:5000"
+    val url="ws://10.0.2.2:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null

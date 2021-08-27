@@ -12,9 +12,16 @@ data class User(
     var isOnline:Boolean?=null,
     var Friends:MutableList<friend>?=null,
     var Questions:MutableList<Question>?=null,
-    var Likes:MutableList<Productss>?=null
+    var Likes:MutableList<Productss>?=null,
+var Rating : MutableList<Rating>? =null
 ):Serializable
 
+data class Rating(
+    val user:String?=null,
+    val rating: Int? =null
+){
+
+}
 data class Productss(
     val _id:String?=null,
     val product:Product?=null
