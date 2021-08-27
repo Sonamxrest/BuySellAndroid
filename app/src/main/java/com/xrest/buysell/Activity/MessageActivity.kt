@@ -68,7 +68,7 @@ lateinit var socket:WebSocket
 lateinit var toUser:User
 
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
-    val url="ws://192.168.0.110:5000"
+    val url="ws://192.168.137.128:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null
@@ -423,11 +423,8 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                                         )
 
                                                     CoroutineScope(Dispatchers.IO).launch {
-                                                        var response = UserRepository().getUsers(
-                                                            json.getString(
-                                                                "from"
-                                                            )
-                                                        )
+                                                        var response = UserRepository().getUsers(json.getString("from"))
+                                                        print(json.getString("from"))
                                                         if (response.success == true) {
                                                             withContext(Main) {
                                                                 Glide.with(context).load(
@@ -462,7 +459,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                                                 .setRoom(id)
                                                                 .setWelcomePageEnabled(false)
                                                                 .build()
-                                                        JitsiMeetActivity.launch(context, options)
+                                                        JitsiMeetActivity.launch(this@MessageActivity, options)
                                                         dialog.cancel()
                                                     }
                                                 } else {
@@ -504,7 +501,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                                     .setRoom(id)
                                                     .setWelcomePageEnabled(false)
                                                     .build()
-                                                JitsiMeetActivity.launch(context, options)
+                                                JitsiMeetActivity.launch(this@MessageActivity, options)
                                             }
                                         }
                                     }
