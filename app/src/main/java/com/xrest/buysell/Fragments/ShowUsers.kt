@@ -130,7 +130,7 @@ var lst:MutableList<Person> = mutableListOf()
     override fun onResume() {
 
         var actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        actionBar!!.show()
+        actionBar!!.hide()
         actionBar.setTitle("")
         super.onResume()
     }
@@ -167,5 +167,6 @@ var lst:MutableList<Person> = mutableListOf()
             }
         }
     }
+
 
 }
