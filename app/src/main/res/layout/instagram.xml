@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/instaCard"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="8dp"
+        tools:layout_editor_absoluteX="194dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ciImage"
+                android:layout_width="57dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:text="nimalama01"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/ciImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="292dp"
+                android:layout_marginLeft="292dp"
+                android:layout_marginTop="16dp"
+                android:background="#FBFBFB"
+                app:layout_constraintStart_toEndOf="@+id/ciImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+
+            <ImageView
+                android:id="@+id/ivPost"
+                android:layout_width="394dp"
+                android:layout_height="248dp"
+                android:layout_marginTop="36dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUsername"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageButton
+                android:id="@+id/imgLike"
+                android:layout_width="60dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:background="#FDFBFB"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+
+            <ImageButton
+                android:id="@+id/imgComment"
+                android:layout_width="60dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:background="#FFFDFD"
+                app:layout_constraintStart_toEndOf="@+id/imgLike"
+                app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                app:srcCompat="@drawable/ic_baseline_comment_24" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="60dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:adjustViewBounds="false"
+                android:background="#FFFEFE"
+                app:layout_constraintStart_toEndOf="@+id/imgComment"
+                app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                app:srcCompat="@drawable/ic_baseline_share_24" />
+
+            <ImageView
+                android:id="@+id/imgCount"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:background="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgLike"
+                app:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+            <TextView
+                android:id="@+id/tvLikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
+                android:text="0 Likes"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imgCount"
+                app:layout_constraintTop_toTopOf="@+id/imgCount" />
+
+            <TextView
+                android:id="@+id/tvUn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="nimalama01"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgCount" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="19dp"
+                android:text="Happy new year 2021."
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/tvUn"
+                app:layout_constraintTop_toBottomOf="@+id/tvLikes" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

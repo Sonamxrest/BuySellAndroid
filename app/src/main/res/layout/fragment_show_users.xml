@@ -38,7 +38,7 @@
             android:id="@+id/search"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:fontFamily="@font/design_font"
+            android:fontFamily="@font/dancing"
             android:background="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
     <ImageButton
