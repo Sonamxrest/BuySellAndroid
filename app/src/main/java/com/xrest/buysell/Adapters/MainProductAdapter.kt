@@ -50,11 +50,15 @@ class MainProductAdapter(var context:Context,var product: Product):Item<GroupieV
         sold.isVisible = false
 comment.setOnClickListener(){
     var dailog = BottomSheetDialog(context)
-    dailog.setContentView(R.layout.comments)
+    dailog.setContentView(R.layout.comment)
     dailog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
     var rv = dailog.findViewById<RecyclerView>(R.id.rv)
-    rv!!.layoutManager = LinearLayoutManager(context)
+    rv!!.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+if(product.Comments?.size!! > 0)
+{
     rv.adapter = CommentAdapter(context , product.Comments!!,product._id!!)
+
+}
     var edt = dailog.findViewById<EditText>(R.id.editText)
     var button = dailog.findViewById<Button>(R.id.comment)
     button!!.setOnClickListener(){
