@@ -23,6 +23,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.xrest.buysell.Adapters.MainProductAdapter
+import com.xrest.buysell.Adapters.WishAdapter
+import com.xrest.buysell.Adapters.WishListAdapter
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Product
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
@@ -53,7 +55,6 @@ lateinit var update:FloatingActionButton
 
 lateinit var rv:RecyclerView
 val user =RetroftiService.users
-    var adapter = GroupAdapter<GroupieViewHolder>()
     var lst:MutableList<Product> =mutableListOf()
 
     override fun onCreateView(
@@ -242,13 +243,6 @@ val user =RetroftiService.users
     }
     fun loadData(view:View){
 
-
-//        var dialog =Dialog(requireContext())
-//        dialog.setContentView(R.layout.success_notification)
-//        dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-//        dialog.window!!.attributes!!.windowAnimations = R.style.DialogAnimation
-//        dialog.show()
-//        dialog.setCancelable(false)
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 var response = ProductRepo().personsPost(RetroftiService!!.users!!._id!!)
@@ -256,10 +250,10 @@ val user =RetroftiService.users
                 {
                     withContext(Main)
                     {
+                        lst.clear()
                         lst = response.data!!
-                        addToAdapter(lst)
                         //dialog.cancel()
-                        rv.adapter =adapter
+                        rv.adapter = WishAdapter(lst,requireContext())
                     }
                 }
             }
@@ -269,14 +263,5 @@ val user =RetroftiService.users
             }
         }
     }
-    fun addToAdapter(lst:MutableList<Product>)
-    {
-        adapter.clear()
-        for(data in lst)
-        {
-            adapter.add(MainProductAdapter(requireContext(),data))
-        }
-    }
-
     }
 

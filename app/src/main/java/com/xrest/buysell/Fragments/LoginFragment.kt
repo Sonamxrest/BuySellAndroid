@@ -46,6 +46,7 @@ lateinit var bio :FloatingActionButton
 lateinit var username:TextInputEditText
 lateinit var password:TextInputEditText
 lateinit var forgot:TextView
+lateinit var check: CheckBox
 val cb:BiometricPrompt.AuthenticationCallback
 get() = @RequiresApi(Build.VERSION_CODES.P)
 object :BiometricPrompt.AuthenticationCallback(){
@@ -83,12 +84,16 @@ object :BiometricPrompt.AuthenticationCallback(){
         forgot = view.findViewById(R.id.forgot)
         forgot.setOnClickListener(this)
         bio.isVisible =false
+        view.findViewById<LinearLayout>(R.id.bb).isVisible = false
+        check = view.findViewById(R.id.remember)
         if(preferences.getBoolean("biometric",false)==true)
         {
             var cancellation = CancellationSignal()
             cancellation.setOnCancelListener(){}
             executor = requireActivity().mainExecutor!!
             bio.isVisible =true
+            view.findViewById<LinearLayout>(R.id.bb).isVisible = true
+
             biometricPrompt = BiometricPrompt.Builder(requireContext()).setTitle("FingerPrint Login").setNegativeButton("Cancel",executor,DialogInterface.OnClickListener(){ dialog, _ ->
                 dialog.cancel()
             }).setSubtitle("Place Your Finger To Login").build()
@@ -116,7 +121,20 @@ return view
         {
 
             R.id.sign -> {
-               login(username.text.toString(), password.text.toString())
+                if (check.isChecked) {
+                    Toast.makeText(requireContext(), "Username and Password is saved", Toast.LENGTH_SHORT).show()
+                    var editor = requireContext().getSharedPreferences(
+                        "userLogin",
+                        Activity.MODE_PRIVATE
+                    )
+                    editor.edit().let { editor ->
+                        editor.putString("username", username.text.toString())
+                        editor.putString("password", password.text.toString())
+                        editor.apply()
+                        editor.commit()
+                    }
+                }
+                login(username.text.toString(), password.text.toString())
             }
             R.id.bio ->{
                 var cancellation = CancellationSignal()
