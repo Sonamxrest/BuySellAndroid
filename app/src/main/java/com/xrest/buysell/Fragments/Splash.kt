@@ -2,6 +2,7 @@ package com.xrest.buysell.Fragments
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -14,7 +15,15 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.google.android.gms.maps.model.Dash
+import com.xrest.buysell.Activity.Dashboard
 import com.xrest.buysell.R
+import com.xrest.buysell.Retrofit.Repo.UserRepository
+import com.xrest.buysell.Retrofit.RetroftiService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class Splash : Fragment() {
@@ -31,7 +40,27 @@ Handler().postDelayed({
 
     }
     else{
-        Navigation.findNavController(requireView()).navigate(R.id.action_splash_to_loginSignup)
+        var pref = requireContext().getSharedPreferences("userLogin",Activity.MODE_PRIVATE)
+        CoroutineScope(Dispatchers.IO).launch {
+
+            var response =
+                UserRepository().login(pref.getString("username","")!!,pref.getString("password","")!!)
+            if (response.success == true) {
+                withContext(Dispatchers.Main)
+                {
+
+                    RetroftiService.token ="Bearer "+ response.token!!
+                    RetroftiService.users = response.user!!
+                    requireContext().startActivity(Intent(requireContext(), Dashboard::class.java))
+
+                }
+            } else {
+                Navigation.findNavController(requireView()).navigate(R.id.action_splash_to_loginSignup)
+            }
+
+
+        }
+
     } },3000)
 
         return inflater.inflate(R.layout.fragment_splash, container, false)

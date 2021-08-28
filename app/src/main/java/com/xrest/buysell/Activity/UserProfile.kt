@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.xrest.buysell.Adapters.MainProductAdapter
+import com.xrest.buysell.Adapters.WishAdapter
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Product
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
@@ -35,6 +36,7 @@ class UserProfile : AppCompatActivity() {
     lateinit var rv: RecyclerView
     lateinit var user: User
     lateinit var rate: RatingBar
+    lateinit var pcount : TextView
     var adapter = GroupAdapter<GroupieViewHolder>()
     var lst:MutableList<Product> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +53,7 @@ class UserProfile : AppCompatActivity() {
                     user = response.user!!
                     withContext(Main){
 
-            findViewById<TextView>(R.id.un).text = user.Name!!
+            findViewById<TextView>(R.id.name).text = user.Name!!
                         if(user!!.Rating!!.size>0)
                         {
                             var total =0
@@ -59,6 +61,7 @@ class UserProfile : AppCompatActivity() {
                             {
                                 total += data.rating!!
                             }
+                            findViewById<TextView>(R.id.ra).text = (total/user!!.Rating!!.size).toString()
                             rate.rating = (total/user!!.Rating!!.size).toFloat()
 
                         }
@@ -120,9 +123,10 @@ class UserProfile : AppCompatActivity() {
                     withContext(Dispatchers.Main)
                     {
                         lst = response.data!!
-                        addToAdapter(lst)
+                        pcount = findViewById(R.id.totalProduct)
+                        pcount.text = lst.size.toString()
                         //dialog.cancel()
-                        rv.adapter =adapter
+                        rv.adapter =WishAdapter(lst,this@UserProfile)
                     }
                 }
             }
@@ -130,14 +134,6 @@ class UserProfile : AppCompatActivity() {
             {
 
             }
-        }
-    }
-    fun addToAdapter(lst:MutableList<Product>)
-    {
-        adapter.clear()
-        for(data in lst)
-        {
-            adapter.add(MainProductAdapter(this,data))
         }
     }
 
