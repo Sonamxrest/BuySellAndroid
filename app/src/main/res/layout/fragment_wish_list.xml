@@ -63,6 +63,19 @@
             android:layout_marginTop="40dp"
             android:layout_height="match_parent"
             android:id="@+id/rv"/>
+
+        <Button
+            android:id="@+id/pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rv"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="634dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/buttons"
+            android:text="Proceed" />
     </RelativeLayout>
 
 
