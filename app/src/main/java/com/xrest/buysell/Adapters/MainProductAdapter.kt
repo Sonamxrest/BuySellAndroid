@@ -3,6 +3,7 @@ package com.xrest.buysell.Adapters
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -191,6 +192,7 @@ var bundle =Bundle()
         {
             sold.isVisible = true;
         }
+        Log.d("mmm",RetroftiService.loadImage(product.Images?.get(0)!!))
        Glide.with(context).load(RetroftiService.loadImage(product.Images?.get(0)!!)).into(carousel)
         name.text ="Name: "+ product.Name!!
         price.text = "Rs: "+product.Price!!

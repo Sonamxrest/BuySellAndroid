@@ -1,16 +1,20 @@
 package com.xrest.buysell.Fragments
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.xrest.buysell.Adapters.WishListAdapter
 import com.xrest.buysell.R
@@ -24,6 +28,7 @@ import kotlinx.coroutines.Dispatchers.Main
 class WishList : Fragment() {
 lateinit var rv:RecyclerView
 lateinit var cl:CoordinatorLayout
+lateinit var pay: Button
 lateinit var  adapter:WishListAdapter
 var lst:MutableList<Productss> = mutableListOf()
     override fun onCreateView(
@@ -32,6 +37,7 @@ var lst:MutableList<Productss> = mutableListOf()
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_wish_list, container, false)
+        pay = view.findViewById(R.id.pay)
         cl = view.findViewById(R.id.coordinatorLayout)
         rv = view.findViewById(R.id.rv)
         rv.layoutManager =LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -53,6 +59,16 @@ var lst:MutableList<Productss> = mutableListOf()
                     }
                 }
             }
+
+                pay.setOnClickListener(){
+                    var bottomSheet = Dialog(requireContext())
+                    bottomSheet.setContentView(R.layout.dealsewalogin)
+                    bottomSheet.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                    bottomSheet.show()
+                    bottomSheet.setCancelable(true)
+
+                }
+
         }
         catch (ex: Exception)
         {

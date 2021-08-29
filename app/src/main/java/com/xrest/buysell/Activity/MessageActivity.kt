@@ -62,13 +62,15 @@ lateinit var ib: ImageButton
 lateinit var image: ImageView
 lateinit var ed:EditText
 lateinit var type:String
+lateinit var dialog : Dialog
 var cameraCode=1
 var galleryCode=0
 lateinit var socket:WebSocket
 lateinit var toUser:User
 
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
-    val url="ws://10.0.2.2:5000"
+
+    val url="ws://192.168.43.80:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null
@@ -78,6 +80,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
+        dialog = Dialog(this@MessageActivity)
         adapter.clear()
         socket = okHttpClient.newWebSocket(request, SocketListener(applicationContext))
         type="Message"
@@ -365,7 +368,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                 var json = JSONObject()
                 json.put("from", RetroftiService.users!!._id)
                 json.put("id", id)
-                json.put("message", "")
+                json.put("message", "${toUser._id}")
                 json.put("user", "")
                 json.put("format", "calling")
                 socket.send(json.toString())
@@ -400,7 +403,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
 //                                        var dialog = Dialog(context)
 
 
-                                            var dialog = Dialog(this@MessageActivity)
+
                                             dialog.window!!.setLayout(
                                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                                 LinearLayout.LayoutParams.MATCH_PARENT
@@ -447,6 +450,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                                     vibratePlay()
                                                     dialog.findViewById<LottieAnimationView>(R.id.cancel).setOnClickListener(){
                                                         dialog.cancel()
+                                                        mediaPlayer.pause()
                                                     }
                                                     recieve.setOnClickListener() {
                                                         com.xrest.buysell.Activity.vibrator.cancel()
@@ -496,6 +500,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                 "recieving" -> {
                                     CoroutineScope(Dispatchers.IO).launch {
                                         withContext(Main) {
+                                            dialog.cancel()
                                             if (json.getString("id") == id) {
                                                 val options = JitsiMeetConferenceOptions.Builder()
                                                     .setRoom(id)

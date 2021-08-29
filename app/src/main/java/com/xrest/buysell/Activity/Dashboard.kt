@@ -56,7 +56,7 @@ class Dashboard : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-        val url="ws://10.0.2.2:5000"
+        val url="ws://192.168.43.80:5000"
         var okHttpClient = OkHttpClient()
         val request= Request.Builder().url(url).build()
         socket = okHttpClient.newWebSocket(request, SocketListener(applicationContext))
@@ -215,7 +215,7 @@ currentFrag(Home())
                                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                                 LinearLayout.LayoutParams.MATCH_PARENT
                                             )
-                                            if (json.getString("id") == id) {
+                                            if (json.getString("message") == RetroftiService.users!!._id) {
                                                 if (json.getString("from") != RetroftiService.users!!._id) {
                                                     dialog.setContentView(R.layout.recieving)
                                                     var background: ImageView =
@@ -256,6 +256,7 @@ currentFrag(Home())
                                                     }
                                                     vibratePlay()
                                                     dialog.findViewById<LottieAnimationView>(R.id.cancel).setOnClickListener(){
+                                                        mediaPlayer.pause()
                                                         dialog.cancel()
                                                     }
                                                     recieve.setOnClickListener() {
@@ -266,7 +267,7 @@ currentFrag(Home())
                                                         socket.send(json.toString())
                                                         val options =
                                                             JitsiMeetConferenceOptions.Builder()
-                                                                .setRoom(id)
+                                                                .setRoom(json.getString("id"))
                                                                 .setWelcomePageEnabled(false)
                                                                 .build()
                                                         JitsiMeetActivity.launch(this@Dashboard, options)
@@ -306,9 +307,9 @@ currentFrag(Home())
                                 "recieving" -> {
                                     CoroutineScope(Dispatchers.IO).launch {
                                         withContext(Main) {
-                                            if (json.getString("id") == id) {
+                                            if (json.getString("message") == RetroftiService.users!!._id) {
                                                 val options = JitsiMeetConferenceOptions.Builder()
-                                                    .setRoom(id)
+                                                    .setRoom(json.getString("id"))
                                                     .setWelcomePageEnabled(false)
                                                     .build()
                                                 JitsiMeetActivity.launch(this@Dashboard, options)
@@ -320,96 +321,6 @@ currentFrag(Home())
                             }
 
                         }
-                        else{
-
-                            var message= json.getString("message")
-                            var userId= json.getString("user")
-                            if(idz==id)
-                            {
-
-                                if(userId==RetroftiService.users?._id)
-                                {
-                                    if(type=="Image")
-                                    {
-
-                                        adapter.add(
-                                            ImageAdapter2(
-                                                context, InnerMessage(
-                                                    message = message, user = Person(
-                                                        _id = RetroftiService.users!!._id,
-                                                        Profile = RetroftiService.users!!.Profile
-                                                    )
-                                                )
-                                            )
-                                        )
-                                        ChatItem2(context, InnerMessage()).notifyChanged()
-                                        rv.smoothScrollToPosition(adapter.getItemCount() - 1);
-
-                                    }
-                                    else{
-                                        adapter.add(
-                                            ChatItem2(
-                                                context, InnerMessage(
-                                                    message = message, user = Person(
-                                                        _id = RetroftiService.users!!._id,
-                                                        Profile = RetroftiService.users!!.Profile
-                                                    )
-                                                )
-                                            )
-                                        )
-                                        ChatItem2(context, InnerMessage()).notifyChanged()
-                                        rv.smoothScrollToPosition(adapter.getItemCount() - 1);
-                                    }
-
-                                }
-                                else{
-                                    if(type=="Image")
-                                    {
-
-
-                                        adapter.add(
-                                            ImageAdapter(
-                                                context, InnerMessage(
-                                                    message = message, user = Person(
-                                                        _id = RetroftiService.users!!._id,
-                                                        Profile = RetroftiService.users!!.Profile
-                                                    )
-                                                )
-                                            )
-                                        )
-                                        ChatItem2(context, InnerMessage()).notifyChanged()
-                                        rv.smoothScrollToPosition(adapter.getItemCount() - 1);
-                                        ChatItem(context, InnerMessage()).notifyChanged()
-                                    }
-                                    else{
-                                        adapter.add(
-                                            ChatItem(
-                                                context, InnerMessage(
-                                                    message = message, user = Person(
-                                                        _id = RetroftiService.users!!._id,
-                                                        Profile = RetroftiService.users!!.Profile
-                                                    )
-                                                )
-                                            )
-                                        )
-                                        ChatItem2(context, InnerMessage()).notifyChanged()
-                                        rv.smoothScrollToPosition(adapter.getItemCount() - 1);
-                                        ChatItem(context, InnerMessage()).notifyChanged()
-                                    }
-
-
-                                }
-
-                            }
-                        }
-
-
-
-
-
-                        MessageActivity().img=null
-
-
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }

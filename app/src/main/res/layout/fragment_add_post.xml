@@ -19,18 +19,6 @@
             android:background="@android:color/transparent"
             android:gravity="center"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Post"
-                android:layout_margin="20dp"
-                android:textColor="#F8F3F3"
-                android:layout_gravity="center"
-                android:hint="Username"
-                android:fontFamily="@font/main_font"
-                android:gravity="center"
-                android:textSize="30dp"
-                android:textStyle="bold" />
 
 
         </LinearLayout>

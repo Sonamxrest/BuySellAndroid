@@ -85,6 +85,7 @@ class AddPost : Fragment(), View.OnClickListener {
     private var images:MutableList<String> = mutableListOf()
     var latitude =""
     var longitude =""
+    var index  = 0
     val cb:OnMapReadyCallback
     @SuppressWarnings("MissingPermission")
     get()= OnMapReadyCallback { p0 ->
@@ -461,33 +462,48 @@ edt.hint ="${data}"
         when(v?.id)
         {
             R.id.register -> {
-                if(yes.isChecked==true)
-                {
-                    nogotiable= true
+                if (yes.isChecked == true) {
+                    nogotiable = true
+                } else if (no.isChecked) {
+                    nogotiable = false
                 }
-                else if(no.isChecked)
-                {
-                    nogotiable= false
-                }
-                var feature:MutableList<Features> = mutableListOf()
-                if(acategory!="Furniture")
-                {
-                    for (data in mc)
-                    {
-                        Log.d("Data",data.key.text.toString())
-                        Log.d("valuie",data.value.text.toString())
-                        feature.add(Features(name=data.key.text!!.toString(),feature = data.value.text.toString()))
+                var feature: MutableList<Features> = mutableListOf()
+                if (acategory != "Furniture") {
+                    for (data in mc) {
+                        Log.d("Data", data.key.text.toString())
+                        Log.d("valuie", data.value.text.toString())
+                        feature.add(
+                            Features(
+                                name = data.key.text!!.toString(),
+                                feature = data.value.text.toString()
+                            )
+                        )
                     }
                 }
-                if(acategory == "Real State")
-                {
-                    feature.add(Features(name="latitude",feature = latitude))
-                    feature.add(Features(name="longitude",feature = longitude))
+                if (acategory == "Real State") {
+                    feature.add(Features(name = "latitude", feature = latitude))
+                    feature.add(Features(name = "longitude", feature = longitude))
 
 
                 }
-                var product = Product(Name= name.text.toString(),UsedFor = used.text.toString().toInt(),Price = price.text.toString(),Description = description.text.toString(),Negotiable = nogotiable,Category = acategory, Condition = acondition,SoldOut = false,Features = feature,SubCategory = asub)
-                post(product)
+                var product = Product(
+                    Name = name.text.toString(),
+                    UsedFor = used.text.toString().toInt(),
+                    Price = price.text.toString(),
+                    Description = description.text.toString(),
+                    Negotiable = nogotiable,
+                    Category = acategory,
+                    Condition = acondition,
+                    SoldOut = false,
+                    Features = feature,
+                    SubCategory = asub
+                )
+                if (index > 0) {
+                    post(product)
+
+                } else {
+                    Toast.makeText(requireContext(), "Please Add Image First", Toast.LENGTH_SHORT).show()
+                }
             }
             R.id.search -> {
                 var lst: MutableList<Place.Field> = mutableListOf()
@@ -570,6 +586,7 @@ edt.hint ="${data}"
             }
             else if(requestCode == 0 && data!= null)
             {
+                index++
                 images.add(RetroftiService.getDataFromGallery(requireContext(), data)!!)
                 imageView.setImageBitmap(
                     BitmapFactory.decodeFile(
@@ -586,6 +603,7 @@ edt.hint ="${data}"
             }
             else if(requestCode ==1 && data !=null)
             {
+                index++
                 images.add(RetroftiService.getDataFromCamera(requireContext(), data!!)!!)
                 imageView.setImageBitmap(
                     BitmapFactory.decodeFile(
