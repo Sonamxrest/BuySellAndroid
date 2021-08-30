@@ -40,11 +40,19 @@ class Home : Fragment() {
 CoroutineScope(Dispatchers.IO).launch{
     try {
         var response = ProductRepo().getPost()
-        if(response.success!!)
+        if(response.success == true)
         {
             withContext(Main){
-                lst.clear()
                 lst = response.data!!
+                lst.shuffle()
+                rv.layoutManager =GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
+                var adapter = GroupAdapter<GroupieViewHolder>()
+                Log.d("data in list", lst.toString())
+                for(data in lst)
+                {
+                    adapter.add(ProductShowAdapter(requireContext(),data))
+                }
+                rv.adapter = adapter
             }
 
         }
@@ -53,13 +61,7 @@ CoroutineScope(Dispatchers.IO).launch{
 
     }
 }
-        rv.layoutManager =GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
-        var adapter = GroupAdapter<GroupieViewHolder>()
-        Log.d("data in list", lst.toString())
-        for(data in lst)
-        {
-            adapter.add(ProductShowAdapter(requireContext(),data))
-        }
+
         carousel.registerLifecycle(lifecycle)
         list.add(
             CarouselItem(
@@ -84,7 +86,7 @@ CoroutineScope(Dispatchers.IO).launch{
             )
         )
         carousel.setData(list)
-        rv.adapter = adapter
+
 
 
         return view

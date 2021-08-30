@@ -58,7 +58,7 @@ class ProductShowAdapter(val context: Context, val product:Product): Item<Groupi
         }
         price.text = "Rs "+product.Price
         name.text =product.Name
-        Glide.with(context).load("${product.Images!![0]}").into(image)
+        Glide.with(context).load(RetroftiService.loadImage(product.Images?.get(0)!!)).into(image)
 
     }
 

@@ -683,7 +683,7 @@ withContext(Main){
     }
 
     fun validate(edt:MutableList<EditText>):Boolean{
-
+        var flag = true
         for(data in edt)
         {
             if(data.text.toString().length ==0)
@@ -697,14 +697,15 @@ withContext(Main){
                     R.id.price -> data.setError("Please Enter Your Price")
 
                 }
+                flag = false
             }
         }
         if(name.text.toString().contains("1") || name.text.toString().contains("2") || name.text.toString().contains("3") ||name.text.toString().contains("4") ||name.text.toString().contains("5") ||name.text.toString().contains("6") ||name.text.toString().contains("7") ||name.text.toString().contains("8") ||name.text.toString().contains("9") ||name.text.toString().contains("0"))
         {
             name.setError("No Number Allowed in Name")
-            return false
+             flag = false
         }
-        return true
+        return flag
     }
 
 }
