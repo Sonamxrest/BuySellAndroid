@@ -27,6 +27,7 @@ object RetroftiService {
     val BASE_URL ="http://10.0.2.2:5000/"
     var token:String?=null
     var users: User?=null
+    var isOnline: Boolean? =null
     val okHttpClient = OkHttpClient.Builder().connectTimeout(5,TimeUnit.MINUTES).writeTimeout(5,TimeUnit.MINUTES).readTimeout(5,TimeUnit.MINUTES)
     val retrofitBuilder = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).client(
         okHttpClient.build())

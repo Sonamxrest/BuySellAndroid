@@ -85,6 +85,7 @@ class AddPost : Fragment(), View.OnClickListener {
     private var images:MutableList<String> = mutableListOf()
     var latitude =""
     var longitude =""
+    var index  = 0
     val cb:OnMapReadyCallback
     @SuppressWarnings("MissingPermission")
     get()= OnMapReadyCallback { p0 ->
@@ -373,7 +374,7 @@ conditions.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
     params.setMargins(6, 6, 6, 6)
     imageView.scaleType = ImageView.ScaleType.FIT_XY
     imageView.layoutParams = params
-    imageView.setImageResource(R.drawable.background_image_one_signin)
+    imageView.setImageResource(R.drawable.c)
 
         imageView.setOnClickListener(){
 
@@ -461,33 +462,53 @@ edt.hint ="${data}"
         when(v?.id)
         {
             R.id.register -> {
-                if(yes.isChecked==true)
-                {
-                    nogotiable= true
+                if (yes.isChecked == true) {
+                    nogotiable = true
+                } else if (no.isChecked) {
+                    nogotiable = false
                 }
-                else if(no.isChecked)
-                {
-                    nogotiable= false
-                }
-                var feature:MutableList<Features> = mutableListOf()
-                if(acategory!="Furniture")
-                {
-                    for (data in mc)
-                    {
-                        Log.d("Data",data.key.text.toString())
-                        Log.d("valuie",data.value.text.toString())
-                        feature.add(Features(name=data.key.text!!.toString(),feature = data.value.text.toString()))
+                var feature: MutableList<Features> = mutableListOf()
+                if (acategory != "Furniture") {
+                    for (data in mc) {
+                        Log.d("Data", data.key.text.toString())
+                        Log.d("valuie", data.value.text.toString())
+                        feature.add(
+                            Features(
+                                name = data.key.text!!.toString(),
+                                feature = data.value.text.toString()
+                            )
+                        )
                     }
                 }
-                if(acategory == "Real State")
-                {
-                    feature.add(Features(name="latitude",feature = latitude))
-                    feature.add(Features(name="longitude",feature = longitude))
+                if (acategory == "Real State") {
+                    feature.add(Features(name = "latitude", feature = latitude))
+                    feature.add(Features(name = "longitude", feature = longitude))
 
 
                 }
-                var product = Product(Name= name.text.toString(),UsedFor = used.text.toString().toInt(),Price = price.text.toString(),Description = description.text.toString(),Negotiable = nogotiable,Category = acategory, Condition = acondition,SoldOut = false,Features = feature,SubCategory = asub)
-                post(product)
+                var product = Product(
+                    Name = name.text.toString(),
+                    UsedFor = used.text.toString().toInt(),
+                    Price = price.text.toString(),
+                    Description = description.text.toString(),
+                    Negotiable = nogotiable,
+                    Category = acategory,
+                    Condition = acondition,
+                    SoldOut = false,
+                    Features = feature,
+                    SubCategory = asub
+                )
+                var edtLst = mutableListOf<EditText>(name, price, description, used)
+                if (index > 0) {
+                    if (validate(edtLst)) {
+                        post(product)
+
+                    }
+
+                } else {
+                    Toast.makeText(requireContext(), "Please Add Image First", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
             R.id.search -> {
                 var lst: MutableList<Place.Field> = mutableListOf()
@@ -570,6 +591,7 @@ edt.hint ="${data}"
             }
             else if(requestCode == 0 && data!= null)
             {
+                index++
                 images.add(RetroftiService.getDataFromGallery(requireContext(), data)!!)
                 imageView.setImageBitmap(
                     BitmapFactory.decodeFile(
@@ -586,6 +608,7 @@ edt.hint ="${data}"
             }
             else if(requestCode ==1 && data !=null)
             {
+                index++
                 images.add(RetroftiService.getDataFromCamera(requireContext(), data!!)!!)
                 imageView.setImageBitmap(
                     BitmapFactory.decodeFile(
@@ -637,6 +660,10 @@ withContext(Main){
     lottie.loop(true)
     lottie.playAnimation()
     success.text = "Complete"
+    price.setText(null)
+    name.setText(null)
+    description.setText(null)
+    used.setText(null)
     dialog.cancel()
     (requireActivity() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
         replace(R.id.fl,Home())
@@ -655,6 +682,29 @@ withContext(Main){
         super.onResume()
     }
 
+    fun validate(edt:MutableList<EditText>):Boolean{
 
+        for(data in edt)
+        {
+            if(data.text.toString().length ==0)
+            {
+                when(data.id)
+                {
+
+                    R.id.name -> data.setError("Please Enter Product Name")
+                    R.id.used -> data.setError("Please Product Used In Years")
+                    R.id.description -> data.setError("Please Enter Product Description")
+                    R.id.price -> data.setError("Please Enter Your Price")
+
+                }
+            }
+        }
+        if(name.text.toString().contains("1") || name.text.toString().contains("2") || name.text.toString().contains("3") ||name.text.toString().contains("4") ||name.text.toString().contains("5") ||name.text.toString().contains("6") ||name.text.toString().contains("7") ||name.text.toString().contains("8") ||name.text.toString().contains("9") ||name.text.toString().contains("0"))
+        {
+            name.setError("No Number Allowed in Name")
+            return false
+        }
+        return true
+    }
 
 }

@@ -3,6 +3,7 @@ package com.xrest.buysell.Adapters
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -11,14 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xrest.buysell.Activity.Dashboard
+import com.xrest.buysell.Activity.mediaPlayer
 import com.xrest.buysell.Fragments.InnerProduct
 import com.xrest.buysell.R
-import com.xrest.buysell.Retrofit.Product
-import com.xrest.buysell.Retrofit.Productss
+import com.xrest.buysell.Retrofit.*
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
-import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.Retrofit.Routes.Products
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -42,10 +45,59 @@ class MainProductAdapter(var context:Context,var product: Product):Item<GroupieV
         var name:TextView = view.findViewById(R.id.name)
         var price:TextView = view.findViewById(R.id.price)
         var sold:TextView = view.findViewById(R.id.sold)
+        var comment:ImageButton = view.findViewById(R.id.comment)
         var menu: ImageButton = viewHolder.itemView.findViewById(R.id.menu)
         menu.isVisible = false
         sold.isVisible = false
+comment.setOnClickListener(){
+    var dailog = BottomSheetDialog(context)
+    dailog.setContentView(R.layout.comment)
+    dailog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+    var rv = dailog.findViewById<RecyclerView>(R.id.rv)
+    rv!!.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+if(product.Comments?.size!! > 0)
+{
+    rv.adapter = CommentAdapter(context , product.Comments!!,product._id!!)
 
+}
+    var edt = dailog.findViewById<EditText>(R.id.editText)
+    var button = dailog.findViewById<Button>(R.id.comment)
+    button!!.setOnClickListener(){
+        CoroutineScope(Dispatchers.IO).launch {
+            var person = RetroftiService.users
+            try{
+                CoroutineScope(Dispatchers.IO).launch {
+                    val reposen = ProductRepo().comment(Comment(_id = product._id,comment = edt!!.text.toString()))
+                    if(reposen.success==true)
+                    {
+                        withContext(Dispatchers.Main)
+                        {
+                            product.Comments!!.add(
+                                Comment(user= Person(_id= person!!._id,Name=person.Name,Username = person.Username,Profile = person.Profile),comment = edt.text.toString())
+                            )
+
+                            dailog.cancel()
+
+                        }
+
+
+
+                    }
+
+                }
+            }
+            catch (ex: Exception){
+
+            }
+        }
+    }
+    var cancel = dailog.findViewById<Button>(R.id.cancel)
+    cancel!!.setOnClickListener(){
+        dailog.cancel()
+    }
+    dailog.show()
+    dailog.setCancelable(true)
+}
         if(product.User?._id == RetroftiService.users?._id)
         {
             menu.isVisible = true
@@ -140,10 +192,13 @@ var bundle =Bundle()
         {
             sold.isVisible = true;
         }
+        Log.d("mmm",RetroftiService.loadImage(product.Images?.get(0)!!))
        Glide.with(context).load(RetroftiService.loadImage(product.Images?.get(0)!!)).into(carousel)
         name.text ="Name: "+ product.Name!!
         price.text = "Rs: "+product.Price!!
     }
+
+
 
     override fun getLayout(): Int {
      return R.layout.main_product_layout

@@ -11,6 +11,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -33,37 +35,50 @@ class Splash : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-Handler().postDelayed({
-    if(requireContext().getSharedPreferences("onBoarding",Activity.MODE_PRIVATE).getBoolean("Boarding",false)!=true)
-    {
-        Navigation.findNavController(requireView()).navigate(R.id.action_splash_to_startActions)
+var view = inflater.inflate(R.layout.fragment_splash, container, false)
+      RetroftiService.isOnline = checkNetworkConnection()
+        if(RetroftiService.isOnline!!)
+        {
 
-    }
-    else{
-        var pref = requireContext().getSharedPreferences("userLogin",Activity.MODE_PRIVATE)
-        CoroutineScope(Dispatchers.IO).launch {
-
-            var response =
-                UserRepository().login(pref.getString("username","")!!,pref.getString("password","")!!)
-            if (response.success == true) {
-                withContext(Dispatchers.Main)
+            Handler().postDelayed({
+                if(requireContext().getSharedPreferences("onBoarding",Activity.MODE_PRIVATE).getBoolean("Boarding",false)!=true)
                 {
-
-                    RetroftiService.token ="Bearer "+ response.token!!
-                    RetroftiService.users = response.user!!
-                    requireContext().startActivity(Intent(requireContext(), Dashboard::class.java))
+                    Navigation.findNavController(requireView()).navigate(R.id.action_splash_to_startActions)
 
                 }
-            } else {
-                Navigation.findNavController(requireView()).navigate(R.id.action_splash_to_loginSignup)
-            }
+                else{
+                    var pref = requireContext().getSharedPreferences("userLogin",Activity.MODE_PRIVATE)
+                    CoroutineScope(Dispatchers.IO).launch {
 
+                        var response =
+                            UserRepository().login(pref.getString("username","")!!,pref.getString("password","")!!)
+                        if (response.success == true) {
+                            withContext(Dispatchers.Main)
+                            {
+
+                                RetroftiService.token ="Bearer "+ response.token!!
+                                RetroftiService.users = response.user!!
+                                requireContext().startActivity(Intent(requireContext(), Dashboard::class.java))
+
+                            }
+                        } else {
+                            withContext(Main)
+                            {
+                                Navigation.findNavController(requireView()).navigate(R.id.action_splash_to_loginSignup)
+
+                            }
+                        }
+
+
+                    }
+
+                } },3000)
 
         }
-
-    } },3000)
-
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        else{
+            Toast.makeText(requireContext(), "Unregistered Network", Toast.LENGTH_SHORT).show()
+        }
+        return view
 
     }
 
