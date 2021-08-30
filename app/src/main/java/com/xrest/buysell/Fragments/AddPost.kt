@@ -374,7 +374,7 @@ conditions.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
     params.setMargins(6, 6, 6, 6)
     imageView.scaleType = ImageView.ScaleType.FIT_XY
     imageView.layoutParams = params
-    imageView.setImageResource(R.drawable.background_image_one_signin)
+    imageView.setImageResource(R.drawable.c)
 
         imageView.setOnClickListener(){
 
@@ -498,11 +498,16 @@ edt.hint ="${data}"
                     Features = feature,
                     SubCategory = asub
                 )
+                var edtLst = mutableListOf<EditText>(name, price, description, used)
                 if (index > 0) {
-                    post(product)
+                    if (validate(edtLst)) {
+                        post(product)
+
+                    }
 
                 } else {
-                    Toast.makeText(requireContext(), "Please Add Image First", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Please Add Image First", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             R.id.search -> {
@@ -655,6 +660,10 @@ withContext(Main){
     lottie.loop(true)
     lottie.playAnimation()
     success.text = "Complete"
+    price.setText(null)
+    name.setText(null)
+    description.setText(null)
+    used.setText(null)
     dialog.cancel()
     (requireActivity() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
         replace(R.id.fl,Home())
@@ -673,6 +682,29 @@ withContext(Main){
         super.onResume()
     }
 
+    fun validate(edt:MutableList<EditText>):Boolean{
 
+        for(data in edt)
+        {
+            if(data.text.toString().length ==0)
+            {
+                when(data.id)
+                {
+
+                    R.id.name -> data.setError("Please Enter Product Name")
+                    R.id.used -> data.setError("Please Product Used In Years")
+                    R.id.description -> data.setError("Please Enter Product Description")
+                    R.id.price -> data.setError("Please Enter Your Price")
+
+                }
+            }
+        }
+        if(name.text.toString().contains("1") || name.text.toString().contains("2") || name.text.toString().contains("3") ||name.text.toString().contains("4") ||name.text.toString().contains("5") ||name.text.toString().contains("6") ||name.text.toString().contains("7") ||name.text.toString().contains("8") ||name.text.toString().contains("9") ||name.text.toString().contains("0"))
+        {
+            name.setError("No Number Allowed in Name")
+            return false
+        }
+        return true
+    }
 
 }
