@@ -106,6 +106,7 @@ lateinit var name:EditText
     }
 
     fun validate(edt:MutableList<EditText>):Boolean{
+        var flag = true
        for(data in edt)
        {
            if(data.text.toString().length ==0)
@@ -119,6 +120,7 @@ lateinit var name:EditText
                    R.id.cpassword -> data.setError("Please Enter Your Password")
 
                }
+               flag = false
            }
            else{
 
@@ -129,13 +131,25 @@ lateinit var name:EditText
                        if(data.text.length<8)
                        {
                            data.setError("Password must be long than 8 letters")
+                           flag = false
+                       }
+                   }
+                   R.id.phone ->{
+                       if(data.text.length < 10 || data.text.length > 10)
+                       {
+                           data.setError("Not valid Number")
                        }
                    }
                }
 
            }
        }
-       return true
+        if(name.text.toString().contains("1") || name.text.toString().contains("2") || name.text.toString().contains("3") ||name.text.toString().contains("4") ||name.text.toString().contains("5") ||name.text.toString().contains("6") ||name.text.toString().contains("7") ||name.text.toString().contains("8") ||name.text.toString().contains("9") ||name.text.toString().contains("0"))
+        {
+            name.setError("No Number Allowed in Name")
+            flag = false
+        }
+       return flag
    }
 
 
@@ -144,7 +158,17 @@ lateinit var name:EditText
         {
             R.id.register -> {
                 var qa:MutableList<Question> = mutableListOf()
-dialog(qa)
+                var lst: MutableList<EditText> = mutableListOf()
+                lst.add(name)
+                lst.add(phone)
+                lst.add(username)
+                lst.add(password)
+                lst.add(cpassword)
+                if(validate(lst))
+                {
+                    dialog(qa)
+                }
+
 
             }
             R.id.profile ->{
@@ -157,7 +181,7 @@ dialog(qa)
     private fun dialog(qa: MutableList<Question>) :Boolean{
         var q = ""
         var p = 0
-        var result :Boolean = false
+        var result  = false
         var dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.questions)
         dialog.window!!.setLayout(
@@ -197,13 +221,7 @@ dialog(qa)
             if (count == 3)
             {
 
-                var lst: MutableList<EditText> = mutableListOf()
-                lst.add(name)
-                lst.add(phone)
-                lst.add(username)
-                lst.add(password)
-                lst.add(cpassword)
-                if (validate(lst)) {
+
 
                     if (password.text.toString() == cpassword.text.toString()) {
 
@@ -248,14 +266,6 @@ dialog(qa)
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }
-                else{
-                    Toast.makeText(
-                        requireContext(),
-                        "Password did  matched",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
                 result =true
             }else{
                 dialog(qa)
