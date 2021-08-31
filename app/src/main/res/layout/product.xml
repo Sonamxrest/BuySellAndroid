@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/container"
     android:paddingTop="7.5dp"
     android:paddingBottom="8dp">
 
@@ -27,6 +28,7 @@
             android:layout_marginBottom="7.7dp"
             android:fontFamily="@font/main_font"
             android:gravity="center"
+
             android:text="$ 329"
             android:textColor="#ffffff"
             android:textSize="8sp"
@@ -61,6 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:fontFamily="@font/main_font"
             android:text="INFO &amp; CARE"
             android:textColor="#ffffff"

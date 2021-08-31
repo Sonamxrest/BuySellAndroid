@@ -13,7 +13,8 @@ data class User(
     var Friends:MutableList<friend>?=null,
     var Questions:MutableList<Question>?=null,
     var Likes:MutableList<Productss>?=null,
-var Rating : MutableList<Rating>? =null
+var Rating : MutableList<Rating>? =null,
+    var Cash:Int?=null
 ):Serializable
 
 data class Rating(
@@ -42,7 +43,8 @@ data class Person(
     var Username:String?=null,
     var PhoneNumber:String?=null,
     var Profile:String?=null,
-    var isOnline:Boolean?=null
+    var isOnline:Boolean?=null,
+    var Rating : MutableList<Rating>? =null
 ):Serializable
 data class friend(
     val _id:String?=null,

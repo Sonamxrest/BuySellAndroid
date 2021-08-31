@@ -8,18 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.xrest.buysell.Activity.user
+import com.xrest.buysell.Adapters.PayUserAdapter
 import com.xrest.buysell.Adapters.WishListAdapter
 import com.xrest.buysell.R
+import com.xrest.buysell.Retrofit.Person
 import com.xrest.buysell.Retrofit.Productss
 import com.xrest.buysell.Retrofit.Repo.UserRepository
+import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.SwipeToDeleteCallback
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
@@ -62,8 +70,20 @@ var lst:MutableList<Productss> = mutableListOf()
 
                 pay.setOnClickListener(){
                     var bottomSheet = Dialog(requireContext())
-                    bottomSheet.setContentView(R.layout.dealsewalogin)
+                    bottomSheet.setContentView(R.layout.addtocart)
                     bottomSheet.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                    var rv:RecyclerView = bottomSheet.findViewById(R.id.rv)
+                    var money:TextView = bottomSheet.findViewById(R.id.money)
+                    var image:ImageView = bottomSheet.findViewById(R.id.imageView2)
+                    var userList = mutableListOf<Person>()
+                    for(data in lst)
+                    {
+                        userList.add(data.product?.User!!)
+                    }
+                    money.text = RetroftiService.users?.Cash.toString()
+                    Glide.with(requireContext()).load(RetroftiService.loadImage(RetroftiService.users?.Profile!!)).into(image)
+                    rv.layoutManager = GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
+                    rv.adapter = PayUserAdapter(requireContext(), userList)
                     bottomSheet.show()
                     bottomSheet.setCancelable(true)
 
