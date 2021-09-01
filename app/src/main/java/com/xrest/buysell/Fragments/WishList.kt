@@ -97,16 +97,15 @@ CoroutineScope(Dispatchers.IO).launch {
     var flag = false
     for(i in 0..lst.size -1)
     {
-        var response = UserRepository().pay(lst[i].product!!.User!!._id.toString(),amount.text.toString(),desc.text.toString())
-        var response2 = ProductRepo().Like(lst[i].product?._id!!)
-        var response3 = ProductRepo().sold(lst[i].product?._id!!)
-        if(response.success == true && response2.success == true && response3.success == true)
+        if(lst[i].product!!.User!!._id !=RetroftiService.users!!._id)
         {
-           flag = true
+            var response = UserRepository().pay(lst[i].product!!.User!!._id.toString(),amount.text.toString(),desc.text.toString(),lst[i].product?._id!!)
+            var response2 = ProductRepo().Like(lst[i].product?._id!!)
+            var response3 = ProductRepo().sold(lst[i].product?._id!!)
+            flag = response.success == true && response2.success == true && response3.success == true
         }
-        else{
-            flag = false
-        }
+
+
     }
     withContext(Main){
         if(flag==true)

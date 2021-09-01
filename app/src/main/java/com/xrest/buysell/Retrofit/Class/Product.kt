@@ -21,7 +21,21 @@ data class Product(
     var Features:MutableList<Features>?=null,
     var Comments:MutableList<Comment>?=null
 ):Serializable
+data class Prod(
 
+    val _id:String?=null,
+    val Name:String?=null,
+    var createdAt:String?=null,
+    var Category:String?=null,
+    var SubCategory:String?=null,
+    var Price:String?=null,
+    var Negotiable:Boolean?=null,
+    var SoldOut:Boolean?=null,
+    var UsedFor:Int?=null,
+    var Condition:String?=null,
+    var Description:String?=null,
+    var Images:MutableList<String>?=null,
+):Serializable
 data class Features(
     var _id:String?=null,
     var name:String?=null,
