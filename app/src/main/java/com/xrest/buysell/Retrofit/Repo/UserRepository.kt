@@ -76,6 +76,10 @@ suspend fun rate(id:String, rating:String):CommonResponse{
         api.rate(RetroftiService.token!!,id,rating)
     }
 }
-
+suspend fun pay(toId:String, amount:String, desc:String):CommonResponse{
+    return handleApiRequest {
+        api.pay(RetroftiService.token!!,toId,amount,desc)
+    }
+}
 
 }
