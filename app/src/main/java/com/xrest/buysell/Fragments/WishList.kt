@@ -11,21 +11,25 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.xrest.buysell.Activity.user
 import com.xrest.buysell.Adapters.PayUserAdapter
 import com.xrest.buysell.Adapters.WishListAdapter
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Person
 import com.xrest.buysell.Retrofit.Productss
+import com.xrest.buysell.Retrofit.Repo.ProductRepo
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.SwipeToDeleteCallback
@@ -75,6 +79,49 @@ var lst:MutableList<Productss> = mutableListOf()
                     var rv:RecyclerView = bottomSheet.findViewById(R.id.rv)
                     var money:TextView = bottomSheet.findViewById(R.id.money)
                     var image:ImageView = bottomSheet.findViewById(R.id.imageView2)
+                    var amount:TextInputEditText = bottomSheet.findViewById(R.id.amount)
+                    var desc = bottomSheet.findViewById<TextInputEditText>(R.id.desc)
+                    var button = bottomSheet.findViewById<Button>(R.id.button)
+                    button.setOnClickListener(){
+                        bottomSheet.cancel()
+                        var dialog = Dialog(requireContext())
+                        dialog.setContentView(R.layout.success_notification)
+                        dialog.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                        var lottie = dialog.findViewById<LottieAnimationView>(R.id.lottie)
+                        var success = dialog.findViewById<TextView>(R.id.success)
+                        success.text="Uploading"
+                        dialog.show()
+                        dialog.setCancelable(false)
+CoroutineScope(Dispatchers.IO).launch {
+    var i=0
+    var flag = false
+    for(i in 0..lst.size -1)
+    {
+        var response = UserRepository().pay(lst[i].product!!.User!!._id.toString(),amount.text.toString(),desc.text.toString())
+        var response2 = ProductRepo().Like(lst[i].product?._id!!)
+        var response3 = ProductRepo().sold(lst[i].product?._id!!)
+        if(response.success == true && response2.success == true && response3.success == true)
+        {
+           flag = true
+        }
+        else{
+            flag = false
+        }
+    }
+    withContext(Main){
+        if(flag==true)
+        {
+            lottie.setAnimation(R.raw.success)
+            lottie.loop(true)
+            lottie.playAnimation()
+            success.text = "Complete"
+            amount.setText(null)
+            desc.setText(null)
+            dialog.cancel()
+        }
+    }
+}
+                    }
                     var userList = mutableListOf<Person>()
                     for(data in lst)
                     {
@@ -122,4 +169,8 @@ var lst:MutableList<Productss> = mutableListOf()
         itemTouchhelper.attachToRecyclerView(rv)
     }
 
+    override fun onResume() {
+        (requireContext() as AppCompatActivity).supportActionBar!!.hide()
+        super.onResume()
+    }
 }
