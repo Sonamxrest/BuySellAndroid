@@ -1,10 +1,7 @@
 package com.xrest.buysell.Retrofit.Routes
 
 import com.xrest.buysell.Retrofit.*
-import com.xrest.buysell.Retrofit.Response.CommonResponse
-import com.xrest.buysell.Retrofit.Response.FriendResponse
-import com.xrest.buysell.Retrofit.Response.FriendResponses
-import com.xrest.buysell.Retrofit.Response.LoginResponse
+import com.xrest.buysell.Retrofit.Response.*
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -40,4 +37,9 @@ interface UserRoutes {
     @FormUrlEncoded
     @PUT("/rate/{id}")
     suspend fun rate(@Header("Authorization") token:String,@Path("id") id:String,@Field("Rating") rate:String):Response<CommonResponse>
+@FormUrlEncoded
+@PUT("/pay/{id}")
+suspend fun pay(@Header("Authorization") token:String, @Path("id") toId:String,@Field("amount") amount:String,@Field("desc")desc:String):Response<CommonResponse>
+@GET("/transaction")
+suspend fun trans(@Header("Authorization") token:String):Response<tresponse>
 }

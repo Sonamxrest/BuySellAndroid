@@ -82,6 +82,7 @@ var lst:MutableList<Productss> = mutableListOf()
                     }
                     money.text = RetroftiService.users?.Cash.toString()
                     Glide.with(requireContext()).load(RetroftiService.loadImage(RetroftiService.users?.Profile!!)).into(image)
+
                     rv.layoutManager = GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
                     rv.adapter = PayUserAdapter(requireContext(), userList)
                     bottomSheet.show()
