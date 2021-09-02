@@ -45,10 +45,7 @@ class TransactionFragment : Fragment() {
                 }
             }
         }
-        if(lst.size==0)
-            {
-            res.isVisible = true
-        }
+
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = BillAdapter(requireContext(),send())
         var bottomNav :BottomNavigationView = view.findViewById(R.id.nav)
