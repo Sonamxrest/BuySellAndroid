@@ -37,6 +37,10 @@
             android:id="@+id/chat"
             android:icon="@drawable/ic_baseline_chat_24"
             />
+        <item android:title="Transactions"
+            android:id="@+id/transaction"
+            android:icon="@drawable/ic_baseline_chat_24"
+            />
         <item android:title="Logout"
             android:id="@+id/logout"
             android:icon="@drawable/ic_baseline_exit_to_app_24"/>

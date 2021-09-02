@@ -1,10 +1,7 @@
 package com.xrest.buysell.Retrofit.Repo
 
 import com.xrest.buysell.Retrofit.*
-import com.xrest.buysell.Retrofit.Response.CommonResponse
-import com.xrest.buysell.Retrofit.Response.FriendResponse
-import com.xrest.buysell.Retrofit.Response.FriendResponses
-import com.xrest.buysell.Retrofit.Response.LoginResponse
+import com.xrest.buysell.Retrofit.Response.*
 import com.xrest.buysell.Retrofit.Routes.UserRoutes
 import okhttp3.MultipartBody
 
@@ -76,10 +73,14 @@ suspend fun rate(id:String, rating:String):CommonResponse{
         api.rate(RetroftiService.token!!,id,rating)
     }
 }
-suspend fun pay(toId:String, amount:String, desc:String):CommonResponse{
+suspend fun pay(toId:String, amount:String, desc:String,id:String):CommonResponse{
     return handleApiRequest {
-        api.pay(RetroftiService.token!!,toId,amount,desc)
+        api.pay(RetroftiService.token!!,toId,amount,desc,id)
     }
 }
-
+suspend fun tr():tresponse{
+    return handleApiRequest {
+        api.trans(RetroftiService.token!!)
+    }
+}
 }

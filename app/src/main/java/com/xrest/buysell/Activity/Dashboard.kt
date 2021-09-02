@@ -102,6 +102,10 @@ class Dashboard : AppCompatActivity() {
                 R.id.order->{
                     currentFrag(ShowUsers())
                 }
+                R.id.transaction->{
+                    currentFrag(TransactionFragment())
+
+                }
                 R.id.logout->{
 //                    var intent = Intent(this@Dashboard,MainActivity::class.java);
 //                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
