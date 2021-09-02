@@ -100,6 +100,7 @@ var lst:MutableList<Person> = mutableListOf()
 
     private fun loadData(view: View) {
         try {
+            lst.clear()
             view.findViewById<ShimmerFrameLayout>(R.id.shimmer).isVisible = true
             CoroutineScope(Dispatchers.IO).launch {
                 var reponse = UserRepository().showAll()

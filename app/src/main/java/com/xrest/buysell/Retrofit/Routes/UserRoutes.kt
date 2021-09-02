@@ -42,4 +42,8 @@ interface UserRoutes {
 suspend fun pay(@Header("Authorization") token:String, @Path("id") toId:String,@Field("amount") amount:String,@Field("desc")desc:String,@Field("product")product:String):Response<CommonResponse>
 @GET("/transaction")
 suspend fun trans(@Header("Authorization") token:String):Response<tresponse>
+
+@FormUrlEncoded
+@PUT("/checkPassword")
+suspend fun check(@Header("Authorization") token:String,@Field("password")password:String):Response<CommonResponse>
 }

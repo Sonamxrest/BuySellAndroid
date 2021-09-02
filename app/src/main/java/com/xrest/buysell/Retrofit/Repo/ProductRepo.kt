@@ -2,6 +2,7 @@ package com.xrest.buysell.Retrofit.Repo
 
 import com.xrest.buysell.Retrofit.*
 import com.xrest.buysell.Retrofit.Response.CommonResponse
+import com.xrest.buysell.Retrofit.Response.LoginResponse
 import com.xrest.buysell.Retrofit.Response.ProductResponse
 import com.xrest.buysell.Retrofit.Routes.Products
 import okhttp3.MultipartBody
@@ -35,7 +36,7 @@ import okhttp3.MultipartBody
     }
 
 
-    suspend fun Like(id:String): CommonResponse {
+    suspend fun Like(id:String): LoginResponse {
         return handleApiRequest {
             api.likeProduct(RetroftiService.token!!,id)
         }

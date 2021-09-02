@@ -54,7 +54,7 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
         }
 
         holder.name.text = product.product?.Name
-        holder.price.text = product.product?.Price
+        holder.price.text = "Rs "+ product.product?.Price
         holder.cat.text = product.product?.Category
         holder.like.text = product.product?.Likes?.size.toString()
         holder.comment.text = product.product?.Comments?.size.toString()

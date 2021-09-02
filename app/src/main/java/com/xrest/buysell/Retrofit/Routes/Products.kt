@@ -3,6 +3,7 @@ package com.xrest.buysell.Retrofit.Routes
 import com.xrest.buysell.Retrofit.Comment
 import com.xrest.buysell.Retrofit.Response.CommonResponse
 import com.xrest.buysell.Retrofit.Product
+import com.xrest.buysell.Retrofit.Response.LoginResponse
 import com.xrest.buysell.Retrofit.Response.ProductResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -24,7 +25,7 @@ suspend fun getProduct():Response<ProductResponse>
 suspend fun updateProduct(@Path("id")id:String,@Body product: Product):Response<CommonResponse>
 
 @PUT("/like/{id}")
-suspend fun likeProduct(@Header("Authorization")token:String, @Path("id")id:String):Response<CommonResponse>
+suspend fun likeProduct(@Header("Authorization")token:String, @Path("id")id:String):Response<LoginResponse>
 
 
 @PUT("/comment")
