@@ -83,4 +83,9 @@ suspend fun tr():tresponse{
         api.trans(RetroftiService.token!!)
     }
 }
+    suspend fun check(passowrd:String):CommonResponse{
+        return handleApiRequest {
+            api.check(RetroftiService.token!!,passowrd)
+        }
+    }
 }

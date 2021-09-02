@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xrest.buysell.Activity.Dashboard
 import com.xrest.buysell.Activity.mediaPlayer
 import com.xrest.buysell.Fragments.InnerProduct
+import com.xrest.buysell.Fragments.UpdateProduct
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.*
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
@@ -110,7 +111,10 @@ if(product.Comments?.size!! > 0)
                 {
                     R.id.navUpdate->{
 
-//                        popUpForm()
+                        (context as AppCompatActivity)!!.supportFragmentManager.beginTransaction().apply {
+                            replace(R.id.fl,UpdateProduct(product))
+                            commit()
+                        }
                     }
                     R.id.navDelete -> {
                         CoroutineScope(Dispatchers.IO).launch {
@@ -173,6 +177,7 @@ var bundle =Bundle()
                         withContext(Main)
                         {
                             Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
+                            RetroftiService.users = response.user!!
 
                         }
 
@@ -180,6 +185,7 @@ var bundle =Bundle()
                     else{
                         withContext(Main)
                         {
+                            RetroftiService.users = response.user!!
                             Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
                         }
                     }

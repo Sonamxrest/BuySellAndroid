@@ -1,5 +1,9 @@
 package com.xrest.buysell.Adapters
 
+import com.xrest.buysell.Retrofit.Productss
+
+
+
 import android.content.Context
 import android.os.Bundle
 import android.widget.*
@@ -42,12 +46,14 @@ class ProductShowAdapter(val context: Context, val product:Product): Item<Groupi
         }
         like.setOnClickListener(){
             try {
+
                 CoroutineScope(Dispatchers.IO).launch {
                     var response = ProductRepo().Like(product!!._id!!)
                     if(response.success==true)
                     {
                         withContext(Dispatchers.Main)
                         {
+                            RetroftiService.users = response.user!!
                             Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
 
                         }
@@ -56,6 +62,7 @@ class ProductShowAdapter(val context: Context, val product:Product): Item<Groupi
                     else{
                         withContext(Dispatchers.Main)
                         {
+                            RetroftiService.users = response.user!!
                             Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
                         }
                     }

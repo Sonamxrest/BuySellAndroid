@@ -56,7 +56,7 @@ import java.lang.Exception
         }
 
         holder.name.text = product?.Name
-        holder.price.text = product?.Price
+        holder.price.text = "Rs. "+ product?.Price
         holder.cat.text = product?.Category
         holder.like.text = product?.Likes?.size.toString()
         holder.comment.text = product?.Comments?.size.toString()

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,10 +53,13 @@ class TransactionFragment : Fragment() {
         bottomNav.setOnNavigationItemSelectedListener {
             when(it.itemId)
             {
-                R.id.sent->{
-                    rv.adapter = BillAdapter(requireContext(),send())
+                R.id.sent -> {
+                    Toast.makeText(requireContext(), "Clicked Sent", Toast.LENGTH_SHORT).show()
+                    rv.adapter = BillAdapter(requireContext(), send())
                 }
-                R.id.recieve ->{
+                R.id.recieved ->{
+                    Toast.makeText(requireContext(), "Clicked rec", Toast.LENGTH_SHORT).show()
+
                     rv.adapter = BillAdapter(requireContext(),rec())
                 }
             }

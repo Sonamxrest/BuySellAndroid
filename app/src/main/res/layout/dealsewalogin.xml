@@ -92,7 +92,6 @@
                     android:id="@+id/bio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:backgroundTint="#FFFFFF"
                     android:src="@drawable/ic_baseline_fingerprint_24" />
                 <TextView
