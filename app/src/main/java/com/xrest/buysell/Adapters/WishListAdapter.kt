@@ -96,18 +96,19 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
                 {
                     withContext(Dispatchers.Main)
                     {
-//                        lst.removeAt(position)
+                        lst.removeAt(position)
                         notifyDataSetChanged()
                         Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
-
+                        RetroftiService.users = response.user!!
                     }
 
                 }
                 else{
                     withContext(Dispatchers.Main)
                     {
-//                        lst.removeAt(position)
+                        lst.removeAt(position)
                         notifyDataSetChanged()
+                        RetroftiService.users = response.user!!
                         Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
                     }
                 }

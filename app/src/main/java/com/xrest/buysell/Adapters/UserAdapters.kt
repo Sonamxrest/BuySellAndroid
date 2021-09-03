@@ -58,6 +58,8 @@ class UserAdapters(var lst: MutableList<Person>, var context: Context) :
             }
         }
         holder.add.setOnClickListener() {
+            Toast.makeText(context, "Request Sent Successfully", Toast.LENGTH_SHORT)
+                .show()
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = RequestRepo().sendRequest(user._id!!)

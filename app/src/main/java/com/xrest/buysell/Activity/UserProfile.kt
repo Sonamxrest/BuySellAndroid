@@ -2,10 +2,8 @@ package com.xrest.buysell.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.RatingBar
-import android.widget.ScrollView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,6 +13,7 @@ import com.xrest.buysell.Adapters.WishAdapter
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Product
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
+import com.xrest.buysell.Retrofit.Repo.RequestRepo
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.Retrofit.User
@@ -37,6 +36,7 @@ class UserProfile : AppCompatActivity() {
     lateinit var user: User
     lateinit var rate: RatingBar
     lateinit var pcount : TextView
+    lateinit var button: Button
     var adapter = GroupAdapter<GroupieViewHolder>()
     var lst:MutableList<Product> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +44,25 @@ class UserProfile : AppCompatActivity() {
         setContentView(R.layout.activity_user_profile)
         var cl:ScrollView = findViewById(R.id.container)
         rate = findViewById(R.id.rb)
+        button = findViewById(R.id.add)
+
+        button.setOnClickListener(){
+            Toast.makeText(this@UserProfile, "Request Sent Successfully", Toast.LENGTH_SHORT)
+                .show()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = RequestRepo().sendRequest(user._id!!)
+                    if (response.success == true) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@UserProfile, "Request Sent Successfully", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                } catch (ex: Exception) {
+
+                }
+            }
+        }
         var userNumber = intent.getStringExtra("number")
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -53,7 +72,15 @@ class UserProfile : AppCompatActivity() {
                     user = response.user!!
                     withContext(Main){
 
+                        for(data in user.Friends!!)
+                        {
+                            if(data.user._id==RetroftiService.users!!._id)
+                            {
+                                button.isVisible = false
+                            }
+                        }
             findViewById<TextView>(R.id.name).text = user.Name!!
+                        findViewById<TextView>(R.id.review).text = "No. of Reviews: "+user.Rating!!.size.toString()!!
                         if(user!!.Rating!!.size>0)
                         {
                             var total =0
@@ -61,7 +88,7 @@ class UserProfile : AppCompatActivity() {
                             {
                                 total += data.rating!!
                             }
-                            findViewById<TextView>(R.id.ra).text = (total/user!!.Rating!!.size).toString()
+                            findViewById<TextView>(R.id.ra).text = (total/user!!.Rating!!.size).toFloat().toString()
                             rate.rating = (total/user!!.Rating!!.size).toFloat()
 
                         }
@@ -126,7 +153,9 @@ class UserProfile : AppCompatActivity() {
                         pcount = findViewById(R.id.totalProduct)
                         pcount.text = lst.size.toString()
                         //dialog.cancel()
-                        rv.adapter =WishAdapter(lst,this@UserProfile)
+                        var adapter = GroupAdapter<GroupieViewHolder>()
+
+                        rv.adapter = MainProductAdapter(this@UserProfile,lst)
                     }
                 }
             }

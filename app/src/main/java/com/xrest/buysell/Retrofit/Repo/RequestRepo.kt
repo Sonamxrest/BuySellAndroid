@@ -3,6 +3,7 @@ package com.xrest.buysell.Retrofit.Repo
 import com.xrest.buysell.Retrofit.Class.Request
 import com.xrest.buysell.Retrofit.HandleApiReuest
 import com.xrest.buysell.Retrofit.Response.CommonResponse
+import com.xrest.buysell.Retrofit.Response.LoginResponse
 import com.xrest.buysell.Retrofit.Response.RequestResponse
 import com.xrest.buysell.Retrofit.Response.RequestSocketResponse
 import com.xrest.buysell.Retrofit.RetroftiService
@@ -18,7 +19,7 @@ class RequestRepo:HandleApiReuest() {
         }
 
     }
-    suspend fun acceptReq(data: Request):CommonResponse{
+    suspend fun acceptReq(data: Request):LoginResponse{
         return handleApiRequest {
             api.acceptRequest(RetroftiService.token!!,data)
         }

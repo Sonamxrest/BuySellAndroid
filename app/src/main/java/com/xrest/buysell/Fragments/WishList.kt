@@ -268,7 +268,6 @@ var lst:MutableList<Productss> = mutableListOf()
                         "Item was removed from the list.",
                         Snackbar.LENGTH_LONG
                     )
-lst.removeAt(position)
                 pay.isVisible = lst.size > 0
                 snackbar.show()
             }
