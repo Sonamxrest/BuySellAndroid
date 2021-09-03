@@ -4,10 +4,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.Service
 import android.content.Context
-import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -16,21 +14,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.ContentInfoCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
-import com.xrest.buysell.Adapters.ChatItem
-import com.xrest.buysell.Adapters.ChatItem2
-import com.xrest.buysell.Adapters.ImageAdapter
-import com.xrest.buysell.Adapters.ImageAdapter2
 import com.xrest.buysell.Fragments.*
 import com.xrest.buysell.R
-import com.xrest.buysell.Retrofit.InnerMessage
-import com.xrest.buysell.Retrofit.Person
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 import com.xrest.buysell.Retrofit.User
@@ -62,7 +53,7 @@ class Dashboard : AppCompatActivity() {
         val request= Request.Builder().url(url).build()
         socket = okHttpClient.newWebSocket(request, SocketListener(applicationContext))
         drawer = findViewById(R.id.dl)
-        toggle = ActionBarDrawerToggle(this,drawer, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close)
         toggle.syncState()
        // setSupportActionBar(findViewById(R.id.my_toolbar))
       //nav = Navigation.findNavController(this,R.id.fl)
@@ -72,7 +63,9 @@ class Dashboard : AppCompatActivity() {
         var cp:CircleImageView = header.findViewById(R.id.profile)
         var name:TextView = header.findViewById(R.id.name)
         name.text = RetroftiService.users!!.Name
-        Glide.with(this).load("${RetroftiService.BASE_URL}uploads/${RetroftiService.users!!.Profile}").into(cp)
+        Glide.with(this).load("${RetroftiService.BASE_URL}uploads/${RetroftiService.users!!.Profile}").into(
+            cp
+        )
         drawer.addDrawerListener(toggle)
 //        //supportActionBar!!.setBackgroundDrawable( ColorDrawable(Color.parseColor("#0277BD")));
 //        supportActionBar!!.setDisplayShowTitleEnabled(false);
@@ -83,61 +76,80 @@ class Dashboard : AppCompatActivity() {
             {
                 R.id.add -> {
                     currentFrag(AddPost())
-                     //Navigation.findNavController(this, R.id.fl).navigate(R.id.action_home2_to_addPost)
+                    drawer.closeDrawers()
+                    //Navigation.findNavController(this, R.id.fl).navigate(R.id.action_home2_to_addPost)
                     //navigationView.menu.getItem(1).isEnabled =false
-
-                    Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
                 }
-                R.id.profile ->{
+                R.id.profile -> {
                     currentFrag(Profile())
+                    drawer.closeDrawers()
+
                 }
-                R.id.home ->{
+                R.id.home -> {
                     currentFrag(Home())
+                    drawer.closeDrawers()
+
                 }
-                R.id.admin ->{
+                R.id.admin -> {
                     currentFrag(AllPost())
+                    drawer.closeDrawers()
+
                 }
-                R.id.wish->{
+                R.id.wish -> {
                     currentFrag(WishList())
+                    drawer.closeDrawers()
+
                 }
-                R.id.order->{
+                R.id.order -> {
                     currentFrag(ShowUsers())
+                    drawer.closeDrawers()
+
                 }
-                R.id.transaction->{
+                R.id.transaction -> {
                     currentFrag(TransactionFragment())
+                    drawer.closeDrawers()
+
 
                 }
-                R.id.logout->{
-
-
+                R.id.logout -> {
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
                             var response = UserRepository().logout()
-                            if(response.success == true)
-                            {
-                                withContext(Main){
-                                    var pref = getSharedPreferences("userLogin",
-                                        Activity.MODE_PRIVATE)
-                                    pref.edit().clear()
-                                    currentFrag(LoginSignup())
+                            if (response.success == true) {
+                                withContext(Main) {
+                                    var pref = getSharedPreferences(
+                                        "userLogin",
+                                        Activity.MODE_PRIVATE
+                                    )
+                                    pref.edit().clear().commit()
+                                    supportFragmentManager.beginTransaction().apply {
+                                        replace(R.id.fl, LoginSignup())
+                                        supportFragmentManager.popBackStack()
+                                        addToBackStack(null)
+                                        commit()
+                                    }
+                                    drawer.closeDrawers()
 //                                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
 //                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
 //                                    startActivity(intent)
                                 }
                             }
-                        }
-                        catch (ex: Exception){
+                        } catch (ex: Exception) {
                             ex.printStackTrace()
                         }
                     }
                 }
-                R.id.request->{
+                R.id.request -> {
                     currentFrag(FriendRequest())
+                    drawer.closeDrawers()
+
                 }
-R.id.chat->{
-    currentFrag(FriendFragment())
-}
+                R.id.chat -> {
+                    currentFrag(FriendFragment())
+                    drawer.closeDrawers()
+
+                }
             }
             true
         }
@@ -155,25 +167,103 @@ R.id.chat->{
         }
         when(item.itemId)
         {
+            R.id.add -> {
+                currentFrag(AddPost())
+
+                //Navigation.findNavController(this, R.id.fl).navigate(R.id.action_home2_to_addPost)
+                //navigationView.menu.getItem(1).isEnabled =false
+            }
             R.id.profile -> {
                 currentFrag(Profile())
 
+
             }
+            R.id.home -> {
+                currentFrag(Home())
+
+
+            }
+            R.id.admin -> {
+                currentFrag(AllPost())
+
+
+            }
+            R.id.wish -> {
+                currentFrag(WishList())
+
+
+            }
+            R.id.order -> {
+                currentFrag(ShowUsers())
+
+
+            }
+            R.id.transaction -> {
+                currentFrag(TransactionFragment())
+
+
+            }
+            R.id.logout -> {
+
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        var response = UserRepository().logout()
+                        if (response.success == true) {
+                            withContext(Main) {
+                                var pref = getSharedPreferences(
+                                    "userLogin",
+                                    Activity.MODE_PRIVATE
+                                )
+                                pref.edit().clear().commit()
+
+//                                val fragment =
+//                                    supportFragmentManager.findFragmentByTag(TAG_FRAGMENT)
+//                                if (fragment != null) supportFragmentManager.beginTransaction()
+//                                    .remove(fragment).commit()
+                                supportFragmentManager.beginTransaction().apply {
+                                    replace(R.id.fl, LoginSignup())
+                                    supportFragmentManager.popBackStack()
+                                    addToBackStack(null)
+                                    commit()
+                                }
+
+//                                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
+//                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
+//                                    startActivity(intent)
+                            }
+                        }
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                    }
+                }
+            }
+            R.id.request -> {
+                currentFrag(FriendRequest())
+
+
+            }
+            R.id.chat -> {
+                currentFrag(FriendFragment())
+            }
+
         }
         return super.onOptionsItemSelected(item)
 
     }
 
 
-    fun currentFrag(frag:Fragment){
+    fun currentFrag(frag: Fragment){
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl,frag)
+            replace(R.id.fl, frag)
+            addToBackStack(null)
             commit()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.side_nav,menu)
+        menuInflater.inflate(R.menu.side_nav, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -186,8 +276,10 @@ R.id.chat->{
         }
         this.doubleBackToExitPressedOnce = true
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-currentFrag(Home())
-        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+//currentFrag(LoginSignup())
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
     inner class SocketListener(val context: Context) : WebSocketListener() {
 
@@ -238,7 +330,11 @@ currentFrag(Home())
                                                         )
 
                                                     CoroutineScope(Dispatchers.IO).launch {
-                                                        var response = UserRepository().getUsers(json.getString("from"))
+                                                        var response = UserRepository().getUsers(
+                                                            json.getString(
+                                                                "from"
+                                                            )
+                                                        )
                                                         print(json.getString("from"))
                                                         if (response.success == true) {
                                                             withContext(Main) {
@@ -252,7 +348,8 @@ currentFrag(Home())
                                                                         response.user!!.Profile!!
                                                                     )
                                                                 ).into(background)
-                                                                username.text = response.user!!.Username
+                                                                username.text =
+                                                                    response.user!!.Username
                                                                 calling.text =
                                                                     response.user!!.Username + " wants you to join call"
 
@@ -260,13 +357,14 @@ currentFrag(Home())
                                                         }
                                                     }
                                                     vibratePlay()
-                                                    dialog.findViewById<LottieAnimationView>(R.id.cancel).setOnClickListener(){
-                                                        mediaPlayer.pause()
-                                                        dialog.cancel()
-                                                    }
+                                                    dialog.findViewById<LottieAnimationView>(R.id.cancel)
+                                                        .setOnClickListener() {
+                                                            mediaPlayer.pause()
+                                                            dialog.cancel()
+                                                        }
                                                     recieve.setOnClickListener() {
-                                                       vibrator.cancel()
-                                                      mediaPlayer.pause()
+                                                        vibrator.cancel()
+                                                        mediaPlayer.pause()
                                                         var json: JSONObject = JSONObject(text)
                                                         json.put("format", "recieving")
                                                         socket.send(json.toString())
@@ -275,7 +373,10 @@ currentFrag(Home())
                                                                 .setRoom(json.getString("id"))
                                                                 .setWelcomePageEnabled(false)
                                                                 .build()
-                                                        JitsiMeetActivity.launch(this@Dashboard, options)
+                                                        JitsiMeetActivity.launch(
+                                                            this@Dashboard,
+                                                            options
+                                                        )
                                                         dialog.cancel()
                                                     }
                                                 } else {
@@ -286,9 +387,10 @@ currentFrag(Home())
                                                         dialog.findViewById(R.id.username)
                                                     var profile: CircleImageView =
                                                         dialog.findViewById(R.id.profile)
-                                                    dialog.findViewById<LottieAnimationView>(R.id.cancel).setOnClickListener(){
-                                                        dialog.cancel()
-                                                    }
+                                                    dialog.findViewById<LottieAnimationView>(R.id.cancel)
+                                                        .setOnClickListener() {
+                                                            dialog.cancel()
+                                                        }
                                                     Glide.with(context).load(
                                                         RetroftiService.loadImage(
                                                             toUser.Profile!!

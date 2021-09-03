@@ -38,6 +38,7 @@ import com.xrest.buysell.Retrofit.Productss
 import com.xrest.buysell.Retrofit.Repo.ProductRepo
 import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
+import com.xrest.buysell.Retrofit.User
 import com.xrest.buysell.SwipeToDeleteCallback
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
@@ -102,10 +103,7 @@ var lst:MutableList<Productss> = mutableListOf()
                         if(response.user!!.Likes!!.size >0)
                         {
                             lst = response.user!!.Likes!!
-                            if(lst.size > 0)
-                            {
-                              pay.isVisible = true
-                            }
+                            pay.isVisible = lst.size > 0
                             adapter=WishListAdapter(lst, requireContext())
                             rv.adapter = adapter
                             enableSwipeToDeleteAndUndo()
@@ -178,6 +176,7 @@ var lst:MutableList<Productss> = mutableListOf()
                                                 dialogs.show()
                                                 dialogs.setCancelable(false)
                                                 CoroutineScope(Dispatchers.IO).launch {
+                                                    var user = User()
                                                     var i=0
                                                     var flag = false
                                                     for(i in 0..lst.size -1)
@@ -188,6 +187,7 @@ var lst:MutableList<Productss> = mutableListOf()
                                                             var response2 = ProductRepo().Like(lst[i].product?._id!!)
                                                             var response3 = ProductRepo().sold(lst[i].product?._id!!)
                                                             flag = response.success == true && response2.success == false && response3.success == true
+                                                            user = response.user!!
                                                         }
 
 
@@ -199,6 +199,7 @@ var lst:MutableList<Productss> = mutableListOf()
                                                                 replace(R.id.fl,TransactionFragment())
                                                                 commit()
                                                             }
+                                                            RetroftiService.users = user
                                                             lottie.setAnimation(R.raw.success)
                                                             lottie.loop(true)
                                                             lottie.playAnimation()
@@ -267,11 +268,8 @@ var lst:MutableList<Productss> = mutableListOf()
                         "Item was removed from the list.",
                         Snackbar.LENGTH_LONG
                     )
-                snackbar.setAction("UNDO") {
-                    adapter.restoreItem(item, position)
-                    rv.scrollToPosition(position)
-                }
-                snackbar.setActionTextColor(Color.YELLOW)
+lst.removeAt(position)
+                pay.isVisible = lst.size > 0
                 snackbar.show()
             }
         }
@@ -280,7 +278,8 @@ var lst:MutableList<Productss> = mutableListOf()
     }
 
     override fun onResume() {
-        (requireContext() as AppCompatActivity).supportActionBar!!.hide()
+        (requireContext() as AppCompatActivity).supportActionBar!!.title = ""
+        pay.isVisible = lst.size > 0
         super.onResume()
     }
 }

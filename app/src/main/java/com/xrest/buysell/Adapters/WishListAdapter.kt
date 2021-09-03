@@ -96,7 +96,7 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
                 {
                     withContext(Dispatchers.Main)
                     {
-                        lst.removeAt(position)
+//                        lst.removeAt(position)
                         notifyDataSetChanged()
                         Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
 
@@ -106,7 +106,7 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
                 else{
                     withContext(Dispatchers.Main)
                     {
-                        lst.removeAt(position)
+//                        lst.removeAt(position)
                         notifyDataSetChanged()
                         Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
                     }

@@ -43,12 +43,12 @@ class TransactionFragment : Fragment() {
             {
                 withContext(Main){
                     lst = response.data!!
+                    rv.layoutManager = LinearLayoutManager(requireContext())
+                    rv.adapter = BillAdapter(requireContext(),send())
                 }
             }
         }
 
-        rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = BillAdapter(requireContext(),send())
         var bottomNav :BottomNavigationView = view.findViewById(R.id.nav)
         bottomNav.setOnNavigationItemSelectedListener {
             when(it.itemId)
@@ -92,6 +92,6 @@ class TransactionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (requireContext() as AppCompatActivity).supportActionBar!!.hide()
+//        (requireContext() as AppCompatActivity).supportActionBar!!.hide()
     }
 }

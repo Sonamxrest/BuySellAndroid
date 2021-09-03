@@ -96,7 +96,7 @@ import java.lang.Exception
                     {
                         lst.removeAt(position)
                         Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
-
+                        RetroftiService.users = response!!.user
                     }
 
                 }
@@ -105,6 +105,8 @@ import java.lang.Exception
                     {
                         lst.removeAt(position)
                         Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
+                        RetroftiService.users = response!!.user
+
                     }
                 }
             }

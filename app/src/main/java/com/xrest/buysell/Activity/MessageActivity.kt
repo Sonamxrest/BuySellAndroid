@@ -67,7 +67,7 @@ var cameraCode=1
 var galleryCode=0
 lateinit var socket:WebSocket
 lateinit var toUser:User
-
+lateinit var imageLoading : Dialog
 class MessageActivity : AppCompatActivity(), View.OnClickListener {
 
     val url="ws://10.0.2.2:5000"
@@ -76,11 +76,13 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
     var img:String?=null
     lateinit var mediaPlayer: MediaPlayer
     lateinit var vibrator: Vibrator
+
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
         dialog = Dialog(this@MessageActivity)
+        imageLoading = Dialog(this@MessageActivity)
         adapter.clear()
         socket = okHttpClient.newWebSocket(request, SocketListener(applicationContext))
         type="Message"
@@ -215,6 +217,10 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
             }
             else if(img!=null)
             {
+                imageLoading.setContentView(R.layout.success_notification)
+                imageLoading.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                imageLoading.show()
+                imageLoading.setCancelable(false)
                 CoroutineScope(Dispatchers.IO).launch {
                 val file = File(img)
                 val extention = MimeTypeMap.getFileExtensionFromUrl(img)
@@ -526,7 +532,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                 {
                                     if(type=="Image")
                                     {
-
+imageLoading.cancel()
                                         adapter.add(
                                             ImageAdapter2(
                                                 context, InnerMessage(

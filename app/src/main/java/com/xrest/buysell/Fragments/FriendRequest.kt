@@ -15,6 +15,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -28,23 +29,20 @@ class FriendRequest : Fragment() {
 
         var view= inflater.inflate(R.layout.fragment_friend_request, container, false)
         val rv: RecyclerView = view.findViewById(R.id.rv)
-        var adapter = GroupAdapter<GroupieViewHolder>()
+
         CoroutineScope(Dispatchers.IO).launch {
             val response = RequestRepo().getRequest()
             if(response.success==true)
             {
-                for(data in response.data!!)
-                {
-                    withContext(Dispatchers.Main){
-                        adapter.add(RequestAdapter(data,requireContext()))
-                    }
-
-                }
+              withContext(Main)
+              {
+                  rv.layoutManager = LinearLayoutManager(requireContext())
+                  rv.adapter=RequestAdapter(response.data!!,requireContext())
+              }
             }
         }
 
-        rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter=adapter
+
         return view
     }
 
