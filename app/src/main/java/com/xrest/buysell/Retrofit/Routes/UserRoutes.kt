@@ -39,7 +39,7 @@ interface UserRoutes {
     suspend fun rate(@Header("Authorization") token:String,@Path("id") id:String,@Field("Rating") rate:String):Response<CommonResponse>
 @FormUrlEncoded
 @PUT("/pay/{id}")
-suspend fun pay(@Header("Authorization") token:String, @Path("id") toId:String,@Field("amount") amount:String,@Field("desc")desc:String,@Field("product")product:String):Response<CommonResponse>
+suspend fun pay(@Header("Authorization") token:String, @Path("id") toId:String,@Field("amount") amount:String,@Field("desc")desc:String,@Field("product")product:String):Response<LoginResponse>
 @GET("/transaction")
 suspend fun trans(@Header("Authorization") token:String):Response<tresponse>
 

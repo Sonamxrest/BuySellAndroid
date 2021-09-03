@@ -2,8 +2,12 @@ package com.xrest.buysell.Adapters
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.xrest.buysell.Activity.UserProfile
 import com.xrest.buysell.Activity.adapter
@@ -20,31 +24,41 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RequestAdapter(val request: Request, val context: Context):Item<GroupieViewHolder>() {
-    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        var image: ImageView =viewHolder.itemView.findViewById(R.id.profile)
-        var confirm: Button = viewHolder.itemView.findViewById(R.id.confirm)
-        var delete:Button = viewHolder.itemView.findViewById(R.id.delete)
-        var name: TextView = viewHolder.itemView.findViewById(R.id.name)
-        var username = viewHolder.itemView.findViewById(R.id.username) as TextView
+class RequestAdapter(val lst: MutableList<Request>, val context: Context):RecyclerView.Adapter<RequestAdapter.VH>() {
+class VH(view: View):RecyclerView.ViewHolder(view)
+{
+        var image: ImageView =view.findViewById(R.id.profile)
+    var confirm: Button = view.findViewById(R.id.confirm)
+    var delete:Button = view.findViewById(R.id.delete)
+    var name: TextView = view.findViewById(R.id.name)
+    var username = view.findViewById(R.id.username) as TextView
+}
 
-        Glide.with(context).load(RetroftiService.loadImage(request.From?.Profile!!)).into(image)
-        name.text = request.From?.Name
-        username.text = request.From?.Username
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+    val view = LayoutInflater.from(context).inflate(R.layout.confirm_request,parent,false)
+        return VH(view)
+    }
 
-        image.setOnClickListener(){
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        var request = lst[position]
+
+
+        Glide.with(context).load(RetroftiService.loadImage(request.From?.Profile!!)).into(holder.image)
+        holder.name.text = request.From?.Name
+        holder.username.text = request.From?.Username
+
+        holder.image.setOnClickListener(){
             var intent = Intent(context, UserProfile::class.java)
-            intent.putExtra("number",request.From.PhoneNumber)
+            intent.putExtra("number", request.From!!.PhoneNumber)
             context.startActivity(intent)
         }
-        confirm.setOnClickListener(){
+        holder.confirm.setOnClickListener(){
             CoroutineScope(Dispatchers.IO).launch {
                 val response = RequestRepo().acceptReq(request)
                 if(response.success==true)
                 {
                     withContext(Dispatchers.Main){
                         Toast.makeText(context, "You are now friends", Toast.LENGTH_SHORT).show()
-                        notifyChanged()
                         (context as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
                             replace(R.id.fl, FriendFragment())
                             commit()
@@ -56,13 +70,14 @@ class RequestAdapter(val request: Request, val context: Context):Item<GroupieVie
 
 
         }
-        delete.setOnClickListener(){
+        holder.delete.setOnClickListener(){
             CoroutineScope(Dispatchers.IO).launch {
                 val response = RequestRepo().deleteRequest(request._id!!)
                 if(response.success==true)
                 {
                     withContext(Dispatchers.Main){
-                        viewHolder.item.notifyChanged()
+                       lst.removeAt(position)
+                        notifyDataSetChanged()
                         Toast.makeText(context, "Removed from request", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -70,10 +85,10 @@ class RequestAdapter(val request: Request, val context: Context):Item<GroupieVie
         }
     }
 
-
-    override fun getLayout(): Int {
-return R.layout.confirm_request
+    override fun getItemCount(): Int {
+        return lst.size
     }
 
-
 }
+
+//}
