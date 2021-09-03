@@ -63,7 +63,7 @@ var lst:MutableList<Productss> = mutableListOf()
                 super.onAuthenticationSucceeded(result)
 
                 var preferences = requireActivity().getSharedPreferences("Login", Activity.MODE_PRIVATE)
-                password.setText(preferences.getString("passowrd",""))
+                password.setText(preferences.getString("password",""))
 
             }
 
@@ -128,7 +128,7 @@ var lst:MutableList<Productss> = mutableListOf()
                         cancellation.setOnCancelListener(){}
                         executor = requireActivity().mainExecutor!!
                         bio.isVisible =true
-                        view.findViewById<LinearLayout>(R.id.bb).isVisible = true
+                        dialog.findViewById<LinearLayout>(R.id.bb).isVisible = true
 
                         biometricPrompt = BiometricPrompt.Builder(requireContext()).setTitle("FingerPrint Login").setNegativeButton("Cancel",executor,
                             DialogInterface.OnClickListener(){ dialog, _ ->
