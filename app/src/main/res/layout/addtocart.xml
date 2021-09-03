@@ -142,7 +142,7 @@
                     android:background="@color/white"
                     android:fontFamily="@font/wor"
                     android:inputType="number"
-                    android:text="Amount"
+
                     android:textSize="16dp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -162,7 +162,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:fontFamily="@font/wor"
-                    android:text="Description"
+
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
