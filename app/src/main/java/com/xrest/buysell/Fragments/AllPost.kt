@@ -85,10 +85,10 @@ for(data in lst)
         slst.add(data)
     }
 }
-                    addToAdapter(slst)
+                    rv.adapter = MainProductAdapter(requireContext(),slst)
                 }
                 else{
-                    addToAdapter(lst)
+                 rv.adapter = MainProductAdapter(requireContext(),lst)
                 }
 
             }
@@ -158,11 +158,11 @@ for(data in lst)
 
     fun addToAdapter(lst:MutableList<Product>)
     {
-        adapter.clear()
-        for(data in lst)
-        {
-            adapter.add(MainProductAdapter(requireContext(),data))
-        }
+//        adapter.clear()
+//        for(data in lst)
+//        {
+//            adapter.add(MainProductAdapter(requireContext(),data))
+//        }
     }
 
     fun loadData(view:View){
@@ -182,9 +182,9 @@ for(data in lst)
                     withContext(Main)
                     {
                         lst = response.data!!
-                        addToAdapter(lst)
+
                         //dialog.cancel()
-                        rv.adapter =adapter
+                        rv.adapter = MainProductAdapter(requireContext(),lst)
                       view.findViewById<ShimmerFrameLayout>(R.id.shimmer).isVisible=false
                     }
                 }

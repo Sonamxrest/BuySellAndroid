@@ -252,13 +252,10 @@ val user =RetroftiService.users
                     {
                         lst.clear()
                         lst = response.data!!
-                        //dialog.cancel()
-                        var adapter = GroupAdapter<GroupieViewHolder>()
-                        for(data in lst)
-                        {
-                            adapter.add(MainProductAdapter(requireContext(),data))
-                        }
-                        rv.adapter = adapter
+
+
+                       rv.adapter = MainProductAdapter(requireContext(),lst)
+
                     }
                 }
             }

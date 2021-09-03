@@ -15,12 +15,14 @@ import com.xrest.buysell.Fragments.FriendFragment
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Class.Request
 import com.xrest.buysell.Retrofit.Repo.RequestRepo
+import com.xrest.buysell.Retrofit.Repo.UserRepository
 import com.xrest.buysell.Retrofit.RetroftiService
 
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -58,11 +60,12 @@ class VH(view: View):RecyclerView.ViewHolder(view)
                 if(response.success==true)
                 {
                     withContext(Dispatchers.Main){
+                        lst.removeAt(position)
+notifyDataSetChanged()
+                        RetroftiService.users = response.user!!
                         Toast.makeText(context, "You are now friends", Toast.LENGTH_SHORT).show()
-                        (context as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.fl, FriendFragment())
-                            commit()
-                        }
+
+
                     }
                 }
 

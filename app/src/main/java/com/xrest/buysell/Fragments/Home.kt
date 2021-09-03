@@ -86,6 +86,8 @@ CoroutineScope(Dispatchers.IO).launch{
             )
         )
         carousel.setData(list)
+        carousel.autoPlay = true
+        carousel.autoPlayDelay = 10
 
 
 
