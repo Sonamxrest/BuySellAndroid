@@ -163,7 +163,7 @@ return view
                         .getBoolean("biometric", false)
                 ) {
                     var alert = AlertDialog.Builder(requireContext())
-                    alert.setTitle("Do you  want to add fingerprint login featire?")
+                    alert.setTitle("Do you  want to add fingerprint login feature?")
                         .setMessage("It might be very easy for next time").setPositiveButton(
                             "Yes",
                             DialogInterface.OnClickListener() { _, _ ->
