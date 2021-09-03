@@ -52,7 +52,9 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
                 holder.image
             )
         }
-
+        holder.delete.setOnClickListener(){
+            like(position)
+        }
         holder.name.text = product.product?.Name
         holder.price.text = "Rs "+ product.product?.Price
         holder.cat.text = product.product?.Category
@@ -69,14 +71,16 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
     fun removeItem(position: Int) {
         like(position)
         notifyItemRemoved(position)
+        notifyDataSetChanged()
 
     }
 
     fun restoreItem(item: Productss, position: Int) {
         lst.add(position, item)
         like(position)
-
         notifyItemInserted(position)
+        notifyDataSetChanged()
+
     }
 
     fun getData(): MutableList<Productss> {
@@ -93,6 +97,7 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
                     withContext(Dispatchers.Main)
                     {
                         lst.removeAt(position)
+                        notifyDataSetChanged()
                         Toast.makeText(context, "Product Liked & Added to WishList", Toast.LENGTH_SHORT).show()
 
                     }
@@ -102,6 +107,7 @@ class WishListAdapter(var lst: MutableList<Productss>, var context: Context):Rec
                     withContext(Dispatchers.Main)
                     {
                         lst.removeAt(position)
+                        notifyDataSetChanged()
                         Toast.makeText(context, "Product UnLiked & Removed from WishList", Toast.LENGTH_SHORT).show()
                     }
                 }

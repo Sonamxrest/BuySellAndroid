@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -49,6 +50,13 @@ class UserAdapters(var lst: MutableList<Person>, var context: Context) :
         Glide.with(context).load(RetroftiService.loadImage(user.Profile!!)).into(holder.profile)
         holder.name.text = user.Name
         holder.username.text = user.Username
+        for(data in RetroftiService.users!!.Friends!!)
+        {
+            if(data.user._id == user._id)
+            {
+                holder.add.isVisible = false
+            }
+        }
         holder.add.setOnClickListener() {
             CoroutineScope(Dispatchers.IO).launch {
                 try {

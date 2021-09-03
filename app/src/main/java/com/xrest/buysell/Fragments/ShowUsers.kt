@@ -107,16 +107,14 @@ var lst:MutableList<Person> = mutableListOf()
                 if (reponse.success == true) {
                     withContext(Main)
                     {
-
                         for (data in reponse.data!!) {
                             if (data._id != RetroftiService.users!!._id) {
-                                        lst.add(data)
+                                lst.add(data)
                             }
                         }
                         view.findViewById<ShimmerFrameLayout>(R.id.shimmer).isVisible = false
                         var adapters = UserAdapters(lst, requireContext())
                         rv.adapter = adapters
-
                     }
                 }
             }
