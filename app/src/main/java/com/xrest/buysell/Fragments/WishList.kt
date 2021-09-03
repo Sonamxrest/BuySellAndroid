@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.CancellationSignal
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -88,6 +89,7 @@ var lst:MutableList<Productss> = mutableListOf()
         pay = view.findViewById(R.id.pay)
         cl = view.findViewById(R.id.coordinatorLayout)
         rv = view.findViewById(R.id.rv)
+        pay.isVisible = false
         rv.layoutManager =LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -100,6 +102,10 @@ var lst:MutableList<Productss> = mutableListOf()
                         if(response.user!!.Likes!!.size >0)
                         {
                             lst = response.user!!.Likes!!
+                            if(lst.size > 0)
+                            {
+                              pay.isVisible = true
+                            }
                             adapter=WishListAdapter(lst, requireContext())
                             rv.adapter = adapter
                             enableSwipeToDeleteAndUndo()
@@ -157,9 +163,9 @@ var lst:MutableList<Productss> = mutableListOf()
                                         var desc = bottomSheet.findViewById<TextInputEditText>(R.id.desc)
                                         var button = bottomSheet.findViewById<Button>(R.id.button)
                                         button.setOnClickListener(){
-                                            if(amount.text.isNullOrBlank() || amount.text.toString().toInt() > 100)
+                                            if(amount.text.isNullOrBlank() || amount.text.toString().toInt() > 101)
                                             {
-                                                amount.setError("")
+                                                amount.setError("Amount Should be Less Than 100")
                                             }
                                             else{
                                                 bottomSheet.cancel()
@@ -189,6 +195,10 @@ var lst:MutableList<Productss> = mutableListOf()
                                                     withContext(Main){
                                                         if(flag==true)
                                                         {
+                                                            (requireContext() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+                                                                replace(R.id.fl,TransactionFragment())
+                                                                commit()
+                                                            }
                                                             lottie.setAnimation(R.raw.success)
                                                             lottie.loop(true)
                                                             lottie.playAnimation()
@@ -220,8 +230,10 @@ var lst:MutableList<Productss> = mutableListOf()
                                 else{
                                     withContext(Main)
                                     {
+
+                                        password.setError("Invalid Password")
                                         Toast.makeText(requireContext(), "Password Did not matched", Toast.LENGTH_SHORT).show()
-                                        dialog.cancel()
+//                                        dialog.cancel()
                                     }
                                 }
                             }

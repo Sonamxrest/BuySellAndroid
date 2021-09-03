@@ -238,10 +238,25 @@ lateinit var name:EditText
 
                             var response = UserRepository().insert(user)
                             if (response.success == true) {
+                                var lst: MutableList<EditText> = mutableListOf()
+                                lst.add(name)
+                                lst.add(phone)
+                                lst.add(username)
+                                lst.add(password)
+                                lst.add(cpassword)
+                                withContext(Main)
+                                {
+                                    for(data in lst)
+                                    {
+                                        data.setText(null)
+                                    }
+                                    profile.setImageResource(R.drawable.vector)
+                                }
                                 if (image == null) {
                                     withContext(Main)
                                     {
                                         Toast.makeText(requireContext(), "Registrataion Successful", Toast.LENGTH_SHORT).show()
+
                                     }
                                 } else {
                                     withContext(Main)
@@ -302,7 +317,7 @@ lateinit var name:EditText
                         lottie.loop(true)
                         lottie.playAnimation()
                         success.text = "Complete"
-                        dialog.setCancelable(true)
+                        dialog.cancel()
 
                     }
                     delay(2000)

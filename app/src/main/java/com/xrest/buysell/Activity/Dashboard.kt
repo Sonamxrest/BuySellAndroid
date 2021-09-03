@@ -1,5 +1,6 @@
 package com.xrest.buysell.Activity
 
+import android.app.Activity
 import android.app.Dialog
 import android.app.Service
 import android.content.Context
@@ -107,22 +108,22 @@ class Dashboard : AppCompatActivity() {
 
                 }
                 R.id.logout->{
-//                    var intent = Intent(this@Dashboard,MainActivity::class.java);
-//                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                  //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
-//                    startActivity(intent)
-//                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
-//                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
-//                    startActivity(intent)
+
+
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
                             var response = UserRepository().logout()
                             if(response.success == true)
                             {
                                 withContext(Main){
-                                    currentFrag(LoginFragment())
-
+                                    var pref = getSharedPreferences("userLogin",
+                                        Activity.MODE_PRIVATE)
+                                    pref.edit().clear()
+                                    currentFrag(LoginSignup())
+//                                    var intent = Intent(this@Dashboard,CallCheckActivity::class.java);
+//                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.and(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                    //  Navigation.findNavController(MainActivity().v).navigate(R.id.action_splash_to_startActions)
+//                                    startActivity(intent)
                                 }
                             }
                         }

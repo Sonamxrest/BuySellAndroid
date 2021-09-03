@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.xrest.buysell.Activity.UserProfile
+import com.xrest.buysell.Activity.adapter
 import com.xrest.buysell.Fragments.FriendFragment
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Class.Request
@@ -61,15 +62,18 @@ class RequestAdapter(val request: Request, val context: Context):Item<GroupieVie
                 if(response.success==true)
                 {
                     withContext(Dispatchers.Main){
+                        viewHolder.item.notifyChanged()
                         Toast.makeText(context, "Removed from request", Toast.LENGTH_SHORT).show()
-                        notifyChanged()
                     }
                 }
             }
         }
     }
 
+
     override fun getLayout(): Int {
 return R.layout.confirm_request
     }
+
+
 }
