@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import java.util.jar.Manifest
 
 object RetroftiService {
-    val BASE_URL ="http://10.0.2.2:5000/"
+    val BASE_URL ="http://192.168.0.107:5000/"
     var token:String?=null
     var users: User?=null
     var isOnline: Boolean? =null

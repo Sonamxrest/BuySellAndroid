@@ -522,45 +522,6 @@ edt.hint ="${data}"
         }
     }
 
-    private fun post(product: Product) {
-        if(yes.isChecked)
-        {
-            nogotiable= true
-        }
-        else if(no.isChecked)
-        {
-            nogotiable= false
-        }
-
-       Log.d("alterText",nogotiable.toString())
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-
-                var response = ProductRepo().post(product)
-                if(response.success ==true){
-                    withContext(Main)
-                    {
-                        uplloadImage(response.message!!)
-
-                    }
-                }
-                else{
-
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(requireContext(), "OOPS!! Something Went Wrong", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            }
-            catch (ex:java.lang.Exception){
-                ex.printStackTrace()
-            }
-
-        }
-
-
-
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -680,6 +641,45 @@ withContext(Main){
     override fun onResume() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title="Add Post"
         super.onResume()
+    }
+    private fun post(product: Product) {
+        if(yes.isChecked)
+        {
+            nogotiable= true
+        }
+        else if(no.isChecked)
+        {
+            nogotiable= false
+        }
+
+        Log.d("alterText",nogotiable.toString())
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+
+                var response = ProductRepo().post(product)
+                if(response.success ==true){
+                    withContext(Main)
+                    {
+                        uplloadImage(response.message!!)
+
+                    }
+                }
+                else{
+
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(requireContext(), "OOPS!! Something Went Wrong", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
+            catch (ex:java.lang.Exception){
+                ex.printStackTrace()
+            }
+
+        }
+
+
+
     }
 
     fun validate(edt:MutableList<EditText>):Boolean{

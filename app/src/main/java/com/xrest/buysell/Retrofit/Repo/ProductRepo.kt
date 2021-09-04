@@ -82,6 +82,10 @@ import okhttp3.MultipartBody
              api.deleteComment(RetroftiService.token!!,pid,oid)
          }
      }
+suspend fun uploadProduct(id:String,item:String,body:MutableList<MultipartBody.Part>):CommonResponse
+{
+    return handleApiRequest {
+        api.uploadProduct(id,item,body)
+    }
 
-
-}
+}}

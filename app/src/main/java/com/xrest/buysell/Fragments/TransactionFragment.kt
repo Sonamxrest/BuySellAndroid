@@ -92,6 +92,6 @@ class TransactionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        (requireContext() as AppCompatActivity).supportActionBar!!.hide()
+        (requireContext() as AppCompatActivity).supportActionBar!!.title = ""
     }
 }
