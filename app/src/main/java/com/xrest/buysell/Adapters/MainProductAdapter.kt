@@ -62,6 +62,10 @@ var menu: ImageButton = view.findViewById(R.id.menu)
 
     override fun onBindViewHolder(holder: MVH, position: Int) {
     var product = lst[position]
+        if(product.SoldOut == true)
+        {
+            holder.like.isVisible = false
+        }
         holder.menu.isVisible = false
         holder.sold.isVisible = false
         holder.comment.setOnClickListener(){

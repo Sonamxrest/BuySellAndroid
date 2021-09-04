@@ -20,6 +20,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.xrest.buysell.Adapters.MainProductAdapter
@@ -222,8 +223,17 @@ val user =RetroftiService.users
                         lottie.loop(true)
                         lottie.playAnimation()
                         success.text = "Profile Updated"
-                        RetroftiService.users!!.Profile = response.message!!
-                        Glide.with(requireContext()).load(RetroftiService.loadImage(response.message!!)).into(profile)
+                        RetroftiService.users = response.user!!
+                        print(RetroftiService.loadImage(response.user!!.Profile!!))
+                        var navigationView = activity?.findViewById<NavigationView>(R.id.navView)
+                        var header = navigationView?.getHeaderView(0)
+                        var cp:CircleImageView = header!!.findViewById(R.id.profile)
+                        var name:TextView = header!!.findViewById(R.id.name)
+                        name.text = RetroftiService.users!!.Name
+                        Glide.with(requireContext()).load("${RetroftiService.BASE_URL}uploads/${RetroftiService.users!!.Profile}").into(
+                            cp
+                        )
+                        Glide.with(requireContext()).load(RetroftiService.loadImage(response.user!!.Profile!!)).into(profile)
                         dialog.setCancelable(true)
 
                     }

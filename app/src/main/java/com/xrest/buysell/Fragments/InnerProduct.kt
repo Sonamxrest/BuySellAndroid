@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -50,6 +51,10 @@ class InnerProduct : Fragment() {
             {
                 like.isChecked = true
             }
+        }
+        if(product.SoldOut == true)
+        {
+            like.isVisible = false
         }
         like.setOnClickListener(){
             try {

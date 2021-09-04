@@ -18,7 +18,7 @@ class UserRepository: HandleApiReuest() {
             api.register(user)
         }
     }
-    suspend fun updateProfile(id:String,body:MultipartBody.Part): CommonResponse {
+    suspend fun updateProfile(id:String,body:MultipartBody.Part): LoginResponse {
         return handleApiRequest {
             api.updateProfile(id,body)
         }
@@ -68,7 +68,7 @@ suspend fun getWish():LoginResponse{
             api.getUsers(id)
         }
     }
-suspend fun rate(id:String, rating:String):CommonResponse{
+suspend fun rate(id:String, rating:String):LoginResponse{
     return handleApiRequest {
         api.rate(RetroftiService.token!!,id,rating)
     }

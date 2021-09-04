@@ -16,7 +16,7 @@ interface UserRoutes {
     suspend fun login(@Field("Username") username:String,@Field("Password") passwor:String):Response<LoginResponse>
     @Multipart
     @PUT("/update/profile/{id}")
-    suspend fun updateProfile(@Path("id") id:String, @Part body:MultipartBody.Part):Response<CommonResponse>
+    suspend fun updateProfile(@Path("id") id:String, @Part body:MultipartBody.Part):Response<LoginResponse>
      @PUT("/update/user")
     suspend fun update(@Header("Authorization") token: String,@Body user: User):Response<CommonResponse>
     @GET("/all")
@@ -36,7 +36,7 @@ interface UserRoutes {
     suspend fun getUsers(@Path("id")id:String):Response<LoginResponse>
     @FormUrlEncoded
     @PUT("/rate/{id}")
-    suspend fun rate(@Header("Authorization") token:String,@Path("id") id:String,@Field("Rating") rate:String):Response<CommonResponse>
+    suspend fun rate(@Header("Authorization") token:String,@Path("id") id:String,@Field("Rating") rate:String):Response<LoginResponse>
 @FormUrlEncoded
 @PUT("/pay/{id}")
 suspend fun pay(@Header("Authorization") token:String, @Path("id") toId:String,@Field("amount") amount:String,@Field("desc")desc:String,@Field("product")product:String):Response<LoginResponse>

@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 
 
 class TransactionFragment : Fragment() {
-   lateinit var lsst:MutableList<Transaction>
+    var lsst:MutableList<Transaction> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

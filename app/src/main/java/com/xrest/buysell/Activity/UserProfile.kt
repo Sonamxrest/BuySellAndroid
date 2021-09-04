@@ -47,8 +47,6 @@ class UserProfile : AppCompatActivity() {
         button = findViewById(R.id.add)
 
         button.setOnClickListener(){
-            Toast.makeText(this@UserProfile, "Request Sent Successfully", Toast.LENGTH_SHORT)
-                .show()
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = RequestRepo().sendRequest(user._id!!)
@@ -56,6 +54,26 @@ class UserProfile : AppCompatActivity() {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(this@UserProfile, "Request Sent Successfully", Toast.LENGTH_SHORT)
                                 .show()
+                            val snackbar = Snackbar
+                                .make(
+                                    cl,
+                                    "Request Sent Successfully",
+                                    Snackbar.LENGTH_LONG
+                                )
+                            snackbar.show()
+                        }
+                    }
+                    else{
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@UserProfile, "Request is already on users bucket", Toast.LENGTH_SHORT)
+                                .show()
+                            val snackbar = Snackbar
+                                .make(
+                                    cl,
+                                    "Request is already on users bucket",
+                                    Snackbar.LENGTH_LONG
+                                )
+                            snackbar.show()
                         }
                     }
                 } catch (ex: Exception) {
@@ -112,7 +130,15 @@ class UserProfile : AppCompatActivity() {
                                                 Snackbar.LENGTH_LONG
                                             )
                                         snackbar.show()
-                                        Toast.makeText(this@UserProfile, "Rated Successfullt", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this@UserProfile, "Rated Successfully", Toast.LENGTH_SHORT).show()
+                                        findViewById<TextView>(R.id.review).text = "No. of Reviews: "+ response.user!!.Rating!!.size.toString()!!
+                                            var total =0
+                                            for (data in response.user!!.Rating!!)
+                                            {
+                                                total += data.rating!!
+                                            }
+                                            findViewById<TextView>(R.id.ra).text = (total/response.user!!.Rating!!.size).toFloat().toString()
+                                            rate.rating = (total/response.user!!.Rating!!.size).toFloat()
                                     }
                                 }
                             }

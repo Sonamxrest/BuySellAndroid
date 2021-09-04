@@ -372,23 +372,23 @@ search.setOnClickListener(){
         {
             if(subOne[data].equals(product.SubCategory!!))
             {
-                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subTwo)
                 sub.setSelection(data)
             }
         }
         for (data in 0..subThree.size -1)
         {
-            if(subOne[data].equals(product.SubCategory!!))
+            if(subThree[data].equals(product.SubCategory!!))
             {
-                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subThree)
                 sub.setSelection(data)
             }
         }
         for (data in 0..subFour.size -1)
         {
-            if(subOne[data].equals(product.SubCategory!!))
+            if(subFour[data].equals(product.SubCategory!!))
             {
-                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subFour)
                 sub.setSelection(data)
             }
         }
@@ -613,6 +613,7 @@ search.setOnClickListener(){
         params.setMargins(6, 6, 6, 6)
         imageView.scaleType = ImageView.ScaleType.FIT_XY
         imageView.layoutParams = params
+        imageView.setImageResource(R.drawable.c)
         imageView.setOnClickListener(){
             currentIndex = product.Images!!.size!!
             showPopup(imageView)
