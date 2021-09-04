@@ -36,7 +36,11 @@ class InnerProduct : Fragment() {
         var lst = mutableListOf<CarouselItem>()
         for(data in product.Images!!)
         {
-            lst.add(CarouselItem(RetroftiService!!.loadImage(data)))
+            if(data!=null)
+            {
+                lst.add(CarouselItem(RetroftiService!!.loadImage(data)))
+
+            }
         }
         val view = inflater.inflate(R.layout.fragment_inner_product, container, false)
         var like:CheckBox = view.findViewById(R.id.like)

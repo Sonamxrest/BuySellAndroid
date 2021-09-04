@@ -18,6 +18,11 @@ suspend fun post(@Header("Authorization")token:String , @Body post: Product):Res
 @PUT("/post/upload/{id}")
 suspend fun upload(@Path("id")id:String, @Part body:MutableList<MultipartBody.Part>):Response<CommonResponse>
 
+
+    @Multipart
+    @PUT("/uploadProduct/{id}/{item}")
+    suspend fun uploadProduct(@Path("id")id:String, @Path("item")item:String, @Part bodt:MutableList<MultipartBody.Part>):Response<CommonResponse>
+
 @GET("/get/product")
 suspend fun getProduct():Response<ProductResponse>
 
@@ -59,5 +64,6 @@ suspend fun search(@Path("name")name:String):Response<ProductResponse>
         @Path("pid") id: String,
         @Path("oid") oid:String
     ): Response<CommonResponse>
+
 
 }
