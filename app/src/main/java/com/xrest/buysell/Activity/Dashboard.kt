@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.Service
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
 import android.util.Log
@@ -19,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.model.Dash
 import com.google.android.material.navigation.NavigationView
 import com.xrest.buysell.Fragments.*
 import com.xrest.buysell.R
@@ -45,9 +47,13 @@ class Dashboard : AppCompatActivity() {
     lateinit var navigationView:NavigationView
     lateinit var socket:WebSocket
     lateinit var toUser: User
+    lateinit var mediaPlayer: MediaPlayer
+    lateinit var vibrator: Vibrator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        vibrator = getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+        mediaPlayer = MediaPlayer.create(this, R.raw.rintone)
         val url="ws://192.168.0.107:5000"
         var okHttpClient = OkHttpClient()
         val request= Request.Builder().url(url).build()
@@ -276,13 +282,13 @@ class Dashboard : AppCompatActivity() {
         }
         this.doubleBackToExitPressedOnce = true
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-//currentFrag(LoginSignup())
+startActivity(Intent(this, Dashboard::class.java))
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             doubleBackToExitPressedOnce = false
         }, 2000)
     }
     inner class SocketListener(val context: Context) : WebSocketListener() {
-
+        var dialog = Dialog(this@Dashboard)
         override fun onOpen(webSocket: WebSocket, response: Response) {
             super.onOpen(webSocket, response);
 
@@ -297,7 +303,7 @@ class Dashboard : AppCompatActivity() {
                         var idz= json.getString("id")
 
                         var type = json.getString("format")
-                        if(type.toLowerCase().equals("calling") || type.toLowerCase().equals("recieving"))
+                        if(type.toLowerCase().equals("calling") || type.toLowerCase().equals("recieving") || type.toLowerCase().equals("cancel"))
                         {
                             when(type)
                             {
@@ -307,7 +313,7 @@ class Dashboard : AppCompatActivity() {
 //                                        var dialog = Dialog(context)
 
 
-                                            var dialog = Dialog(this@Dashboard)
+
                                             dialog.window!!.setLayout(
                                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                                 LinearLayout.LayoutParams.MATCH_PARENT
@@ -360,7 +366,12 @@ class Dashboard : AppCompatActivity() {
                                                     dialog.findViewById<LottieAnimationView>(R.id.cancel)
                                                         .setOnClickListener() {
                                                             mediaPlayer.pause()
+                                                            json.put("format", "cancel")
+                                                            socket.send(json.toString())
+                                                            mediaPlayer.pause()
                                                             dialog.cancel()
+                                                            vibrator.cancel()
+
                                                         }
                                                     recieve.setOnClickListener() {
                                                         vibrator.cancel()
@@ -389,6 +400,8 @@ class Dashboard : AppCompatActivity() {
                                                         dialog.findViewById(R.id.profile)
                                                     dialog.findViewById<LottieAnimationView>(R.id.cancel)
                                                         .setOnClickListener() {
+                                                            json.put("format", "cancel")
+                                                           socket.send(json.toString())
                                                             dialog.cancel()
                                                         }
                                                     Glide.with(context).load(
@@ -414,6 +427,7 @@ class Dashboard : AppCompatActivity() {
                                 "recieving" -> {
                                     CoroutineScope(Dispatchers.IO).launch {
                                         withContext(Main) {
+                                            dialog.cancel()
                                             if (json.getString("message") == RetroftiService.users!!._id) {
                                                 val options = JitsiMeetConferenceOptions.Builder()
                                                     .setRoom(json.getString("id"))
@@ -424,6 +438,17 @@ class Dashboard : AppCompatActivity() {
                                         }
                                     }
 
+                                }
+                                "cancel" ->{
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        withContext(Main)
+                                        {
+                                            dialog.cancel()
+                                            mediaPlayer.pause()
+                                            vibrator.cancel()
+                                        }
+
+                                    }
                                 }
                             }
 
@@ -442,11 +467,11 @@ class Dashboard : AppCompatActivity() {
             socket.close(1000, "Bye")
             socket.cancel()
         }
-        lateinit var mediaPlayer: MediaPlayer
-        lateinit var vibrator: Vibrator
+
         @SuppressWarnings("MissingPermission")
         fun vibratePlay(){
-           vibrator = context.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+
+
             if (Build.VERSION.SDK_INT >= 26) {
                 vibrator.vibrate(
                     VibrationEffect.createOneShot(
@@ -454,7 +479,6 @@ class Dashboard : AppCompatActivity() {
                         VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
-                mediaPlayer = MediaPlayer.create(context, R.raw.rintone)
               mediaPlayer.isLooping = true
                 mediaPlayer.start()
                 Toast.makeText(context, "media playing", Toast.LENGTH_SHORT).show()

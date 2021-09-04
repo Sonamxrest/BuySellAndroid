@@ -121,19 +121,7 @@ return view
         {
 
             R.id.sign -> {
-                if (check.isChecked) {
-                    Toast.makeText(requireContext(), "Username and Password is saved", Toast.LENGTH_SHORT).show()
-                    var editor = requireContext().getSharedPreferences(
-                        "userLogin",
-                        Activity.MODE_PRIVATE
-                    )
-                    editor.edit().let { editor ->
-                        editor.putString("username", username.text.toString())
-                        editor.putString("password", password.text.toString())
-                        editor.apply()
-                        editor.commit()
-                    }
-                }
+
                 login(username.text.toString(), password.text.toString())
             }
             R.id.bio ->{
@@ -226,7 +214,19 @@ return view
 
                     RetroftiService.token ="Bearer "+ response.token!!
                     RetroftiService.users = response.user!!
-
+                    if (check.isChecked) {
+                        Toast.makeText(requireContext(), "Username and Password is saved", Toast.LENGTH_SHORT).show()
+                        var editor = requireContext().getSharedPreferences(
+                            "userLogin",
+                            Activity.MODE_PRIVATE
+                        )
+                        editor.edit().let { editor ->
+                            editor.putString("username", username.text.toString())
+                            editor.putString("password", password.text.toString())
+                            editor.apply()
+                            editor.commit()
+                        }
+                    }
                     checkBioMetricFeature()
 
                 }

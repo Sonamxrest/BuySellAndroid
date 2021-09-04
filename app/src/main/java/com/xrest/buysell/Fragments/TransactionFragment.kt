@@ -1,10 +1,12 @@
 package com.xrest.buysell.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +27,7 @@ import kotlinx.coroutines.withContext
 
 
 class TransactionFragment : Fragment() {
-    var lst = mutableListOf<Transaction>()
+   lateinit var lsst:MutableList<Transaction>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,36 +44,25 @@ class TransactionFragment : Fragment() {
             if(response.success == true)
             {
                 withContext(Main){
-                    lst = response.data!!
-                    rv.layoutManager = LinearLayoutManager(requireContext())
-                    rv.adapter = BillAdapter(requireContext(),send())
+                    lsst = response.data!!
+                    print(response.data.toString())
                 }
             }
         }
-
-        var bottomNav :BottomNavigationView = view.findViewById(R.id.nav)
-        bottomNav.setOnNavigationItemSelectedListener {
-            when(it.itemId)
-            {
-                R.id.sent -> {
-                    Toast.makeText(requireContext(), "Clicked Sent", Toast.LENGTH_SHORT).show()
-                    rv.adapter = BillAdapter(requireContext(), send())
-                }
-                R.id.recieved ->{
-                    Toast.makeText(requireContext(), "Clicked rec", Toast.LENGTH_SHORT).show()
-
-                    rv.adapter = BillAdapter(requireContext(),rec())
-                }
-            }
-            true
+        rv.layoutManager = LinearLayoutManager(requireContext())
+        rv.adapter = BillAdapter(requireContext(),send())
+        view.findViewById<Button>(R.id.sent).setOnClickListener(){
+            rv.adapter =BillAdapter(requireContext(),send())
         }
-
+        view.findViewById<Button>(R.id.recieved).setOnClickListener(){
+            rv.adapter =BillAdapter(requireContext(),rec())
+        }
         return view
     }
 
     fun send(): MutableList<Transaction>{
         var newList = mutableListOf<Transaction>()
-        for(data in lst){
+        for(data in lsst){
             if(data.Sender?._id == RetroftiService.users!!._id)
             {
                 newList.add(data)
@@ -81,7 +72,7 @@ class TransactionFragment : Fragment() {
     }
     fun rec(): MutableList<Transaction>{
         var newList = mutableListOf<Transaction>()
-        for(data in lst){
+        for(data in lsst){
             if(data.Reciever?._id == RetroftiService.users!!._id)
             {
                 newList.add(data)
@@ -92,6 +83,6 @@ class TransactionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (requireContext() as AppCompatActivity).supportActionBar!!.title = ""
+        (requireContext() as AppCompatActivity).supportActionBar!!.hide()
     }
 }
