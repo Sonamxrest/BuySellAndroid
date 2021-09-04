@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xrest.buysell.Activity.Dashboard
-import com.xrest.buysell.Activity.mediaPlayer
 import com.xrest.buysell.Fragments.InnerProduct
 import com.xrest.buysell.Fragments.UpdateProduct
 import com.xrest.buysell.R

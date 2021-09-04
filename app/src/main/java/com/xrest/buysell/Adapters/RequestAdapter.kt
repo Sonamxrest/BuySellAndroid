@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.xrest.buysell.Activity.UserProfile
-import com.xrest.buysell.Activity.adapter
+
 import com.xrest.buysell.Fragments.FriendFragment
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Class.Request

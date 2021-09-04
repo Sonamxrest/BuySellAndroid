@@ -50,7 +50,10 @@ CoroutineScope(Dispatchers.IO).launch{
                 Log.d("data in list", lst.toString())
                 for(data in lst)
                 {
-                    adapter.add(ProductShowAdapter(requireContext(),data))
+                    if(data.SoldOut!! == false)
+                    {
+                        adapter.add(ProductShowAdapter(requireContext(),data))
+                    }
                 }
                 rv.adapter = adapter
             }
@@ -87,10 +90,6 @@ CoroutineScope(Dispatchers.IO).launch{
         )
         carousel.setData(list)
         carousel.autoPlay = true
-        carousel.autoPlayDelay = 10
-
-
-
         return view
     }
     override fun onResume() {

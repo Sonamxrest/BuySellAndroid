@@ -35,6 +35,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 import com.xrest.buysell.R
 import com.xrest.buysell.Retrofit.Features
 import com.xrest.buysell.Retrofit.Product
@@ -188,7 +189,9 @@ class UpdateProduct(val product: Product) : Fragment() {
         conditions = view.findViewById(R.id.condition)
         categorys = view.findViewById(R.id.category)
         sub = view.findViewById(R.id.sub)
-        sub.isVisible = false;
+        sub.isEnabled = false;
+        conditions.isEnabled = false;
+        categorys.isEnabled = false;
         name.setText(product.Name)
         used.setText(product.UsedFor.toString())
         description.setText(product.Description)
@@ -208,7 +211,7 @@ class UpdateProduct(val product: Product) : Fragment() {
         else{
             no.isChecked = true
         }
-        sub.isVisible = false
+
 search.setOnClickListener(){
     var lst: MutableList<Place.Field> = mutableListOf()
     lst.add(Place.Field.LAT_LNG)
@@ -350,7 +353,43 @@ search.setOnClickListener(){
         {
             for(i in 0..product.Images?.size!! - 1)
             {
-                addDynamicImageView(product.Images!![i],i,view)
+                if(product.Images!![i] !=null)
+                {
+                    addDynamicImageView(product.Images!![i],i,view)
+
+                }
+            }
+        }
+        for (data in 0..subOne.size -1)
+        {
+            if(subOne[data].equals(product.SubCategory!!))
+            {
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.setSelection(data)
+            }
+        }
+        for (data in 0..subTwo.size -1)
+        {
+            if(subOne[data].equals(product.SubCategory!!))
+            {
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.setSelection(data)
+            }
+        }
+        for (data in 0..subThree.size -1)
+        {
+            if(subOne[data].equals(product.SubCategory!!))
+            {
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.setSelection(data)
+            }
+        }
+        for (data in 0..subFour.size -1)
+        {
+            if(subOne[data].equals(product.SubCategory!!))
+            {
+                sub.adapter = ArrayAdapter(requireContext() ,android.R.layout.simple_list_item_1, subOne)
+                sub.setSelection(data)
             }
         }
         addDynamicEditText(addViews());
@@ -390,16 +429,13 @@ search.setOnClickListener(){
                 SubCategory = asub
             )
             var edtLst = mutableListOf<EditText>(name, price, description, used)
-            if (index > 0) {
+
                 if (validate(edtLst)) {
                     post(product)
 
                 }
 
-            } else {
-                Toast.makeText(requireContext(), "Please Add Image First", Toast.LENGTH_SHORT)
-                    .show()
-            }
+
         }
         return view
 
@@ -423,7 +459,24 @@ search.setOnClickListener(){
                 if(response.success ==true){
                     withContext(Dispatchers.Main)
                     {
-                        uplloadImage(response.message!!)
+                        if(images.size > 0)
+                        {
+                            uplloadImage(response.message!!)
+
+                        }
+                        else{
+                            var edtLst = mutableListOf<EditText>(name, price, description, used)
+                            for(data in edtLst)
+                            {
+                                data.setText(null)
+                            }
+                            (requireContext() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+                                replace(R.id.fl,Home())
+                                commit()
+                                addToBackStack(null)
+                            }
+                            Toast.makeText(requireContext(), "Product Updated Successfully", Toast.LENGTH_SHORT).show()
+                        }
 
                     }
                 }

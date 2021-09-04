@@ -53,34 +53,35 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-val adapter = GroupAdapter<GroupieViewHolder>()
-lateinit var rv:RecyclerView
-lateinit var id:String
-lateinit var user:String
-lateinit var serverURL: URL
-lateinit var ib: ImageButton
-lateinit var image: ImageView
-lateinit var ed:EditText
-lateinit var type:String
-lateinit var dialog : Dialog
-var cameraCode=1
-var galleryCode=0
-lateinit var socket:WebSocket
-lateinit var toUser:User
-lateinit var imageLoading : Dialog
-class MessageActivity : AppCompatActivity(), View.OnClickListener {
 
-    val url="ws://10.0.2.2:5000"
+class MessageActivity : AppCompatActivity(), View.OnClickListener {
+    lateinit var dialog : Dialog
+    val url="ws://192.168.0.107:5000"
     var okHttpClient = OkHttpClient()
     val request= Request.Builder().url(url).build()
     var img:String?=null
     lateinit var mediaPlayer: MediaPlayer
     lateinit var vibrator: Vibrator
-
+    val adapter = GroupAdapter<GroupieViewHolder>()
+    lateinit var rv:RecyclerView
+    lateinit var id:String
+    lateinit var user:String
+    lateinit var serverURL: URL
+    lateinit var ib: ImageButton
+    lateinit var image: ImageView
+    lateinit var ed:EditText
+    lateinit var type:String
+    var cameraCode=1
+    var galleryCode=0
+    lateinit var socket:WebSocket
+    lateinit var toUser:User
+    lateinit var imageLoading : Dialog
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
+        vibrator = getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+        mediaPlayer = MediaPlayer.create(this, R.raw.rintone)
         dialog = Dialog(this@MessageActivity)
         imageLoading = Dialog(this@MessageActivity)
         adapter.clear()
@@ -399,7 +400,7 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                         var idz= json.getString("id")
 
                         var type = json.getString("format")
-                        if(type.toLowerCase().equals("calling") || type.toLowerCase().equals("recieving"))
+                        if(type.toLowerCase().equals("calling") || type.toLowerCase().equals("recieving") || type.toLowerCase().equals("cancel"))
                         {
                             when(type)
                             {
@@ -455,12 +456,15 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                                     }
                                                     vibratePlay()
                                                     dialog.findViewById<LottieAnimationView>(R.id.cancel).setOnClickListener(){
+                                                        json.put("format", "cancel")
+                                                        socket.send(json.toString())
                                                         dialog.cancel()
                                                         mediaPlayer.pause()
+                                                        vibrator.cancel()
                                                     }
                                                     recieve.setOnClickListener() {
-                                                        com.xrest.buysell.Activity.vibrator.cancel()
-                                                        com.xrest.buysell.Activity.mediaPlayer.pause()
+                                                        vibrator.cancel()
+                                                        mediaPlayer.pause()
                                                         var json: JSONObject = JSONObject(text)
                                                         json.put("format", "recieving")
                                                         socket.send(json.toString())
@@ -481,6 +485,9 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                                     var profile: CircleImageView =
                                                         dialog.findViewById(R.id.profile)
                                                    dialog.findViewById<LottieAnimationView>(R.id.cancel).setOnClickListener(){
+
+                                                       json.put("format", "cancel")
+                                                       socket.send(json.toString())
                                                        dialog.cancel()
                                                    }
                                                     Glide.with(context).load(
@@ -518,7 +525,17 @@ class MessageActivity : AppCompatActivity(), View.OnClickListener {
                                     }
 
                                 }
-                            }
+                                "cancel" ->{
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        withContext(Main)
+                                        {
+                                            dialog.cancel()
+                                            mediaPlayer.pause()
+                                            vibrator.cancel()
+                                        }
+
+                                    }
+                                }                            }
 
                         }
                         else{
@@ -628,20 +645,20 @@ imageLoading.cancel()
 
         @SuppressWarnings("MissingPermission")
         fun vibratePlay(){
-            com.xrest.buysell.Activity.vibrator = context.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+
             if (Build.VERSION.SDK_INT >= 26) {
-                com.xrest.buysell.Activity.vibrator.vibrate(
+                vibrator.vibrate(
                     VibrationEffect.createOneShot(
                         200000,
                         VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
-                com.xrest.buysell.Activity.mediaPlayer = MediaPlayer.create(context, R.raw.rintone)
-                com.xrest.buysell.Activity.mediaPlayer.isLooping = true
-                com.xrest.buysell.Activity.mediaPlayer.start()
+
+                mediaPlayer.isLooping = true
+                mediaPlayer.start()
                 Toast.makeText(context, "media playing", Toast.LENGTH_SHORT).show()
             } else {
-                com.xrest.buysell.Activity.vibrator.vibrate(200000)
+               vibrator.vibrate(200000)
             }
         }
 

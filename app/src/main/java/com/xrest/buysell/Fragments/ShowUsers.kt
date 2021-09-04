@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.textfield.TextInputEditText
-import com.xrest.buysell.Activity.adapter
+
 import com.xrest.buysell.Adapters.MainProductAdapter
 import com.xrest.buysell.Adapters.UserAdapters
 import com.xrest.buysell.R

@@ -29,7 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.xrest.buysell.Activity.user
+
 import com.xrest.buysell.Adapters.PayUserAdapter
 import com.xrest.buysell.Adapters.WishListAdapter
 import com.xrest.buysell.R
@@ -54,6 +54,7 @@ lateinit var pay: Button
     lateinit var bio : FloatingActionButton
     lateinit var password:EditText
 lateinit var  adapter:WishListAdapter
+var index = 0
 var lst:MutableList<Productss> = mutableListOf()
     val cb:BiometricPrompt.AuthenticationCallback
         get() = @RequiresApi(Build.VERSION_CODES.P)
@@ -103,6 +104,7 @@ var lst:MutableList<Productss> = mutableListOf()
                         if(response.user!!.Likes!!.size >0)
                         {
                             lst = response.user!!.Likes!!
+                            index = lst.size
                             pay.isVisible = lst.size > 0
                             adapter=WishListAdapter(lst, requireContext())
                             rv.adapter = adapter
@@ -189,6 +191,9 @@ var lst:MutableList<Productss> = mutableListOf()
                                                             flag = response.success == true && response2.success == false && response3.success == true
                                                             user = response.user!!
                                                         }
+                                                        else{
+                                                            flag = true
+                                                        }
 
 
                                                     }
@@ -262,6 +267,14 @@ var lst:MutableList<Productss> = mutableListOf()
                 val position = viewHolder.adapterPosition
                 val item: Productss = adapter.getData().get(position)
                 adapter.removeItem(position)
+                index = index -1
+                if(index > 0)
+                {
+                    pay.isVisible = true
+                }
+                else{
+                    pay.isVisible = false
+                }
                 val snackbar = Snackbar
                     .make(
                         cl,

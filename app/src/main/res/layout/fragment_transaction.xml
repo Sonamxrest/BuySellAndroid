@@ -6,16 +6,30 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.TransactionFragment">
-
-<com.google.android.material.bottomnavigation.BottomNavigationView
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:menu="@menu/sent"
-    android:id="@+id/nav"
-    android:background="#1565C0"
-    app:itemTextColor="@color/white"
-    app:itemIconTint="@color/white"
-    />
+    android:layout_marginTop="45dp"
+    app:cardBackgroundColor="@color/colorPrimary">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Sent"
+    android:layout_marginRight="10dp"
+    android:id="@+id/sent"/><Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+    android:text="Recieved"
+    android:id="@+id/recieved"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
