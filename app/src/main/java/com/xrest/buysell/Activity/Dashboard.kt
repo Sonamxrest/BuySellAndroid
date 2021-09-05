@@ -54,7 +54,7 @@ class Dashboard : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         vibrator = getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
         mediaPlayer = MediaPlayer.create(this, R.raw.rintone)
-        val url="ws://192.168.0.107:5000"
+        val url="ws://10.0.2.2:5000"
         var okHttpClient = OkHttpClient()
         val request= Request.Builder().url(url).build()
         socket = okHttpClient.newWebSocket(request, SocketListener(applicationContext))

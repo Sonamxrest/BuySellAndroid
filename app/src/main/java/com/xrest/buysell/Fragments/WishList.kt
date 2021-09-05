@@ -115,143 +115,156 @@ var lst:MutableList<Productss> = mutableListOf()
             }
 
                 pay.setOnClickListener(){
-                    var dialog = Dialog(requireContext())
-                    dialog.setContentView(R.layout.dealsewalogin)
-                    dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                    dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-                    password = dialog.findViewById(R.id.password)
-                    var login :Button = dialog.findViewById(R.id.login)
-                    bio = dialog.findViewById(R.id.bio)
-                    bio.isVisible =false
-                    var preferences = requireActivity().getSharedPreferences("Login",Activity.MODE_PRIVATE)
-                    if(preferences.getBoolean("biometric",false)==true)
+                    if(RetroftiService.users!!.Likes!!.size > 0)
                     {
-                        var cancellation = CancellationSignal()
-                        cancellation.setOnCancelListener(){}
-                        executor = requireActivity().mainExecutor!!
-                        bio.isVisible =true
-                        dialog.findViewById<LinearLayout>(R.id.bb).isVisible = true
-
-                        biometricPrompt = BiometricPrompt.Builder(requireContext()).setTitle("FingerPrint Login").setNegativeButton("Cancel",executor,
-                            DialogInterface.OnClickListener(){ dialog, _ ->
-                            dialog.cancel()
-                        }).setSubtitle("Place Your Finger To Login").build()
-                        bio.setOnClickListener(){
+                        var dialog = Dialog(requireContext())
+                        dialog.setContentView(R.layout.dealsewalogin)
+                        dialog.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+                        password = dialog.findViewById(R.id.password)
+                        var login :Button = dialog.findViewById(R.id.login)
+                        bio = dialog.findViewById(R.id.bio)
+                        bio.isVisible =false
+                        var preferences = requireActivity().getSharedPreferences("Login",Activity.MODE_PRIVATE)
+                        if(preferences.getBoolean("biometric",false)==true)
+                        {
                             var cancellation = CancellationSignal()
                             cancellation.setOnCancelListener(){}
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                                biometricPrompt.authenticate(cancellation,executor,cb)
+                            executor = requireActivity().mainExecutor!!
+                            bio.isVisible =true
+                            dialog.findViewById<LinearLayout>(R.id.bb).isVisible = true
+
+                            biometricPrompt = BiometricPrompt.Builder(requireContext()).setTitle("FingerPrint Login").setNegativeButton("Cancel",executor,
+                                DialogInterface.OnClickListener(){ dialog, _ ->
+                                    dialog.cancel()
+                                }).setSubtitle("Place Your Finger To Login").build()
+                            bio.setOnClickListener(){
+                                var cancellation = CancellationSignal()
+                                cancellation.setOnCancelListener(){}
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                                    biometricPrompt.authenticate(cancellation,executor,cb)
+                                }
                             }
                         }
-                    }
-                    login.setOnClickListener(){
-                        try {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                var response = UserRepository().check(password.text.toString())
-                                if(response.success == true)
-                                {
-                                    withContext(Main)
+                        login.setOnClickListener(){
+                            try {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    var response = UserRepository().check(password.text.toString())
+                                    if(response.success == true)
                                     {
-                                        dialog.cancel()
-                                        var bottomSheet = Dialog(requireContext())
-                                        bottomSheet.setContentView(R.layout.addtocart)
-                                        bottomSheet.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                        var rv:RecyclerView = bottomSheet.findViewById(R.id.rv)
-                                        var money:TextView = bottomSheet.findViewById(R.id.money)
-                                        var image:ImageView = bottomSheet.findViewById(R.id.imageView2)
-                                        var amount:TextInputEditText = bottomSheet.findViewById(R.id.amount)
-                                        var desc = bottomSheet.findViewById<TextInputEditText>(R.id.desc)
-                                        var button = bottomSheet.findViewById<Button>(R.id.button)
-                                        button.setOnClickListener(){
-                                            if(amount.text.isNullOrBlank() || amount.text.toString().toInt() > 101)
-                                            {
-                                                amount.setError("Amount Should be Less Than 100")
-                                            }
-                                            else{
-                                                bottomSheet.cancel()
-                                                var dialogs = Dialog(requireContext())
-                                                dialogs.setContentView(R.layout.success_notification)
-                                                dialogs.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                                var lottie = dialogs.findViewById<LottieAnimationView>(R.id.lottie)
-                                                var success = dialogs.findViewById<TextView>(R.id.success)
-                                                success.text="Uploading"
-                                                dialogs.show()
-                                                dialogs.setCancelable(false)
-                                                CoroutineScope(Dispatchers.IO).launch {
-                                                    var user = User()
-                                                    var i=0
-                                                    var flag = false
-                                                    for(i in 0..lst.size -1)
-                                                    {
-                                                        if(lst[i].product!!.User!!._id !=RetroftiService.users!!._id)
+                                        withContext(Main)
+                                        {
+                                            dialog.cancel()
+                                            var bottomSheet = Dialog(requireContext())
+                                            bottomSheet.setContentView(R.layout.addtocart)
+                                            bottomSheet.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                            var rv:RecyclerView = bottomSheet.findViewById(R.id.rv)
+                                            var money:TextView = bottomSheet.findViewById(R.id.money)
+                                            var image:ImageView = bottomSheet.findViewById(R.id.imageView2)
+                                            var amount:TextInputEditText = bottomSheet.findViewById(R.id.amount)
+                                            var desc = bottomSheet.findViewById<TextInputEditText>(R.id.desc)
+                                            var button = bottomSheet.findViewById<Button>(R.id.button)
+                                            button.setOnClickListener(){
+                                                if(amount.text.isNullOrBlank() || amount.text.toString().toInt() > 101)
+                                                {
+                                                    amount.setError("Amount Should be Less Than 100")
+                                                }
+                                                else{
+                                                    bottomSheet.cancel()
+                                                    var dialogs = Dialog(requireContext())
+                                                    dialogs.setContentView(R.layout.success_notification)
+                                                    dialogs.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                                    var lottie = dialogs.findViewById<LottieAnimationView>(R.id.lottie)
+                                                    var success = dialogs.findViewById<TextView>(R.id.success)
+                                                    success.text="Uploading"
+                                                    dialogs.show()
+                                                    dialogs.setCancelable(false)
+                                                    CoroutineScope(Dispatchers.IO).launch {
+                                                        var user = User()
+                                                        var i=0
+                                                        var flag = false
+                                                        for(i in 0..lst.size -1)
                                                         {
-                                                            var response = UserRepository().pay(lst[i].product!!.User!!._id.toString(),amount.text.toString(),desc.text.toString(),lst[i].product?._id!!)
-                                                            var response2 = ProductRepo().Like(lst[i].product?._id!!)
-                                                            var response3 = ProductRepo().sold(lst[i].product?._id!!)
-                                                            flag = response.success == true && response2.success == false && response3.success == true
-                                                            user = response.user!!
-                                                        }
-                                                        else{
-                                                            flag = true
-                                                        }
-
-
-                                                    }
-                                                    withContext(Main){
-                                                        if(flag==true)
-                                                        {
-                                                            (requireContext() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
-                                                                replace(R.id.fl,TransactionFragment())
-                                                                commit()
+                                                            if(lst[i].product!!.User!!._id !=RetroftiService.users!!._id)
+                                                            {
+                                                                var response = UserRepository().pay(lst[i].product!!.User!!._id.toString(),amount.text.toString(),desc.text.toString(),lst[i].product?._id!!)
+                                                                var response2 = ProductRepo().Like(lst[i].product?._id!!)
+                                                                var response3 = ProductRepo().sold(lst[i].product?._id!!)
+                                                                flag = response.success == true && response2.success == false && response3.success == true
+                                                                user = response.user!!
                                                             }
-                                                            RetroftiService.users = user
-                                                            lottie.setAnimation(R.raw.success)
-                                                            lottie.loop(true)
-                                                            lottie.playAnimation()
-                                                            success.text = "Complete"
-                                                            amount.setText(null)
-                                                            desc.setText(null)
-                                                            dialogs.cancel()
+                                                            else{
+                                                                flag = true
+                                                            }
+
+
+                                                        }
+                                                        withContext(Main){
+                                                            if(flag==true)
+                                                            {
+                                                                (requireContext() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+                                                                    replace(R.id.fl,TransactionFragment())
+                                                                    commit()
+                                                                }
+                                                                RetroftiService.users = user
+                                                                lottie.setAnimation(R.raw.success)
+                                                                lottie.loop(true)
+                                                                lottie.playAnimation()
+                                                                success.text = "Complete"
+                                                                amount.setText(null)
+                                                                desc.setText(null)
+                                                                dialogs.cancel()
+                                                            }
                                                         }
                                                     }
                                                 }
+
                                             }
+                                            var userList = mutableListOf<Person>()
+                                            for(data in lst)
+                                            {
+                                                userList.add(data.product?.User!!)
+                                            }
+                                            money.text = RetroftiService.users?.Cash.toString()
+                                            Glide.with(requireContext()).load(RetroftiService.loadImage(RetroftiService.users?.Profile!!)).into(image)
+
+                                            rv.layoutManager = GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
+                                            rv.adapter = PayUserAdapter(requireContext(), userList)
+                                            bottomSheet.show()
+                                            bottomSheet.setCancelable(true)
 
                                         }
-                                        var userList = mutableListOf<Person>()
-                                        for(data in lst)
-                                        {
-                                            userList.add(data.product?.User!!)
-                                        }
-                                        money.text = RetroftiService.users?.Cash.toString()
-                                        Glide.with(requireContext()).load(RetroftiService.loadImage(RetroftiService.users?.Profile!!)).into(image)
-
-                                        rv.layoutManager = GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
-                                        rv.adapter = PayUserAdapter(requireContext(), userList)
-                                        bottomSheet.show()
-                                        bottomSheet.setCancelable(true)
-
                                     }
-                                }
-                                else{
-                                    withContext(Main)
-                                    {
+                                    else{
+                                        withContext(Main)
+                                        {
 
-                                        password.setError("Invalid Password")
-                                        Toast.makeText(requireContext(), "Password Did not matched", Toast.LENGTH_SHORT).show()
+                                            password.setError("Invalid Password")
+                                            Toast.makeText(requireContext(), "Password Did not matched", Toast.LENGTH_SHORT).show()
 //                                        dialog.cancel()
+                                        }
                                     }
                                 }
                             }
-                        }
-                        catch (ex:Exception){
+                            catch (ex:Exception){
 
+                            }
                         }
+                        dialog.show()
+                        dialog.setCancelable(false)
+                    }else{
+
+                            val snack = Snackbar.make(cl,"Please Like Some Product First",Snackbar.LENGTH_LONG)
+                        snack.show()
+                            (requireContext() as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+                                replace(R.id.fl,AllPost())
+                                commit()
+                                addToBackStack(null)
+                            }
+
                     }
-                    dialog.show()
-              dialog.setCancelable(false)
-
                 }
+
 
         }
         catch (ex: Exception)
