@@ -12,7 +12,7 @@ interface RequestRoutes {
 
 
 @POST("/sendRequest/{id}")
-suspend fun sendRequest(@Header("Authorization")token:String,@Path("id") id:String): Response<RequestSocketResponse>
+suspend fun sendRequest(@Header("Authorization")token:String,@Path("id") id:String): Response<CommonResponse>
 @PUT("/acceptRequest")
 suspend fun acceptRequest(@Header("Authorization")token:String,@Body message: Request):Response<LoginResponse>
 @GET("/showRequest")

@@ -13,7 +13,7 @@ import com.xrest.buysell.Retrofit.Routes.RequestRoutes
 class RequestRepo:HandleApiReuest() {
     val api = RetroftiService.buildServices(RequestRoutes::class.java)
 
-    suspend fun  sendRequest(id:String):RequestSocketResponse{
+    suspend fun  sendRequest(id:String):CommonResponse{
         return handleApiRequest {
             api.sendRequest(RetroftiService.token!!,id)
         }

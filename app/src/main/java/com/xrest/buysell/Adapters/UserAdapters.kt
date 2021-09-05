@@ -2,13 +2,11 @@ package com.xrest.buysell.Adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,19 +56,24 @@ class UserAdapters(var lst: MutableList<Person>, var context: Context) :
             }
         }
         holder.add.setOnClickListener() {
-            Toast.makeText(context, "Request Sent Successfully", Toast.LENGTH_SHORT)
-                .show()
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = RequestRepo().sendRequest(user._id!!)
+                    print(response.toString())
                     if (response.success == true) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Request Sent Successfully", Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
+                    else{
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Request is already on users bucket", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
                 } catch (ex: Exception) {
-
+ex.printStackTrace()
                 }
             }
         }

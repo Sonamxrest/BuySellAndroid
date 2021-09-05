@@ -63,7 +63,6 @@
                 android:paddingRight="15dp"
                 android:src="@drawable/ic_baseline_person_add_24"
                 android:text="4.7"
-
                 android:textStyle="bold" />
 
 

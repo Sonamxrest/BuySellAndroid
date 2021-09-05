@@ -18,6 +18,7 @@ import com.xrest.buysell.Retrofit.RetroftiService
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -56,35 +57,43 @@ class CommentAdapter(val context: Context, val comment:MutableList<Comment>, var
             popUp.setOnMenuItemClickListener {
                 when(it.itemId)
                 {
-                    R.id.update->{
+                    R.id.update -> {
                         var dialog = Dialog(context)
                         dialog.setContentView(R.layout.update_edittet)
                         dialog.window!!.setLayout(
                             LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT)
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
                         var button: Button = dialog.findViewById(R.id.comment)
                         var edt: TextInputEditText = dialog.findViewById(R.id.edtComment)
                         edt.setText(comments.comment!!)
-                        button.setOnClickListener(){
-                            try{
+                        button.setOnClickListener() {
+                            try {
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    val reposen = ProductRepo().updateComment(id,comments._id!!,edt.text.toString())
-                                    if(reposen.success==true)
-                                    {
+                                    if (comments._id != null) {
+                                        val reposen = ProductRepo().updateComment(
+                                            id,
+                                            comments._id!!,
+                                            edt.text.toString()
+                                        )
+                                        if (reposen.success == true) {
 
-                                        withContext(Dispatchers.Main)
-                                        {
-                                            comment[position].comment=edt.text.toString()
-                                            holder.comment.text = edt.text.toString()
-                                            dialog.cancel()
+                                            withContext(Dispatchers.Main)
+                                            {
+                                                comment[position].comment = edt.text.toString()
+                                                holder.comment.text = edt.text.toString()
+                                                dialog.cancel()
+
+                                            }
 
                                         }
-
+                                    } else {
+                                        withContext(Main) {
+                                            Toast.makeText(context, "Please Refresh To Comment", Toast.LENGTH_SHORT).show()
+                                        }
                                     }
-
                                 }
-                            }
-                            catch (ex: Exception){
+                            } catch (ex: Exception) {
 
                             }
                         }
@@ -98,14 +107,26 @@ class CommentAdapter(val context: Context, val comment:MutableList<Comment>, var
                     R.id.delete -> {
                         try {
                             CoroutineScope(Dispatchers.IO).launch {
-                                val response = ProductRepo().deleteComment(id, comments._id!!)
-                                if (response.success == true) {
+                                if (comments._id != null) {
+                                    val response = ProductRepo().deleteComment(id, comments._id!!)
 
-                                    withContext(Dispatchers.Main) {
-                                        comment.removeAt(position)
-                                        notifyDataSetChanged()
+                                    if (response.success == true) {
 
-                                        Toast.makeText(context, "One Item Deleted", Toast.LENGTH_SHORT).show()
+                                        withContext(Dispatchers.Main) {
+                                            comment.removeAt(position)
+                                            notifyDataSetChanged()
+
+                                            Toast.makeText(
+                                                context,
+                                                "One Item Deleted",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                }
+                                else{
+                                    withContext(Main) {
+                                        Toast.makeText(context, "Please Refresh To Comment", Toast.LENGTH_SHORT).show()
                                     }
                                 }
 
